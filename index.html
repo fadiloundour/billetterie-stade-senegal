@@ -268,6 +268,25 @@ input[type=range].br{width:100%;accent-color:#12B35C;margin:6px 0 10px;height:24
 .brow small{color:var(--mute);font-weight:500;font-size:10.5px}
 .card.over{opacity:.45}
 
+.routebox{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:7;width:min(580px,calc(100vw - 16px));border-radius:18px;padding:12px;display:none;background:rgba(12,16,14,.94)}
+.routebox.on{display:block}
+.rb-top{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.rb-modes{display:flex;gap:6px;flex:1}
+.rb-modes button,.rb-x{padding:8px 11px;border-radius:10px;background:rgba(255,255,255,.08);font-size:12.5px;font-weight:700}
+.rb-modes button.on{background:rgba(18,179,92,.25);outline:1px solid rgba(18,179,92,.6)}
+.rb-step{display:flex;gap:12px;align-items:flex-start}
+.rb-step span{flex:none;width:44px;height:44px;border-radius:12px;background:var(--green);display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:17px}
+.rb-step b{display:block;font-family:var(--disp);font-size:21px;font-weight:800;letter-spacing:.02em;line-height:1.1}
+.rb-step small{display:block;color:var(--mute);font-size:12.5px;margin-top:3px;line-height:1.45}
+.rb-nav{display:flex;align-items:center;gap:10px;margin-top:12px}
+.rb-nav>button{width:46px;height:40px;border-radius:11px;background:rgba(255,255,255,.1);font-size:15px}
+.rb-dots{flex:1;display:flex;gap:6px;justify-content:center}
+.rb-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22)}
+.rb-dots i.on{background:var(--green2);width:22px;border-radius:5px}
+.rlabel{position:fixed;left:0;top:0;z-index:3;display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:20px;background:rgba(10,14,12,.85);border:1px solid var(--line);font-size:11.5px;font-weight:700;white-space:nowrap;cursor:pointer;transform:translate(-50%,-130%)}
+.rlabel i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--green);font-size:11px}
+.rlabel.cur{border-color:var(--green2)}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
@@ -345,6 +364,9 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
   <button class="txt" id="rBack">Retour au stade</button>
 </div>
 <div class="hint glass" id="hint"></div>
+<div class="routebox glass" id="routeBox"><div class="rb-top"><div class="rb-modes"><button data-k="car">🚗 Voiture</button><button data-k="bus">🚆 TER / navette</button></div><button class="rb-x" id="rbBack">↩ Billet</button></div>
+<div class="rb-step"><span id="rbNum">1/5</span><div><b id="rbT"></b><small id="rbS"></small></div></div>
+<div class="rb-nav"><button id="rbPrev" aria-label="Étape précédente">◀</button><div class="rb-dots" id="rbDots"></div><button id="rbNext" aria-label="Étape suivante">▶</button></div></div>
 <div class="mtop glass" id="mtop"><button id="mBack" aria-label="Retour">‹</button><div class="mt"><b id="mTitle">Stade du Sénégal</b><small id="mSub">Choisissez une tribune</small></div></div>
 <div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit">◐</button><button class="glass" data-a="night" aria-label="Jour / nuit">☾</button><button class="glass" data-a="match" aria-label="Mode match">🥁</button><button class="glass" data-a="sound" aria-label="Son" style="display:none">🔊</button><button class="glass" data-a="visit" aria-label="Visiter">◎</button><button class="glass" data-a="home" aria-label="Vue du stade">⤢</button></div>
 <div class="sheet glass hidden" id="sheet"><div class="handle" id="sheetHandle"></div><div class="sheet-body" id="sheetBody"></div></div>
@@ -772,6 +794,13 @@ const carGeo=mergeGeos([boxG(4.3,0.8,1.8,0,0.55,0),boxG(2.3,0.62,1.62,-0.25,1.22
 const carMat=std({color:0xffffff,roughness:.28,metalness:.55});
 const parkCars=new THREE.InstancedMesh(carGeo,carMat,900);let pc=0;
 const lots=[[-125,B0+150,170,72],[125,B0+150,150,72],[-(A0+150),0,72,170]];
+const LOTNAMES=['P1 · Sud-Ouest','P2 · Sud-Est','P3 · Ouest'];const STOP=new THREE.Vector3(14,0,B0+196);
+{const g=new THREE.Group();g.position.copy(STOP);scene.add(g);const w=std({color:0xeeeeee,roughness:.4}),gl=new THREE.MeshStandardMaterial({color:C('#9fc6d8'),transparent:true,opacity:.35,side:DS});
+ const roofS=new THREE.Mesh(new THREE.BoxGeometry(14,.3,4),std({color:C('#00853F'),roughness:.5}));roofS.position.y=3.2;g.add(roofS);
+ for(const x of [-6.5,6.5])for(const z of [-1.6,1.6]){const p=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,3.2,6),w);p.position.set(x,1.6,z);g.add(p);}
+ const back=new THREE.Mesh(new THREE.PlaneGeometry(13,2.4),gl);back.position.set(0,1.5,-1.7);g.add(back);
+ const bus=new THREE.Mesh(mergeGeos([boxG(12,3,2.6,0,1.8,0),boxG(11.6,1,2.62,0,2.4,0)]),std({color:C('#f2f2f2'),roughness:.4,metalness:.3}));bus.position.set(0,0,5);g.add(bus);
+ const band=new THREE.Mesh(new THREE.BoxGeometry(12.05,.5,2.65),std({color:C('#00853F')}));band.position.set(0,1.1,5);g.add(band);g.traverse(o=>{if(o.isMesh)o.castShadow=true;});}
 {const dm=new THREE.Object3D(),pvMats=[];const canopy=new THREE.InstancedMesh(new THREE.BoxGeometry(1,0.18,1),new THREE.MeshStandardMaterial({map:pvMap,roughness:.25,metalness:.6,envMapIntensity:1.2}),40);let cn=0;
  const posts=new THREE.InstancedMesh(new THREE.CylinderGeometry(.12,.12,4,6),std({color:0xbfbfbf,metalness:.6}),400);let pn=0;
  lots.forEach(([x,z,w,h])=>{const vertical=h>w;const L=vertical?h:w,D=vertical?w:h;const rowsAt=[];for(let y=6;y<D-4;y+=11)rowsAt.push(y);
@@ -975,7 +1004,7 @@ function lookRotate(dx,dy){const dir=view.look.clone().sub(view.pos),s=new THREE
 const state={mode:'intro',stand:null,block:null,seat:null,loge:null,room:null,roomView:0,soldVisible:false};
 let activeScene=scene,xray=false,roofOpacity=1,roofTarget=1;
 function setRoofOpacity(f){roofOpacity=f;const t=f<0.985;roofParts.forEach(p=>{p.m.transparent=t;p.m.opacity=p.o*f;p.m.depthWrite=!t;});truss.visible=f>0.03;}
-function computeRoofTarget(){const m=state.mode;if(m==='stand'||m==='block')return .07;if(m==='stadium')return xray?.07:1;return 1;}
+function computeRoofTarget(){const m=state.mode;if(m==='stand'||m==='block'||m==='route')return .07;if(m==='stadium')return xray?.07:1;return 1;}
 let hover=null,hoverKey='',pickMesh=null,pickMap=[];
 let selGroup=[];const selSet=new Set();let QTY=1;
 const BSTEPS=[3000,5000,7500,10000,15000,20000,30000,Infinity];let BI=7,BUDGET=Infinity;
@@ -1027,6 +1056,7 @@ function crumbs(){const c=$('#crumbs'),parts=[['Stade',()=>goStadium()]];
   if(state.mode==='room')parts.push([ROOMS[state.room].name,null]);
   else if(state.mode==='pitch')parts.push(['Bord terrain',null]);
   else if(state.mode==='fosse')parts.push(['Fosse',null]);
+  else if(state.mode==='route')parts.push(['Comment venir',null]);
   else{if(state.stand)parts.push([STANDS[state.stand].name,()=>goStand(state.stand)]);if(state.block!=null)parts.push(['Bloc '+blocks[state.block].id,()=>goBlock(state.block)]);
    if(state.mode==='seat'&&state.seat!=null)parts.push(['Rang '+S_row[state.seat]+' · Siège '+S_num[state.seat],null]);if(state.mode==='loge'&&state.loge!=null)parts.push(['Loge '+loges[state.loge].no,null]);}
   updateMTop();renderSheet();
@@ -1082,13 +1112,13 @@ async function goRoom(id,vi=0){clearHover();hideTicket();resetPick();if(flight&&
 function roomStep(d){if(state.mode!=='room')return;const R=ROOMS[state.room],n=R.data.views.length;state.roomView=(state.roomView+d+n)%n;const v=R.data.views[state.roomView];
   $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(state.roomView+1)+'/'+n+'</small>';return flyTo(new THREE.Vector3(...v.p),new THREE.Vector3(...v.l),{ctrl:'look',lift:0.6,dur:1600});}
 $('#rPrev').onclick=()=>{stopTour();roomStep(-1);};$('#rNext').onclick=()=>{stopTour();roomStep(1);};$('#rBack').onclick=()=>{stopTour();goStadium();};
-function goUp(){if(state.mode==='seat')return goBlock(state.block);if(state.mode==='loge')return goStand(state.stand);if(state.mode==='block')return goStand(state.stand);if(state.mode==='stand'||state.mode==='pitch'||state.mode==='room'||state.mode==='fosse')return goStadium();}
+function goUp(){if(state.mode==='route')return exitRoute();if(state.mode==='seat')return goBlock(state.block);if(state.mode==='loge')return goStand(state.stand);if(state.mode==='block')return goStand(state.stand);if(state.mode==='stand'||state.mode==='pitch'||state.mode==='room'||state.mode==='fosse')return goStadium();}
 let lastSnap='';
 function settle(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
 function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)*(portrait()?0.3:0.5);}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
 
 /* ============ BILLET, PANIER, PAIEMENT ============ */
-function hideTicket(){ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
+function hideTicket(){if(typeof clearRoute==='function')clearRoute();ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
 function setTicket({img,badge,kick,title,grid,price,actions}){$('#tView').style.backgroundImage=img?`url(${img})`:'none';$('#tBadge').textContent=badge;$('#tKick').textContent=kick;$('#tTitle').textContent=title;
   if(TOUCH)grid=grid.concat([['PRIX',fmtN(price)]]);
   $('#tGrid').innerHTML=grid.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');$('#tPrice').textContent=fmtN(price);
@@ -1099,12 +1129,12 @@ function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],grp=s
   const seatTxt=n>1?`${S_num[grp[0]]}–${S_num[grp[n-1]]}`:S_num[g];
   setTicket({img,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
     actions:[[inCart?'✓ Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});e.target.textContent='✓ Dans le panier';}],
-      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)]]});}
+      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['🧭 Comment venir','ghost',()=>goRoute('car')]]});}
 function showTicketLoge(li,img){const L=loges[li];
   setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Sud':'Tribune Nord'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
     actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});e.target.textContent='✓ Ajoutée';}],
       [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});e.target.textContent='✓ Loge ajoutée';}]]:[['Loge déjà réservée','ghost',()=>{}]])
-      .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')]])});}
+      .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')],['🧭 Comment venir','ghost',()=>goRoute('car')]])});}
 $('#tClose').onclick=()=>hideTicket();
 $('#bRange').addEventListener('input',e=>setBudget(+e.target.value,false));
 $('#qMinus').onclick=()=>setQty(QTY-1);$('#qPlus').onclick=()=>setQty(QTY+1);
@@ -1196,6 +1226,7 @@ function updateMTop(){if(!TOUCH)return;const m=state.mode;let t='Stade du Séné
   else if(m==='loge'&&state.loge!=null){const L=loges[state.loge];t='Loge '+L.no;sub='VIP · '+(L.side==='S'?'Tribune Sud':'Tribune Nord');}
   else if(m==='pitch'){t='Bord terrain';sub='Face au 12e Gaïndé';}
   else if(m==='fosse'){t='Fosse · debout';sub=EV.title;}
+  else if(m==='route'&&route){t='Comment venir';sub=route.info.label;}
   else if(m==='room'){t=ROOMS[state.room].name;sub=ROOMS[state.room].sub;}
   $('#mTitle').textContent=t;$('#mSub').textContent=sub;$('#mBack').classList.toggle('hide',m==='stadium'||m==='intro');}
 function orderedBlocks(code,ti){return standBlocks[code].filter(b=>b.ti===ti).sort((a,b)=>{const da=((a.uc-STANDS[code].u+1.5)%1)-.5,db=((b.uc-STANDS[code].u+1.5)%1)-.5;return da-db;});}
@@ -1295,6 +1326,58 @@ function setMatch(on){matchOn=on;if(on&&!fanMeshes.length)buildFans();fanMeshes.
 $('#matchBtn').onclick=()=>{stopTour();setMatch(!matchOn);};
 $('#soundBtn').onclick=()=>{soundOn?stopSound():startSound();};
 
+/* ============ COMMENT VENIR : itinéraire guidé ============ */
+let route=null,routeFrom=null,routeMeshes=[],routeLabels=[];
+const routeTexW=canvasTex(64,16,(x,w,h)=>{x.fillStyle='#0b7a3a';x.fillRect(0,0,w,h);x.fillStyle='#b8ffd4';x.beginPath();x.moveTo(10,2);x.lineTo(40,8);x.lineTo(10,14);x.lineTo(20,8);x.fill();});routeTexW.wrapS=THREE.RepeatWrapping;
+const routeTexD=canvasTex(64,16,(x,w,h)=>{x.fillStyle='#1b5fb8';x.fillRect(0,0,w,h);x.fillStyle='#cfe4ff';x.beginPath();x.moveTo(10,2);x.lineTo(40,8);x.lineTo(10,14);x.lineTo(20,8);x.fill();});routeTexD.wrapS=THREE.RepeatWrapping;
+const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+function uOfPoint(x,z){let best=0,bd=1e9;for(let i=0;i<720;i++){const q=ringAt(i/720,100),d=Math.hypot(q[0]-x,q[1]-z);if(d<bd){bd=d;best=i/720;}}return best;}
+function arc(u0,u1,d,y,n=28){const pts=[],du=(((u1-u0)%1)+1.5)%1-.5;for(let i=0;i<=n;i++){const q=ringAt(u0+du*i/n,d);pts.push(V3(q[0],y,q[1]));}return pts;}
+function routeInfo(){const f=routeFrom;
+  if(f.type==='seat'){const g=f.g,b=blocks[S_blk[g]],grp=f.grp&&f.grp.length?f.grp:[g];return{u:b.uc,tier:b.ti,gate:b.gate,dest:V3(S_x[g],S_y[g]+.7,S_z[g]),label:`Bloc ${b.id} · Rang ${S_row[g]} · ${grpLabel(grp)}`,cam:{p:b.center.clone().addScaledVector(b.n,32).add(V3(0,15,0)),l:V3(S_x[g],S_y[g],S_z[g])}};}
+  if(f.type==='loge'){const L=loges[f.li],q=ringAt(L.u,25),P=V3(q[0],12.6,q[1]);return{u:L.u,tier:2,gate:'VIP '+(L.side==='S'?'Sud':'Nord'),dest:P,label:`Loge ${L.no} · accès salon VIP`,cam:{p:P.clone().addScaledVector(inwardAt(L.u,25),32).add(V3(0,15,0)),l:P}};}
+  return{u:.5,tier:-1,gate:'O1',dest:V3(-18,1,0),label:'Fosse · pelouse',cam:{p:V3(25,32,45),l:V3(-18,0,0)}};}
+function tube(pts,tex,r){const c=new THREE.CatmullRomCurve3(pts,false,'centripetal');const L=c.getLength();const t=tex.clone();t.needsUpdate=true;t.repeat.set(L/5,1);
+  const m=new THREE.Mesh(new THREE.TubeGeometry(c,Math.max(40,Math.round(L/2)),r,6,false),new THREE.MeshBasicMaterial({map:t,color:new THREE.Color(1.7,1.7,1.7),depthTest:false,transparent:true,opacity:.95}));m.renderOrder=30;m.userData.tex=t;scene.add(m);routeMeshes.push(m);return L;}
+function inside(info){const g=ringAt(info.u,57.6),pts=[V3(g[0],.6,g[1])];const a=ringAt(info.u,46);pts.push(V3(a[0],.6,a[1]));
+  if(info.tier===0){const v=ringAt(info.u,5.5);pts.push(V3(v[0],2.2,v[1]));}
+  else if(info.tier>=1){const s=ringAt(info.u,48.6);pts.push(V3(s[0],8,s[1]),V3(s[0],info.tier===2?12.4:18.4,s[1]));const v=ringAt(info.u,info.tier===2?26:28.8);pts.push(V3(v[0],info.tier===2?12.6:19,v[1]));}
+  else{const v=ringAt(.5,2);pts.push(V3(v[0],.8,v[1]));}
+  pts.push(info.dest);return pts;}
+function buildRoute(kind){clearRouteMeshes();const info=routeInfo(),gq=ringAt(info.u,57.6),gate=V3(gq[0],.6,gq[1]);let steps=[],walkLen=0;
+  if(kind==='car'){let li=0,bd=1e9;lots.forEach(([x,z],i)=>{const d=Math.hypot(x-gq[0],z-gq[1]);if(d<bd){bd=d;li=i;}});const [lx,lz]=lots[li],ul=uOfPoint(lx,lz);
+    const P0=V3(0,.7,HW_Z+20),P1=V3(0,.7,-(B0+120)),ring=arc(.75,ul,103,.7),lot=V3(lx,.7,lz);
+    tube([P0,P1,...ring,lot],routeTexD,1.1);
+    const walk=[lot,...arc(ul,ul,92,.6,1).slice(0,1),...arc(ul,info.u,76,.6,20),...inside(info)];walkLen=tube(walk,routeTexW,.6);
+    const min=Math.max(2,Math.round(walkLen/1.25/60));
+    steps=[{t:'Sortie Diamniadio · autoroute à péage',s:'Quittez l’autoroute et suivez « Stade du Sénégal ». Accès conseillé 2 h avant le coup d’envoi.',p:P0,h:90,d:150},
+      {t:'Anneau routier du stade',s:'Contournez le stade jusqu’au parking indiqué. Suivez la ligne bleue.',p:ring[Math.floor(ring.length/2)],h:70,d:110},
+      {t:'Parking '+LOTNAMES[li],s:`Garez-vous sous les ombrières solaires. ≈ ${min} min à pied jusqu’à votre place (ligne verte).`,p:lot,h:48,d:75},
+      {t:'Porte '+info.gate,s:'Contrôle de sécurité et scan du billet (QR code). Gardez votre billet ouvert sur le téléphone.',p:gate,h:16,d:34},
+      {t:info.label,s:'Suivez la signalétique jusqu’à votre place. Bon match !',p:info.dest,cam:info.cam}];}
+  else{const plaza=ringAt(.25,90),walk=[STOP.clone().setY(.6),V3(plaza[0],.6,plaza[1]),...arc(.25,info.u,76,.6,24),...inside(info)];walkLen=tube(walk,routeTexW,.6);const min=Math.max(2,Math.round(walkLen/1.25/60));
+    steps=[{t:'Arrêt des navettes TER',s:'Arrêt illustratif. Navettes depuis la gare TER de Diamniadio les jours d’événement.',p:STOP.clone(),h:40,d:70},
+      {t:'Parvis piéton',s:`Traversez le parvis. ≈ ${min} min à pied jusqu’à votre place (ligne verte).`,p:V3(plaza[0],.6,plaza[1]),h:40,d:60},
+      {t:'Porte '+info.gate,s:'Contrôle de sécurité et scan du billet (QR code).',p:gate,h:16,d:34},
+      {t:info.label,s:'Suivez la signalétique jusqu’à votre place. Bon match !',p:info.dest,cam:info.cam}];}
+  route={kind,info,steps,idx:0};
+  routeLabels=steps.map((st,i)=>{const el=document.createElement('div');el.className='rlabel';el.innerHTML=`<i>${i+1}</i>${st.t.split(' · ')[0]}`;el.onclick=()=>routeGo(i);document.body.appendChild(el);return{el,p:st.p.clone().setY(st.p.y+3)};});
+  document.querySelectorAll('#routeBox .rb-modes button').forEach(b=>b.classList.toggle('on',b.dataset.k===kind));
+  $('#rbDots').innerHTML=steps.map(()=>'<i></i>').join('');}
+function clearRouteMeshes(){routeMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();m.material.dispose();});routeMeshes=[];routeLabels.forEach(l=>l.el.remove());routeLabels=[];}
+function clearRoute(){if(!route&&!routeMeshes.length)return;clearRouteMeshes();route=null;$('#routeBox').classList.remove('on');}
+function routeGo(i){if(!route)return;stopTour();const st=route.steps[i];route.idx=i;$('#rbNum').textContent=(i+1)+'/'+route.steps.length;$('#rbT').textContent=st.t;$('#rbS').textContent=st.s;
+  [...$('#rbDots').children].forEach((d,k)=>d.classList.toggle('on',k===i));routeLabels.forEach((l,k)=>l.el.classList.toggle('cur',k===i));
+  let pos,look;if(st.cam){pos=st.cam.p.clone();look=st.cam.l.clone();}else{const nx=route.steps[Math.min(i+1,route.steps.length-1)].p,dir=st.p.clone().sub(nx).setY(0);if(dir.lengthSq()<1)dir.set(0,0,1);dir.normalize();
+    pos=st.p.clone().addScaledVector(dir,st.d*K()).add(V3(0,st.h*K(),0));look=st.p.clone();}
+  setFov(false);flyTo(pos,look,{ctrl:'orbit',rMin:8,rMax:500,lift:i?10:40});invalidate();}
+function goRoute(kind){const m=state.mode;routeFrom=m==='seat'?{type:'seat',g:state.seat,grp:selGroup.slice()}:m==='loge'?{type:'loge',li:state.loge}:{type:'fosse'};
+  hideTicket();state.mode='route';buildRoute(kind);$('#routeBox').classList.add('on');crumbs();setHint('');routeGo(0);}
+function exitRoute(){const f=routeFrom;clearRoute();if(!f)return goStadium();if(f.type==='seat')return goSeat(f.g,f.grp&&f.grp.length?f.grp:null);if(f.type==='loge')return goLoge(f.li);return goFosse();}
+document.querySelectorAll('#routeBox .rb-modes button').forEach(b=>b.onclick=()=>{if(!route)return;buildRoute(b.dataset.k);routeGo(0);});
+$('#rbPrev').onclick=()=>route&&routeGo(Math.max(0,route.idx-1));$('#rbNext').onclick=()=>route&&routeGo(Math.min(route.steps.length-1,route.idx+1));$('#rbBack').onclick=()=>exitRoute();
+function updateRouteLabels(dt){if(!routeLabels.length)return;routeMeshes.forEach(m=>{m.userData.tex.offset.x-=dt*.8;});for(const L of routeLabels){tmpV.copy(L.p).project(cam);const vis=tmpV.z<1&&Math.abs(tmpV.x)<1.1&&Math.abs(tmpV.y)<1.1&&!flight;L.el.style.opacity=vis?1:0;L.el.style.pointerEvents=vis?'auto':'none';if(vis)L.el.style.transform=`translate(${(tmpV.x*.5+.5)*innerWidth}px,${(-tmpV.y*.5+.5)*innerHeight}px) translate(-50%,-130%)`;}}
+
 /* ============ ÉVÉNEMENTS ============ */
 function applyEvent(ev,first){EV=ev;const r=mulberry32(ev.seed);
   blocks.forEach(b=>{b.closed=ev.layout==='concert'&&b.stand==='O';b.price=Math.round(b.basePrice*ev.k/500)*500;
@@ -1315,7 +1398,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#evMenu')&&!e.target
 async function goFosse(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();showSold(false);state.mode='fosse';state.stand=null;state.block=null;state.loge=null;crumbs();setHint('');setFov(true);
   await flyTo(new THREE.Vector3(-6,2.2,5),new THREE.Vector3(-56,9,0),{ctrl:'look',lift:30});if(state.mode!=='fosse')return;await settle();lastSnap=snapshot();showTicketFosse(lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
 function showTicketFosse(img){setTicket({img,badge:'Votre vue depuis la fosse',kick:`${EV.short} · Pelouse`,title:'Fosse · debout',grid:[['ACCÈS','Pelouse'],['PORTE','O1'],['PLACES',QTY]],price:EV.fosse*QTY,
-  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()]]});}
+  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()],['🧭 Comment venir','ghost',()=>goRoute('bus')]]});}
 applyEvent(EV,true);
 
 /* ============ BOUCLE ============ */
@@ -1326,7 +1409,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
     if(t>=1){view.ctrl=flight.ctrl;view.rMin=flight.rMin;view.rMax=flight.rMax;const r=flight.res;flight=null;r();}}
   else if(!TOUCH&&state.mode==='stadium'&&now-lastInteract>4000&&!ptrs.size)orbitRotate(-dt*18,0);
   else if(!TOUCH&&state.mode==='room'&&now-lastInteract>6000&&!ptrs.size)lookRotate(dt*14,0);
-  const busy=!TOUCH||matchOn||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
+  const busy=!TOUCH||matchOn||!!route||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
   if(!busy){requestAnimationFrame(frame);return;}
   if(forceFrames>0)forceFrames--;
   if(activeScene===scene){const nr=view.ctrl==='look'&&!flight?0.1:(Math.hypot(view.pos.x,view.pos.y,view.pos.z)>140?1.5:0.3);if(cam.near!==nr){cam.near=nr;cam.updateProjectionMatrix();}}
@@ -1336,7 +1419,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(sweep){const t=clamp((now-sweep.t0)/sweep.dur,0,1),to=Math.floor(t*sweep.list.length);for(;sweep.i<to;sweep.i++){const g=sweep.list[sweep.i];if(!(hover&&((hover.kind==='stand'&&blocks[S_blk[g]].stand===hover.code)||(hover.kind==='block'&&S_blk[g]===hover.b))))paint(g,baseColor(g));}if(t>=1)sweep=null;}
   const bob=Math.sin(now*0.006)*0.12;[hoverPin,selPin].forEach(p=>p.children.forEach(o=>o.position.y=o.userData.y+bob));
   roofTarget=computeRoofTarget();if(Math.abs(roofTarget-roofOpacity)>0.002)setRoofOpacity(roofOpacity+(roofTarget-roofOpacity)*Math.min(1,dt*3.2));
-  for(const t of ledTexs)t.offset.x=(now*0.00004)%1;
+  for(const t of ledTexs)t.offset.x=(now*0.00004)%1;updateRouteLabels(dt);
   if(activeScene===scene&&(!TOUCH||now-lastInteract<1200||flight))updateTraffic(dt);
   for(let t=0;t<2;t++)if(dirty[t]){tierMesh[t].instanceColor.needsUpdate=true;dirty[t]=false;}
   updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;if(matchOn){fanU.uTime.value=now*0.001;updateRoar(now*0.001);}
