@@ -1005,7 +1005,7 @@ $('#rPrev').onclick=()=>{stopTour();roomStep(-1);};$('#rNext').onclick=()=>{stop
 function goUp(){if(state.mode==='seat')return goBlock(state.block);if(state.mode==='loge')return goStand(state.stand);if(state.mode==='block')return goStand(state.stand);if(state.mode==='stand'||state.mode==='pitch'||state.mode==='room')return goStadium();}
 let lastSnap='';
 function settle(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
-function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)/2;}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
+function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)*(portrait()?0.3:0.5);}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
 
 /* ============ BILLET, PANIER, PAIEMENT ============ */
 function hideTicket(){ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
