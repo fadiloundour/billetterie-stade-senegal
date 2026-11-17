@@ -538,7 +538,7 @@ const stage=new THREE.Group();stage.visible=false;scene.add(stage);
  const scr=new THREE.Mesh(new THREE.PlaneGeometry(30,15),scrMat);scr.position.set(-55.6,12,0);scr.rotation.y=Math.PI/2;stage.add(scr);
  for(const z of [-22,22]){const t=new THREE.Mesh(new THREE.BoxGeometry(1.2,22,1.2),steel);t.position.set(-50,11,z);stage.add(t);const sc=new THREE.Mesh(new THREE.PlaneGeometry(8,12),scrMat);sc.position.set(-53,12,z*1.25);sc.rotation.y=Math.PI/2;stage.add(sc);}
  const top=new THREE.Mesh(new THREE.BoxGeometry(14,1.4,46),steel);top.position.set(-50,22,0);stage.add(top);
- const beam=new THREE.MeshBasicMaterial({color:HDR('#ffe9b0',2.2),transparent:true,opacity:.07,depthWrite:false,side:DS});
+ const beam=new THREE.MeshBasicMaterial({color:HDR('#ffe2a0',1.2),transparent:true,opacity:.035,depthWrite:false,side:DS,blending:THREE.AdditiveBlending});
  for(let i=0;i<8;i++){const c=new THREE.Mesh(new THREE.ConeGeometry(4,22,16,1,true),beam);c.position.set(-44,11,-18+i*5.2);c.rotation.z=-0.35;stage.add(c);}
  const crowdM=new THREE.InstancedMesh(new THREE.CylinderGeometry(.22,.26,1.7,6),std({color:0xffffff,roughness:.9}),700);const dm=new THREE.Object3D();
  for(let i=0;i<700;i++){dm.position.set(-34+Math.pow(rand(),1.4)*70,1.0,(rand()*2-1)*30);dm.updateMatrix();crowdM.setMatrixAt(i,dm.matrix);crowdM.setColorAt(i,C(['#1d1d1f','#e8e8e8','#c43b2f','#0f9d47','#f2c400','#2f5d8c'][(rand()*6)|0]));}stage.add(crowdM);}
