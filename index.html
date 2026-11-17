@@ -275,7 +275,7 @@ input[type=range].br{width:100%;accent-color:#12B35C;margin:6px 0 10px;height:24
 #gate .lock{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:28px}
 #timer{position:fixed;left:50%;top:104px;transform:translateX(-50%);z-index:5;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:20px;display:none;white-space:nowrap}
 #timer.on{display:block}#timer.warn{color:#ffb4a8;border-color:rgba(227,27,35,.6)}
-body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px + env(safe-area-inset-right));top:calc(286px + env(safe-area-inset-top));font-size:10.5px;padding:4px 9px}
+body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px + env(safe-area-inset-right));top:calc(392px + env(safe-area-inset-top));font-size:10.5px;padding:4px 9px}
 </style>
 </head>
 <body>
@@ -332,6 +332,8 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 <div class="ctrls">
   <button class="glass" id="visitBtn">◎ Visiter</button>
   <button class="glass" id="tourBtn">▶ Visite guidée</button>
+  <button class="glass" id="matchBtn">🥁 Mode match</button>
+  <button class="glass" id="soundBtn" style="display:none">🔊 Son</button>
   <button class="glass" id="roofBtn">◐ Toit</button>
   <button class="glass" id="nightBtn">☾ Nuit</button>
   <button class="glass" id="homeBtn">⤢ Vue stade</button>
@@ -344,7 +346,7 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 </div>
 <div class="hint glass" id="hint"></div>
 <div class="mtop glass" id="mtop"><button id="mBack" aria-label="Retour">‹</button><div class="mt"><b id="mTitle">Stade du Sénégal</b><small id="mSub">Choisissez une tribune</small></div></div>
-<div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit">◐</button><button class="glass" data-a="night" aria-label="Jour / nuit">☾</button><button class="glass" data-a="visit" aria-label="Visiter">◎</button><button class="glass" data-a="home" aria-label="Vue du stade">⤢</button></div>
+<div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit">◐</button><button class="glass" data-a="night" aria-label="Jour / nuit">☾</button><button class="glass" data-a="match" aria-label="Mode match">🥁</button><button class="glass" data-a="sound" aria-label="Son" style="display:none">🔊</button><button class="glass" data-a="visit" aria-label="Visiter">◎</button><button class="glass" data-a="home" aria-label="Vue du stade">⤢</button></div>
 <div class="sheet glass hidden" id="sheet"><div class="handle" id="sheetHandle"></div><div class="sheet-body" id="sheetBody"></div></div>
 <div class="tip" id="tip"></div>
 
@@ -1244,8 +1246,54 @@ function applyViewOffset(){if(!TOUCH)return;if(sheet.classList.contains('hidden'
   else cam.setViewOffset(innerWidth,innerHeight,0,Math.min(innerHeight-r.top,innerHeight*0.5)/2,innerWidth,innerHeight);invalidate();}
 $('#mBack').onclick=()=>{stopTour();if(state.mode==='stadium'&&sheetView){sheetView=null;renderSheet();return;}goUp();};
 document.querySelectorAll('#fabs button').forEach(b=>b.onclick=e=>{e.stopPropagation();const a=b.dataset.a;if(a==='visit'){$('#visit').classList.toggle('on');return;}$('#visit').classList.remove('on');stopTour();
-  if(a==='roof')setXray(!xray);else if(a==='night')setNight(!night);else if(a==='home')goStadium();});
+  if(a==='roof')setXray(!xray);else if(a==='night')setNight(!night);else if(a==='home')goStadium();else if(a==='match')setMatch(!matchOn);else if(a==='sound'){soundOn?stopSound():startSound();}});
 if(TOUCH){document.body.classList.add('touch');$('.brand span').textContent='Concept non officiel · prix fictifs';$('#rBack').textContent='✕';$('#rBack').setAttribute('aria-label','Retour au stade');}
+
+/* ============ MODE MATCH : supporters, ola, drapeaux, ambiance sonore ============ */
+let matchOn=false,fanMeshes=[];const fanU={uTime:{value:0},uWave:{value:1}};
+function waveMat(mat,flag){mat.onBeforeCompile=sh=>{sh.uniforms.uTime=fanU.uTime;sh.uniforms.uWave=fanU.uWave;
+  sh.vertexShader='attribute float aPhase;\nuniform float uTime;\nuniform float uWave;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat wv=pow(max(0.,sin(uTime*0.55-aPhase)),22.)*uWave;\ntransformed.y+=wv*0.6+sin(uTime*6.5+aPhase*41.)*0.025;'+(flag?'\ntransformed.z+=sin(uTime*7.+position.x*5.+aPhase*9.)*0.09*(position.x+0.1);':''));};mat.customProgramCacheKey=()=>flag?'fanflag':'fan';return mat;}
+const fanBodyGeo=mergeGeos([boxG(.42,.5,.26,0,.72,-.02),boxG(.12,.42,.12,-.27,.95,.02,0,0,.25),boxG(.12,.42,.12,.27,.95,.02,0,0,-.25)]);
+const fanHeadGeo=new THREE.IcosahedronGeometry(.115,1).translate(0,1.12,0);
+const fanFlagGeo=new THREE.PlaneGeometry(.95,.62,8,1).translate(.47,1.95,0);
+function buildFans(){fanMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});fanMeshes=[];
+  const keep=PHONE?.3:(MOBILE?.5:1),list=[];const r=mulberry32(EV.seed*7+3);
+  for(let g=0;g<NSEAT;g++)if(sold[g]&&!blocks[S_blk[g]].closed&&r()<keep)list.push(g);
+  const n=list.length,dm=new THREE.Object3D(),ph=new Float32Array(n);
+  const shirts=EV.layout==='football'?['#0f9d47','#0f9d47','#f2c400','#f2c400','#e01b22','#ffffff','#ffffff','#1d1d1f']:['#ffffff','#1d1d1f','#e01b22','#2f5d8c','#f2c400','#0f9d47','#d9823b','#8e44ad'];
+  const skins=['#4a2c1d','#5b3825','#3d2418','#6b4430','#2f1c12'];
+  const body=new THREE.InstancedMesh(fanBodyGeo.clone(),waveMat(std({color:0xffffff,roughness:.8,side:THREE.FrontSide}),false),n),head=new THREE.InstancedMesh(fanHeadGeo.clone(),waveMat(std({color:0xffffff,roughness:.6,side:THREE.FrontSide}),false),n);
+  const flagIdx=[];
+  list.forEach((g,i)=>{dm.position.set(S_x[g],S_y[g],S_z[g]);dm.rotation.set(0,S_ry[g],0);dm.updateMatrix();body.setMatrixAt(i,dm.matrix);head.setMatrixAt(i,dm.matrix);
+    ph[i]=Math.atan2(S_z[g]/B0,S_x[g]/A0)+r()*.14;body.setColorAt(i,C(shirts[(r()*shirts.length)|0]));head.setColorAt(i,C(skins[(r()*skins.length)|0]));if(r()<.035)flagIdx.push(i);});
+  body.geometry.setAttribute('aPhase',new THREE.InstancedBufferAttribute(ph,1));head.geometry.setAttribute('aPhase',new THREE.InstancedBufferAttribute(ph.slice(),1));
+  const fl=new THREE.InstancedMesh(fanFlagGeo.clone(),waveMat(new THREE.MeshStandardMaterial({map:senFlag,side:DS,roughness:.7}),true),flagIdx.length),fph=new Float32Array(flagIdx.length);
+  flagIdx.forEach((i,k)=>{const g=list[i];dm.position.set(S_x[g],S_y[g],S_z[g]);dm.rotation.set(0,S_ry[g]+Math.PI/2,0);dm.updateMatrix();fl.setMatrixAt(k,dm.matrix);fph[k]=ph[i];});
+  fl.geometry.setAttribute('aPhase',new THREE.InstancedBufferAttribute(fph,1));
+  [body,head,fl].forEach(m=>{m.frustumCulled=false;m.visible=matchOn;scene.add(m);fanMeshes.push(m);});invalidate(4);}
+// --- son : foule + tambours sabar, synthétisés
+let AC=null,master=null,roarG=null,soundOn=false,drumT=0,nextStep=0,step=0,bar=0;
+function noiseBuf(sec,brown){const b=AC.createBuffer(1,AC.sampleRate*sec,AC.sampleRate),d=b.getChannelData(0);let l=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;if(brown){l=(l+.02*w)/1.02;d[i]=l*3.5;}else d[i]=w;}return b;}
+function initAudio(){AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=0;master.connect(AC.destination);
+  const mk=(brown,type,f,q,vol)=>{const s=AC.createBufferSource();s.buffer=noiseBuf(5,brown);s.loop=true;const fl=AC.createBiquadFilter();fl.type=type;fl.frequency.value=f;fl.Q.value=q;const g=AC.createGain();g.gain.value=vol;s.connect(fl);fl.connect(g);s.start();return g;};
+  mk(true,'bandpass',520,.7,.55).connect(master);const chat=mk(false,'bandpass',1700,1.2,.05);chat.connect(master);
+  const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=.23;lg.gain.value=.025;lfo.connect(lg);lg.connect(chat.gain);lfo.start();
+  roarG=AC.createGain();roarG.gain.value=0;mk(true,'bandpass',800,.5,1).connect(roarG);roarG.connect(master);}
+function drum(t,f0,f1,dec,vol,nz){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dec*.8);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+dec);o.connect(g);g.connect(master);o.start(t);o.stop(t+dec+.02);
+  if(nz){const s=AC.createBufferSource();s.buffer=drum.nb||(drum.nb=noiseBuf(.2,false));const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=1800;const ng=AC.createGain();ng.gain.setValueAtTime(nz,t);ng.gain.exponentialRampToValueAtTime(.001,t+.045);s.connect(hp);hp.connect(ng);ng.connect(master);s.start(t);s.stop(t+.06);}}
+const LOW=[[0,3,6,10,12],[0,3,8,10,13],[0,4,6,9,12,14]],HIGH=[[2,5,7,8,11,13,14,15],[1,2,5,7,9,11,14,15],[2,3,5,8,10,11,13,15]];
+function schedule(){const sp=60/116/4;while(nextStep<AC.currentTime+.12){const pv=bar%4===3?2:bar%2;
+  if(LOW[pv].includes(step))drum(nextStep,150,58,.32,.55,.15);if(HIGH[pv].includes(step))drum(nextStep,420+(step%3)*40,240,.12,.28,.35);if(step===0&&bar%8===7)drum(nextStep,900,600,.08,.2,.5);
+  nextStep+=sp;step=(step+1)%16;if(!step)bar++;}}
+function startSound(){if(!AC)initAudio();AC.resume();master.gain.setTargetAtTime(.8,AC.currentTime,.8);nextStep=AC.currentTime+.1;clearInterval(drumT);drumT=setInterval(schedule,25);soundOn=true;syncMatchUI();}
+function stopSound(){if(AC){master.gain.setTargetAtTime(0,AC.currentTime,.25);}clearInterval(drumT);soundOn=false;syncMatchUI();}
+function updateRoar(t){if(!soundOn||!roarG)return;const ca=Math.atan2(cam.position.z/B0,cam.position.x/A0),wc=t*0.55-Math.PI/2;let d=((ca-wc)%(Math.PI*2)+Math.PI*3)%(Math.PI*2)-Math.PI;
+  const inRoom=activeScene!==scene;roarG.gain.setTargetAtTime(inRoom?0:.05+.7*Math.exp(-d*d*3),AC.currentTime,.15);master.gain.setTargetAtTime(inRoom?.18:.8,AC.currentTime,.5);}
+function syncMatchUI(){$('#matchBtn').classList.toggle('on',matchOn);$('#soundBtn').style.display=matchOn?'':'none';$('#soundBtn').textContent=soundOn?'🔊 Son':'🔇 Son';
+  document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='match')b.classList.toggle('on',matchOn);if(b.dataset.a==='sound'){b.style.display=matchOn?'':'none';b.textContent=soundOn?'🔊':'🔇';}});}
+function setMatch(on){matchOn=on;if(on&&!fanMeshes.length)buildFans();fanMeshes.forEach(m=>m.visible=on);if(on){startSound();setHint('<b>Mode match</b> · la ola fait le tour du stade · 🔊 pour couper le son');}else stopSound();syncMatchUI();invalidate(4);}
+$('#matchBtn').onclick=()=>{stopTour();setMatch(!matchOn);};
+$('#soundBtn').onclick=()=>{soundOn?stopSound():startSound();};
 
 /* ============ ÉVÉNEMENTS ============ */
 function applyEvent(ev,first){EV=ev;const r=mulberry32(ev.seed);
@@ -1258,6 +1306,7 @@ function applyEvent(ev,first){EV=ev;const r=mulberry32(ev.seed);
   repaintAll();renderLegend();
   for(const k in labels){const st=STANDS[k];labels[k].el.innerHTML=`<b>${st.name}</b><span>${st.closed?'fermé':st.min>BUDGET?'hors budget':'dès '+fmt(st.min)}</span>`;}
   $('#evTitle').textContent=ev.title;$('#evSub').textContent=ev.short+' · '+ev.date+' · événement fictif';renderEvMenu();
+  if(matchOn)buildFans();else if(fanMeshes.length){fanMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});fanMeshes=[];}
   if(!first){if(ev.night!==night)setNight(ev.night);goStadium();}invalidate(6);}
 function renderEvMenu(){$('#evMenu').innerHTML=EVENTS.map((e,i)=>`<button class="evitem${e===EV?' cur':''}" data-i="${i}"><span class="ic">${e.ic}</span><span><b>${e.title}</b><small>${e.date} · dès ${fmtN(Math.round(3000*e.k/500)*500)} FCFA</small></span><span class="fill" style="color:${e.fill>.7?'#ffb4a8':'#12B35C'}">${e.fill>.7?'Presque complet':'Places dispo'}</span></button>`).join('')+'<div class="evfine">Événements, dates et prix fictifs — démonstration.</div>';
   $('#evMenu').querySelectorAll('.evitem').forEach(b=>b.onclick=()=>{$('#evMenu').classList.remove('on');stopTour();applyEvent(EVENTS[+b.dataset.i]);});}
@@ -1277,7 +1326,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
     if(t>=1){view.ctrl=flight.ctrl;view.rMin=flight.rMin;view.rMax=flight.rMax;const r=flight.res;flight=null;r();}}
   else if(!TOUCH&&state.mode==='stadium'&&now-lastInteract>4000&&!ptrs.size)orbitRotate(-dt*18,0);
   else if(!TOUCH&&state.mode==='room'&&now-lastInteract>6000&&!ptrs.size)lookRotate(dt*14,0);
-  const busy=!TOUCH||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
+  const busy=!TOUCH||matchOn||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
   if(!busy){requestAnimationFrame(frame);return;}
   if(forceFrames>0)forceFrames--;
   if(activeScene===scene){const nr=view.ctrl==='look'&&!flight?0.1:(Math.hypot(view.pos.x,view.pos.y,view.pos.z)>140?1.5:0.3);if(cam.near!==nr){cam.near=nr;cam.updateProjectionMatrix();}}
@@ -1290,7 +1339,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   for(const t of ledTexs)t.offset.x=(now*0.00004)%1;
   if(activeScene===scene&&(!TOUCH||now-lastInteract<1200||flight))updateTraffic(dt);
   for(let t=0;t<2;t++)if(dirty[t]){tierMesh[t].instanceColor.needsUpdate=true;dirty[t]=false;}
-  updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;
+  updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;if(matchOn){fanU.uTime.value=now*0.001;updateRoar(now*0.001);}
   renderFrame(activeScene);requestAnimationFrame(frame);}
 view.pos.copy(sph(new THREE.Vector3(0,0,0),620,0.7,0.65));view.look.set(0,0,0);cam.position.copy(view.pos);cam.lookAt(view.look);
 requestAnimationFrame(frame);
