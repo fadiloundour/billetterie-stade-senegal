@@ -948,7 +948,7 @@ $('#legendRows').innerHTML=[['Tribune Sud (officielle)','dès '+fmtN(STANDS.S.mi
 const labels={};
 Object.values(STANDS).forEach(st=>{const el=document.createElement('div');el.className='slabel';el.onclick=()=>{stopTour();goStand(st.code);};el.innerHTML=`<b>${st.name}</b><span>dès ${fmt(st.min)}</span>`;document.body.appendChild(el);const q=ringAt(st.u,40);labels[st.code]={el,p:new THREE.Vector3(q[0],50,q[1])};});
 const tmpV=new THREE.Vector3();
-function updateLabels(){const show=state.mode==='stadium'&&!flight&&xray;for(const k in labels){const L=labels[k];tmpV.copy(L.p).project(cam);const vis=show&&tmpV.z<1;L.el.style.opacity=vis?1:0;L.el.style.pointerEvents=vis?'auto':'none';if(vis)L.el.style.transform=`translate(${(tmpV.x*.5+.5)*innerWidth}px,${(-tmpV.y*.5+.5)*innerHeight}px) translate(-50%,-100%)`;}}
+function updateLabels(){const show=state.mode==='stadium'&&!flight&&xray&&!(TOUCH&&portrait());for(const k in labels){const L=labels[k];tmpV.copy(L.p).project(cam);const vis=show&&tmpV.z<1;L.el.style.opacity=vis?1:0;L.el.style.pointerEvents=vis?'auto':'none';if(vis)L.el.style.transform=`translate(${(tmpV.x*.5+.5)*innerWidth}px,${(-tmpV.y*.5+.5)*innerHeight}px) translate(-50%,-100%)`;}}
 let hintT=0;function setHint(t){if(TOUCH&&t)t=t.replace('Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre','Touchez une <b>tribune</b> ou utilisez le panneau du bas').replace('Cliquez sur le stade ou sur','Touchez le stade ou').replace('Choisissez votre <b>siège</b> · les sièges gris sont déjà vendus','Touchez un <b>siège</b> ou « Meilleure place »');hint.innerHTML=t;hint.style.opacity=t?1:0;clearTimeout(hintT);if(TOUCH&&t)hintT=setTimeout(()=>hint.style.opacity=0,4500);}
 function crumbs(){const c=$('#crumbs'),parts=[['Stade',()=>goStadium()]];
   if(state.mode==='room')parts.push([ROOMS[state.room].name,null]);
@@ -968,7 +968,7 @@ function standView(code){const st=STANDS[code],q=ringAt(st.u,22),n=inwardAt(st.u
 async function goStadium(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();
   state.mode='stadium';state.stand=null;state.block=null;state.loge=null;showSold(false);crumbs();
   setHint(xray?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');
-  setFov(false);return flyTo(sph(new THREE.Vector3(0,0,0),360*K(),0.78,0.5),new THREE.Vector3(0,4,0),{ctrl:'orbit',rMin:150,rMax:900});}
+  setFov(false);return flyTo(sph(new THREE.Vector3(0,0,0),360*(portrait()?1.68:1),0.72,0.5),new THREE.Vector3(0,4,0),{ctrl:'orbit',rMin:150,rMax:900});}
 async function goStand(code){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();xray=true;$('#roofBtn').classList.add('on');
   state.mode='stand';state.stand=code;state.block=null;state.loge=null;showSold(true,code);crumbs();
   setHint('Choisissez un <b>bloc</b> · les loges VIP vitrées sont entre les deux niveaux');
