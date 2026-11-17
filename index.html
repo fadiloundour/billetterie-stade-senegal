@@ -251,6 +251,15 @@ button.event{cursor:pointer;text-align:left;color:inherit}
 .evc b{display:block;font-size:12.5px;font-weight:800;line-height:1.25}
 .evc small{display:block;font-size:10.5px;color:var(--mute);margin-top:3px}
 
+.qty{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.qty span{flex:1;font-weight:700}
+.qty button,.qtyrow button{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.1);font-size:16px;font-weight:800}
+.qty b,.qtyrow b{min-width:22px;text-align:center;font-family:var(--disp);font-size:20px}
+.qtyrow{display:flex;align-items:center;gap:10px;margin:-2px 0 12px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.05)}
+.qtyrow span{flex:1;font-size:13px;font-weight:700}
+.qtyrow small{display:block;font-size:10.5px;color:var(--mute);font-weight:500}
+.qtyrow button{width:38px;height:38px;font-size:18px}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
@@ -291,6 +300,7 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 <nav class="crumbs" id="crumbs"></nav>
 
 <div class="legend glass" id="legend">
+  <div class="qty"><span>Nombre de places</span><button id="qMinus" aria-label="Moins">−</button><b id="qVal">1</b><button id="qPlus" aria-label="Plus">+</button></div>
   <h4>Tarifs · par place</h4>
   <div id="legendRows"></div>
   <div class="keys">
@@ -956,7 +966,8 @@ let activeScene=scene,xray=false,roofOpacity=1,roofTarget=1;
 function setRoofOpacity(f){roofOpacity=f;const t=f<0.985;roofParts.forEach(p=>{p.m.transparent=t;p.m.opacity=p.o*f;p.m.depthWrite=!t;});truss.visible=f>0.03;}
 function computeRoofTarget(){const m=state.mode;if(m==='stand'||m==='block')return .07;if(m==='stadium')return xray?.07:1;return 1;}
 let hover=null,hoverKey='',pickMesh=null,pickMap=[];
-function baseColor(g){if(state.seat===g)return COL.sel;if(state.soldVisible&&sold[g])return SOLD[S_type[g]];return BASE[S_type[g]];}
+let selGroup=[];const selSet=new Set();let QTY=1;
+function baseColor(g){if(selSet.has(g))return COL.sel;if(state.soldVisible&&sold[g])return SOLD[S_type[g]];return BASE[S_type[g]];}
 function repaint(list){for(const g of list)paint(g,baseColor(g));}
 function repaintAll(){for(let g=0;g<NSEAT;g++)paint(g,baseColor(g));}
 let sweep=null;
@@ -965,14 +976,14 @@ function showSold(on,animStand){if(on===state.soldVisible)return;state.soldVisib
   for(let i=anim.length-1;i>0;i--){const j=(rand()*(i+1))|0;[anim[i],anim[j]]=[anim[j],anim[i]];}
   anim.forEach(g=>paint(g,BASE[S_type[g]]));sweep={list:anim,i:0,t0:performance.now(),dur:1300};}
 function clearHover(){if(!hover)return;
-  if(hover.kind==='stand')repaint(standSeats[hover.code]);else if(hover.kind==='block')repaint(blocks[hover.b].seats);else if(hover.kind==='seat')paint(hover.g,baseColor(hover.g));
+  if(hover.kind==='stand')repaint(standSeats[hover.code]);else if(hover.kind==='block')repaint(blocks[hover.b].seats);else if(hover.kind==='seat')(hover.grp||[hover.g]).forEach(g=>paint(g,baseColor(g)));
   else if(hover.kind==='loge'){const L=loges[hover.l];L.glass.material.color.copy(C('#22313a'));L.glass.material.opacity=.42;}
   hoverPin.visible=false;hover=null;hoverKey='';}
 function setHover(h){const key=h?h.kind+':'+(h.code??h.b??h.g??h.l):'';if(key===hoverKey)return;clearHover();hover=h;hoverKey=key;
   if(!h){tip.classList.remove('on');canvas.classList.remove('pointer');return;}canvas.classList.add('pointer');
   if(h.kind==='stand'){for(const g of standSeats[h.code])paint(g,COL.hover);}
   else if(h.kind==='block'){for(const g of blocks[h.b].seats)if(!(state.soldVisible&&sold[g]))paint(g,COL.hover);}
-  else if(h.kind==='seat'){if(!sold[h.g]&&state.seat!==h.g){paint(h.g,COL.hover);hoverPin.position.set(S_x[h.g],S_y[h.g],S_z[h.g]);hoverPin.visible=true;}}
+  else if(h.kind==='seat'){if(!sold[h.g]&&!selSet.has(h.g)){h.grp=groupAt(h.g,QTY);(h.grp||[h.g]).forEach(g=>paint(g,h.grp?COL.hover:COL.sold));if(h.grp){hoverPin.position.set(S_x[h.g],S_y[h.g],S_z[h.g]);hoverPin.visible=true;}}}
   else if(h.kind==='loge'){const L=loges[h.l];L.glass.material.color.copy(COL.hover);L.glass.material.opacity=.6;}
   renderTip();}
 function makePin(color,op){const g=new THREE.Group();const m=new THREE.MeshBasicMaterial({color,transparent:true,opacity:op,depthTest:false});const cone=new THREE.Mesh(new THREE.ConeGeometry(.32,.8,16),m);cone.rotation.x=Math.PI;cone.position.y=1.1;cone.userData.y=1.1;g.add(cone);const ball=new THREE.Mesh(new THREE.SphereGeometry(.34,16,12),m);ball.position.y=1.6;ball.userData.y=1.6;g.add(ball);g.children.forEach(o=>o.renderOrder=10);g.visible=false;scene.add(g);return g;}
@@ -984,6 +995,7 @@ function renderTip(){const h=hover;if(!h){tip.classList.remove('on');return;}let
   if(h.kind==='stand'){const st=STANDS[h.code];html=`<small>${st.closed?'Fermé · derrière la scène':st.sub}</small><b>${st.name}</b><div class="p"><span>${st.closed?'Aucune place en vente':fmtN(st.free)+' places libres'}</span><strong>${st.closed?'—':'dès '+fmt(st.min)}</strong></div>`;}
   else if(h.kind==='fosse'){html=`<small>${EV.title}</small><b>Fosse · debout</b><div class="p"><span>Pelouse, face à la scène</span><strong>${fmt(EV.fosse)}</strong></div>`;}
   else if(h.kind==='block'){const b=blocks[h.b],st=STANDS[b.stand];isSold=b.free===0;html=`<small>${st.name} · ${b.T.label}${b.central?' · centrale':''}${b.letter?' · lettre « '+b.letter+' »':''}</small><b>Bloc ${b.id}</b><div class="p"><span>${b.closed?'Fermé (scène)':b.free?fmtN(b.free)+' libres':'Complet'}</span><strong>${b.free?fmt(b.price):'—'}</strong></div>`;}
+  else if(h.kind==='seat'&&QTY>1&&!sold[h.g]){const g=h.g,b=blocks[S_blk[g]],grp=h.grp;isSold=!grp;html=grp?`<small>Bloc ${b.id} · porte ${b.gate}</small><b>Rang ${S_row[g]} · ${grpLabel(grp)}</b><div class="p"><span>${QTY} places côte à côte</span><strong>${fmt(b.price*QTY)}</strong></div>`:`<small>Bloc ${b.id}</small><b>Rang ${S_row[g]}</b><div class="p"><span>Pas ${QTY} places côte à côte ici</span><strong>—</strong></div>`;}
   else if(h.kind==='seat'){const g=h.g,b=blocks[S_blk[g]];isSold=!!sold[g];html=`<small>Bloc ${b.id} · porte ${b.gate}${S_type[g]===2?' · siège vert 12e Gaïndé':''}</small><b>Rang ${S_row[g]} · Siège ${S_num[g]}</b><div class="p"><span>${isSold?'Déjà vendu':'Disponible'}</span><strong>${isSold?'—':fmt(b.price)}</strong></div>`;}
   else if(h.kind==='loge'){const L=loges[h.l];isSold=!L.free;html=`<small>Loge VIP · ${L.side==='S'?'Tribune Sud':'Tribune Nord'}</small><b>Loge ${L.no}</b><div class="p"><span>${L.free?'8 places · salon VIP':'Réservée'}</span><strong>${L.free?fmt(L.price)+' /pl.':'—'}</strong></div>`;}
   tip.innerHTML=html;tip.classList.toggle('sold',isSold);tip.classList.add('on');moveTip();}
@@ -1007,7 +1019,12 @@ function crumbs(){const c=$('#crumbs'),parts=[['Stade',()=>goStadium()]];
 
 /* ============ NAVIGATION ============ */
 function resetPick(){if(pickMesh){scene.remove(pickMesh);pickMesh=null;pickMap=[];}}
-function dropSeat(){const p=state.seat;state.seat=null;if(p!=null)paint(p,baseColor(p));selPin.visible=false;}
+function dropSeat(){const old=selGroup;state.seat=null;selGroup=[];selSet.clear();old.forEach(g=>paint(g,baseColor(g)));selPin.visible=false;}
+function rowSeats(b,r){if(!b.rowMap){b.rowMap={};b.seats.forEach(g=>{(b.rowMap[S_row[g]]=b.rowMap[S_row[g]]||[]).push(g);});for(const k in b.rowMap)b.rowMap[k].sort((a,c)=>S_num[a]-S_num[c]);}return b.rowMap[r]||[];}
+function okRun(arr){for(let i=0;i<arr.length;i++){if(sold[arr[i]])return false;if(i&&Math.hypot(S_x[arr[i]]-S_x[arr[i-1]],S_z[arr[i]]-S_z[arr[i-1]])>0.8)return false;}return true;}
+function groupAt(g,n){if(n<=1)return sold[g]?null:[g];const b=blocks[S_blk[g]],row=rowSeats(b,S_row[g]),i=row.indexOf(g);let best=null,bd=1e9;for(let st=i-n+1;st<=i;st++){if(st<0||st+n>row.length)continue;const w=row.slice(st,st+n);if(!okRun(w))continue;const d=Math.abs(st+(n-1)/2-i);if(d<bd){bd=d;best=w;}}return best;}
+function bestGroupInBlock(b,n){let best=null,bs=1e9;const rows=b.T.rows;for(let r=1;r<=rows;r++){const row=rowSeats(b,r),L=row.length;for(let st=0;st+n<=L;st++){const w=row.slice(st,st+n);if(!okRun(w))continue;const sc=Math.abs(r/rows-0.42)*1.3+Math.abs((st+(n-1)/2)/Math.max(1,L-1)-0.5);if(sc<bs){bs=sc;best=w;}}}return best;}
+function grpLabel(grp){return grp.length>1?`Sièges ${S_num[grp[0]]} à ${S_num[grp[grp.length-1]]}`:`Siège ${S_num[grp[0]]}`;}
 const fadeEl=$('#fade');
 function fade(on){return new Promise(r=>{fadeEl.style.opacity=on?1:0;setTimeout(r,on?460:10);});}
 async function leaveRoom(){if(state.mode!=='room')return;await fade(true);activeScene=scene;setGrade(night?'night':'day');$('#roombar').classList.remove('on');setFov(false);invalidate();view.pos.set(0,260,330);view.look.set(0,0,0);state.mode='stadium';fade(false);}
@@ -1028,8 +1045,9 @@ async function goBlock(bi){await leaveRoom();clearHover();hideTicket();dropSeat(
   const far=(b.ti===0?30:36)*K(),up=(b.ti===0?13:11)*K();setFov(false);
   return flyTo(b.center.clone().addScaledVector(b.n,far).add(new THREE.Vector3(0,up,0)),b.center.clone().add(new THREE.Vector3(0,-1,0)),{ctrl:'orbit',rMin:12,rMax:120});}
 function seatEye(g){const ry=S_ry[g];return new THREE.Vector3(S_x[g]+Math.sin(ry)*0.12,S_y[g]+1.18,S_z[g]+Math.cos(ry)*0.12);}
-async function goSeat(g){if(sold[g])return;await leaveRoom();clearHover();hideTicket();
-  const prev=state.seat;state.seat=g;if(prev!=null)paint(prev,baseColor(prev));paint(g,COL.sel);
+async function goSeat(g,grp){if(sold[g])return;grp=grp||groupAt(g,QTY);if(!grp){setHint(`Pas de <b>${QTY} places côte à côte</b> ici · essayez un autre rang ou « Meilleure place »`);return;}
+  if(grp.indexOf(g)<0)g=grp[Math.floor(grp.length/2)];
+  await leaveRoom();clearHover();hideTicket();dropSeat();state.seat=g;selGroup=grp;grp.forEach(x=>{selSet.add(x);paint(x,COL.sel);});
   const b=blocks[S_blk[g]];state.mode='seat';state.stand=b.stand;state.block=b.i;state.loge=null;
   selPin.position.set(S_x[g],S_y[g],S_z[g]);selPin.visible=true;crumbs();setHint('');
   setFov(true);const eye=seatEye(g);await flyTo(eye,new THREE.Vector3(eye.x*0.08,3,eye.z*0.08),{ctrl:'look',lift:6});
@@ -1062,16 +1080,18 @@ function setTicket({img,badge,kick,title,grid,price,actions}){$('#tView').style.
   const act=$('#tAct');act.innerHTML='';actions.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='btn '+cls;b.textContent=label;b.onclick=fn;act.appendChild(b);});
   ticket.classList.remove('hidden');document.body.classList.add('tk');renderSheet();}
 function nearestLoge(g){let best=0,bd=1e9;loges.forEach((L,i)=>{if(!L.free)return;const q=ringAt(L.u,25);const d=Math.hypot(q[0]-S_x[g],q[1]-S_z[g]);if(d<bd){bd=d;best=i;}});return best;}
-function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],inCart=cart.some(c=>c.key===EV.id+'s'+g);
-  setTicket({img,badge:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],['SIÈGE',S_num[g]],['PORTE',b.gate]],price:b.price,
-    actions:[[inCart?'✓ Dans le panier':'Ajouter au panier','primary',e=>{addCart({key:EV.id+'s'+g,ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · Siège ${S_num[g]} · Porte ${b.gate}`,price:b.price,qty:1});e.target.textContent='✓ Dans le panier';}],
-      [`Passer en loge VIP · +${fmtN(LOGE_PRICE-b.price)}`,'gold',()=>goLoge(nearestLoge(g))],['Autre siège','ghost',()=>goBlock(b.i)]]});}
+function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],grp=selGroup.length?selGroup:[g],n=grp.length,key=EV.id+'s'+grp.join('-'),inCart=cart.some(c=>c.key===key);
+  const seatTxt=n>1?`${S_num[grp[0]]}–${S_num[grp[n-1]]}`:S_num[g];
+  setTicket({img,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
+    actions:[[inCart?'✓ Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});e.target.textContent='✓ Dans le panier';}],
+      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)]]});}
 function showTicketLoge(li,img){const L=loges[li];
   setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Sud':'Tribune Nord'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
-    actions:(L.free?[['1 place en loge','primary',e=>{addCart({key:EV.id+'l'+li+'-'+Date.now(),ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:'1 place · accès salon · service inclus',price:L.price,qty:1});e.target.textContent='✓ Ajoutée';}],
+    actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});e.target.textContent='✓ Ajoutée';}],
       [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});e.target.textContent='✓ Loge ajoutée';}]]:[['Loge déjà réservée','ghost',()=>{}]])
       .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')]])});}
 $('#tClose').onclick=()=>hideTicket();
+$('#qMinus').onclick=()=>setQty(QTY-1);$('#qPlus').onclick=()=>setQty(QTY+1);
 const cart=[];
 function addCart(it){if(cart.some(c=>c.key===it.key))return;cart.push(it);renderCart();$('#cartN').animate([{transform:'scale(1.6)'},{transform:'scale(1)'}],{duration:350});}
 function renderCart(){$('#cartN').textContent=cart.reduce((a,c)=>a+c.qty,0);const tot=cart.reduce((a,c)=>a+c.price*c.qty,0);$('#total').textContent=fmt(tot);$('#checkout').disabled=!cart.length;
@@ -1165,20 +1185,22 @@ function updateMTop(){if(!TOUCH)return;const m=state.mode;let t='Stade du Séné
 function orderedBlocks(code,ti){return standBlocks[code].filter(b=>b.ti===ti).sort((a,b)=>{const da=((a.uc-STANDS[code].u+1.5)%1)-.5,db=((b.uc-STANDS[code].u+1.5)%1)-.5;return da-db;});}
 function bestSeatInBlock(b){const mx={};b.seats.forEach(g=>{mx[S_row[g]]=Math.max(mx[S_row[g]]||0,S_num[g]);});let best=null,bs=1e9;
   b.seats.forEach(g=>{if(sold[g])return;const r=S_row[g],f=S_num[g]/mx[r],sc=Math.abs(r/b.T.rows-0.42)*1.3+Math.abs(f-0.5);if(sc<bs){bs=sc;best=g;}});return best;}
-function bestInStand(code){const list=standBlocks[code].filter(b=>b.free>0).sort((a,b)=>{const da=Math.abs(((a.uc-STANDS[code].u+1.5)%1)-.5),db=Math.abs(((b.uc-STANDS[code].u+1.5)%1)-.5);return(a.ti-b.ti)*0.04+(da-db);});return list.length?bestSeatInBlock(list[0]):null;}
+function bestInStand(code){const list=standBlocks[code].filter(b=>b.free>=QTY&&!b.closed).sort((a,b)=>{const da=Math.abs(((a.uc-STANDS[code].u+1.5)%1)-.5),db=Math.abs(((b.uc-STANDS[code].u+1.5)%1)-.5);return(a.ti-b.ti)*0.04+(da-db);});for(const b of list){const grp=bestGroupInBlock(b,QTY);if(grp)return grp;}return null;}
 function chipBlock(b){return `<button class="chip${b.free?'':' full'}${state.block===b.i?' cur':''}" data-act="block" data-v="${b.i}"><b>${b.id}</b><small>${fmtN(b.price)}</small><i>${b.closed?'fermé':b.free?b.free+' libres':'complet'}</i></button>`;}
 function chipLoge(L){return `<button class="chip${L.free?'':' full'}" data-act="loge" data-v="${L.i}"><b>${L.no}</b><small>${L.side==='S'?'Sud':'Nord'}</small><i>${L.free?'8 places':'réservée'}</i></button>`;}
+function qtyRow(){return `<div class="qtyrow"><span>Nombre de places<small>${QTY>1?'côte à côte, même rang':'1 personne'}</small></span><button data-act="qm" aria-label="Moins">−</button><b>${QTY}</b><button data-act="qp" aria-label="Plus">+</button></div>`;}
+function setQty(n){QTY=clamp(n,1,8);$('#qVal').textContent=QTY;const sc=sheetBody.scrollTop;renderSheet();sheetBody.scrollTop=sc;if(hover&&hover.kind==='seat'){const h=hover;clearHover();setHover(h);}if(state.mode==='seat')goBlock(state.block);invalidate();}
 function renderSheet(){if(!TOUCH)return;const m=state.mode;let html='',show=true;
   if(m==='stadium'&&sheetView==='loges'){html=`<button class="linkback" data-act="back">‹ Toutes les tribunes</button><div class="sh-title"><b>Loges VIP</b><small>dès ${fmtN(LOGE_PRICE)} FCFA / place</small></div><p class="note" style="text-align:left;margin-bottom:10px">8 places, accès au salon présidentiel et au lounge VIP.</p><div class="sec">Tribune Sud</div><div class="chips">${loges.filter(L=>L.side==='S').map(chipLoge).join('')}</div><div class="sec">Tribune Nord</div><div class="chips">${loges.filter(L=>L.side==='N').map(chipLoge).join('')}</div>`;}
   else if(m==='stadium'){const tot=Object.values(STANDS).reduce((a,s)=>a+s.free,0);
-    html=`<div class="evrow">${EVENTS.map((e,i)=>`<button class="evc${e===EV?' cur':''}" data-act="ev" data-v="${i}"><b>${e.ic} ${e.title}</b><small>${e.date}</small></button>`).join('')}</div><div class="sh-title"><b>Choisissez votre place</b><small>${fmtN(tot)} places libres</small></div><button class="best" data-act="bestAll">⚡ Meilleure place disponible</button><div class="cards">`+(EV.layout==='concert'?`<button class="card" style="--c:#E31B23;grid-column:1/-1;min-height:0" data-act="fosse"><b>Fosse · debout</b><small>Pelouse, face à la scène · placement libre</small><strong>${fmtN(EV.fosse)} FCFA</strong></button>`:'')+
+    html=`<div class="evrow">${EVENTS.map((e,i)=>`<button class="evc${e===EV?' cur':''}" data-act="ev" data-v="${i}"><b>${e.ic} ${e.title}</b><small>${e.date}</small></button>`).join('')}</div><div class="sh-title"><b>Choisissez votre place</b><small>${fmtN(tot)} places libres</small></div>${qtyRow()}<button class="best" data-act="bestAll">⚡ Meilleure place disponible</button><div class="cards">`+(EV.layout==='concert'?`<button class="card" style="--c:#E31B23;grid-column:1/-1;min-height:0" data-act="fosse"><b>Fosse · debout</b><small>Pelouse, face à la scène · placement libre</small><strong>${fmtN(EV.fosse)} FCFA</strong></button>`:'')+
     ['S','N','E','O'].map(c=>{const st=STANDS[c];return `<button class="card"${st.closed?' disabled style="--c:#555;opacity:.4"':` style="--c:${STCOL[c]}"`} data-act="stand" data-v="${c}"><b>${st.name}</b><small>${st.closed?'Fermé · derrière la scène':st.sub}</small><strong>${st.closed?'—':'dès '+fmtN(st.min)+' FCFA'}</strong><small>${st.closed?'':fmtN(st.free)+' places libres'}</small></button>`;}).join('')+
     `<button class="card" style="--c:#c8a564;grid-column:1/-1;min-height:0" data-act="loges"><b>Loges VIP + salon</b><small>${loges.filter(L=>L.free).length} loges disponibles · 8 places</small><strong>dès ${fmtN(LOGE_PRICE)} FCFA</strong></button></div>`;}
   else if(m==='stand'){const st=STANDS[state.stand];
-    html=`<div class="sh-title"><b>${st.name}</b><small>dès ${fmtN(st.min)} FCFA</small></div><button class="best" data-act="bestStand">⚡ Meilleure place de la tribune</button><div class="sec">Niveau bas</div><div class="chips">${orderedBlocks(state.stand,0).map(chipBlock).join('')}</div><div class="sec">Niveau haut</div><div class="chips">${orderedBlocks(state.stand,1).map(chipBlock).join('')}</div>`+
+    html=`<div class="sh-title"><b>${st.name}</b><small>dès ${fmtN(st.min)} FCFA</small></div>${qtyRow()}<button class="best" data-act="bestStand">⚡ Meilleure place de la tribune</button><div class="sec">Niveau bas</div><div class="chips">${orderedBlocks(state.stand,0).map(chipBlock).join('')}</div><div class="sec">Niveau haut</div><div class="chips">${orderedBlocks(state.stand,1).map(chipBlock).join('')}</div>`+
     ((state.stand==='S'||state.stand==='N')?`<div class="sec">Loges VIP</div><div class="chips">${loges.filter(L=>L.side===state.stand).map(chipLoge).join('')}</div>`:'');}
-  else if(m==='block'){const b=blocks[state.block],ord=orderedBlocks(b.stand,b.ti),k=ord.indexOf(b),best=bestSeatInBlock(b);
-    html=`<div class="sh-title"><b>Bloc ${b.id}</b><small>${fmtN(b.price)} FCFA · ${b.free} libres</small></div><button class="best" data-act="bestBlock" ${best==null?'disabled':''}>${best==null?'Bloc complet':'⚡ Choisir la meilleure place'}</button><p class="note">ou touchez un siège sur le plan · les sièges gris sont vendus</p><div class="row2"><button data-act="block" data-v="${ord[(k-1+ord.length)%ord.length].i}">‹ Bloc ${ord[(k-1+ord.length)%ord.length].id}</button><button data-act="block" data-v="${ord[(k+1)%ord.length].i}">Bloc ${ord[(k+1)%ord.length].id} ›</button></div>`;}
+  else if(m==='block'){const b=blocks[state.block],ord=orderedBlocks(b.stand,b.ti),k=ord.indexOf(b),best=bestGroupInBlock(b,QTY);
+    html=`<div class="sh-title"><b>Bloc ${b.id}</b><small>${fmtN(b.price)} FCFA · ${b.free} libres</small></div>${qtyRow()}<button class="best" data-act="bestBlock" ${best==null?'disabled':''}>${best==null?(QTY>1?`Pas de ${QTY} places côte à côte`:'Bloc complet'):(QTY>1?`⚡ Meilleures ${QTY} places côte à côte`:'⚡ Choisir la meilleure place')}</button><p class="note">ou touchez un siège sur le plan · les sièges gris sont vendus</p><div class="row2"><button data-act="block" data-v="${ord[(k-1+ord.length)%ord.length].i}">‹ Bloc ${ord[(k-1+ord.length)%ord.length].id}</button><button data-act="block" data-v="${ord[(k+1)%ord.length].i}">Bloc ${ord[(k+1)%ord.length].id} ›</button></div>`;}
   else if(m==='seat'&&ticket.classList.contains('hidden')&&state.seat!=null){const g=state.seat,b=blocks[S_blk[g]];html=`<div class="sh-title"><b>Rang ${S_row[g]} · Siège ${S_num[g]}</b><small>${fmtN(b.price)} FCFA</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="block" data-v="${b.i}">Autre siège</button></div>`;}
   else if(m==='loge'&&ticket.classList.contains('hidden')&&state.loge!=null){const L=loges[state.loge];html=`<div class="sh-title"><b>Loge ${L.no}</b><small>${fmtN(L.price)} FCFA / place</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="salon">Voir le salon VIP</button></div>`;}
   else if(m==='fosse'&&ticket.classList.contains('hidden')){html=`<div class="sh-title"><b>Fosse · debout</b><small>${fmtN(EV.fosse)} FCFA</small></div><button class="best" data-act="ticket">Afficher mon billet</button>`;}
@@ -1188,9 +1210,10 @@ function renderSheet(){if(!TOUCH)return;const m=state.mode;let html='',show=true
 sheetBody.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;stopTour();const a=t.dataset.act,v=t.dataset.v;sheetPeek=false;
   if(a==='stand'){sheetView=null;goStand(v);}else if(a==='block')goBlock(+v);else if(a==='loge'){sheetView=null;goLoge(+v);}
   else if(a==='loges'){sheetView='loges';renderSheet();}else if(a==='back'){sheetView=null;renderSheet();}
-  else if(a==='bestAll'){const g=bestInStand('S')??bestInStand('N')??bestInStand('E');if(g!=null)goSeat(g);}
-  else if(a==='bestStand'){const g=bestInStand(state.stand);if(g!=null)goSeat(g);}
-  else if(a==='bestBlock'){const g=bestSeatInBlock(blocks[state.block]);if(g!=null)goSeat(g);}
+  else if(a==='bestAll'){const grp=bestInStand('S')||bestInStand('N')||bestInStand('E')||bestInStand('O');if(grp)goSeat(grp[Math.floor(grp.length/2)],grp);else setHint(`Pas de ${QTY} places côte à côte disponibles`);}
+  else if(a==='bestStand'){const grp=bestInStand(state.stand);if(grp)goSeat(grp[Math.floor(grp.length/2)],grp);else setHint(`Pas de ${QTY} places côte à côte dans cette tribune`);}
+  else if(a==='bestBlock'){const grp=bestGroupInBlock(blocks[state.block],QTY);if(grp)goSeat(grp[Math.floor(grp.length/2)],grp);}
+  else if(a==='qm')setQty(QTY-1);else if(a==='qp')setQty(QTY+1);
   else if(a==='ticket'){if(state.mode==='seat')showTicketSeat(state.seat,lastSnap);else if(state.mode==='fosse')showTicketFosse(lastSnap);else showTicketLoge(state.loge,lastSnap);}
   else if(a==='ev')applyEvent(EVENTS[+v]);else if(a==='fosse')goFosse();
   else if(a==='salon')goRoom('salon');});
@@ -1223,8 +1246,8 @@ $('#evBtn').onclick=e=>{e.stopPropagation();$('#evMenu').classList.toggle('on');
 document.addEventListener('click',e=>{if(!e.target.closest('#evMenu')&&!e.target.closest('#evBtn'))$('#evMenu').classList.remove('on');});
 async function goFosse(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();showSold(false);state.mode='fosse';state.stand=null;state.block=null;state.loge=null;crumbs();setHint('');setFov(true);
   await flyTo(new THREE.Vector3(-6,2.2,5),new THREE.Vector3(-56,9,0),{ctrl:'look',lift:30});if(state.mode!=='fosse')return;await settle();lastSnap=snapshot();showTicketFosse(lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
-function showTicketFosse(img){setTicket({img,badge:'Votre vue depuis la fosse',kick:`${EV.short} · Pelouse`,title:'Fosse · debout',grid:[['ACCÈS','Pelouse'],['PORTE','O1'],['PLACE','Libre']],price:EV.fosse,
-  actions:[['Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:'Placement libre · accès pelouse',price:EV.fosse,qty:1});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()]]});}
+function showTicketFosse(img){setTicket({img,badge:'Votre vue depuis la fosse',kick:`${EV.short} · Pelouse`,title:'Fosse · debout',grid:[['ACCÈS','Pelouse'],['PORTE','O1'],['PLACES',QTY]],price:EV.fosse*QTY,
+  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()]]});}
 applyEvent(EV,true);
 
 /* ============ BOUCLE ============ */
