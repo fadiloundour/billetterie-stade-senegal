@@ -1,0 +1,6 @@
+name = "sds-wallet"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://fadiloundour.github.io"
