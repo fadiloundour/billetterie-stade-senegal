@@ -31,6 +31,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .event .flag:after{content:"★";position:absolute;inset:0;display:grid;place-items:center;color:var(--green);font-size:9px}
 .event b{font-family:var(--disp);font-size:18px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;line-height:1}
 .event small{display:block;font-size:11px;color:var(--mute);margin-top:2px}
+.mybtn{margin-left:auto}
 .cartbtn{display:flex;align-items:center;gap:9px;padding:11px 15px;border-radius:14px;font-weight:700;font-size:13px}
 .cartbtn i{font-style:normal;min-width:20px;height:20px;border-radius:10px;background:var(--green2);color:#04140a;display:grid;place-items:center;font-size:11px;padding:0 6px}
 .demo{position:fixed;top:72px;left:50%;transform:translateX(-50%);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);padding:5px 11px;border-radius:20px;z-index:4;white-space:nowrap}
@@ -165,7 +166,7 @@ body.touch .top{top:calc(10px + env(safe-area-inset-top));left:calc(10px + env(s
 body.touch .brand{padding:7px 12px 7px 8px}
 body.touch .brand b{font-size:16px}
 body.touch .brand span{font-size:10px;color:var(--yellow)}
-body.touch .cartbtn{margin-left:auto;padding:10px 13px}
+body.touch .cartbtn{padding:10px 13px}
 .mtop{position:fixed;left:calc(10px + env(safe-area-inset-left));top:calc(66px + env(safe-area-inset-top));z-index:5;align-items:center;gap:9px;padding:5px 14px 5px 5px;border-radius:14px;max-width:calc(100vw - 84px)}
 body.touch .mtop{display:flex}
 .mtop button{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.12);font-size:22px;line-height:1;flex:none}
@@ -287,6 +288,16 @@ input[type=range].br{width:100%;accent-color:#12B35C;margin:6px 0 10px;height:24
 .rlabel i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--green);font-size:11px}
 .rlabel.cur{border-color:var(--green2)}
 
+.passes{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 12px;margin:10px -6px 0;scrollbar-width:thin}
+.passes img{flex:none;width:min(300px,74vw);border-radius:22px;scroll-snap-align:center;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.passes .ph{flex:none;width:min(300px,74vw);aspect-ratio:720/1260;border-radius:22px;background:#e9e5dc;display:grid;place-items:center;color:#888;font-size:12px}
+.pass-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.pass-actions .btn{flex:1 1 45%;padding:13px}
+.mybtn{display:flex;align-items:center;gap:7px;padding:11px 13px;border-radius:14px;font-weight:700;font-size:13px}
+.mybtn i{font-style:normal;min-width:20px;height:20px;border-radius:10px;background:var(--yellow);color:#111;display:grid;place-items:center;font-size:11px;padding:0 6px}
+body.touch .mybtn{padding:10px 11px}
+body.touch .mybtn span{display:none}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
@@ -320,6 +331,7 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
     <div class="flag"></div>
     <div><b id="evTitle">Lions du Sénégal — Adversaire</b><small id="evSub">Match amical · date fictive</small></div><span class="caret">▾ Changer</span>
   </button>
+  <button class="mybtn glass" id="myBtn">🎟 <span>Mes billets</span> <i id="myN">0</i></button>
   <button class="cartbtn glass" id="cartBtn">Panier <i id="cartN">0</i></button>
 </div>
 <div class="evmenu glass" id="evMenu"></div>
@@ -1129,18 +1141,18 @@ function nearestLoge(g){let best=0,bd=1e9;loges.forEach((L,i)=>{if(!L.free)retur
 function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],grp=selGroup.length?selGroup:[g],n=grp.length,key=EV.id+'s'+grp.join('-'),inCart=cart.some(c=>c.key===key);
   const seatTxt=n>1?`${S_num[grp[0]]}–${S_num[grp[n-1]]}`:S_num[g];
   setTicket({img,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
-    actions:[[inCart?'✓ Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});e.target.textContent='✓ Dans le panier';}],
+    actions:[[inCart?'✓ Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],[n>1?'SIÈGES':'SIÈGE']:seatTxt},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});e.target.textContent='✓ Dans le panier';}],
       [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['🧭 Comment venir','ghost',()=>goRoute('car')]]});}
 function showTicketLoge(li,img){const L=loges[li];
   setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Sud':'Tribune Nord'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
-    actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});e.target.textContent='✓ Ajoutée';}],
-      [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});e.target.textContent='✓ Loge ajoutée';}]]:[['Loge déjà réservée','ghost',()=>{}]])
+    actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),f:{ACCÈS:'VIP',LOGE:L.no,PLACES:Math.min(QTY,8)},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});e.target.textContent='✓ Ajoutée';}],
+      [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,f:{ACCÈS:'VIP',LOGE:L.no,PLACES:8},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});e.target.textContent='✓ Loge ajoutée';}]]:[['Loge déjà réservée','ghost',()=>{}]])
       .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')],['🧭 Comment venir','ghost',()=>goRoute('car')]])});}
 $('#tClose').onclick=()=>hideTicket();
 $('#bRange').addEventListener('input',e=>setBudget(+e.target.value,false));
 $('#qMinus').onclick=()=>setQty(QTY-1);$('#qPlus').onclick=()=>setQty(QTY+1);
 const cart=[];
-function addCart(it){if(cart.some(c=>c.key===it.key))return;cart.push(it);renderCart();$('#cartN').animate([{transform:'scale(1.6)'},{transform:'scale(1)'}],{duration:350});}
+function addCart(it){if(cart.some(c=>c.key===it.key))return;if(!it.img)it.img=lastSnap;it.evId=EV.id;it.date=EV.date;it.evTitle=EV.title;cart.push(it);renderCart();$('#cartN').animate([{transform:'scale(1.6)'},{transform:'scale(1)'}],{duration:350});}
 function renderCart(){$('#cartN').textContent=cart.reduce((a,c)=>a+c.qty,0);const tot=cart.reduce((a,c)=>a+c.price*c.qty,0);$('#total').textContent=fmt(tot);$('#checkout').disabled=!cart.length;
   $('#items').innerHTML=cart.length?cart.map((c,i)=>`<div class="item"><div><b>${c.label}</b><small>${c.sub}</small><small>${c.ev||''}</small></div><div class="r"><strong>${fmt(c.price*c.qty)}</strong><button data-i="${i}">Retirer</button></div></div>`).join(''):'<div class="empty">Votre panier est vide.<br>Choisissez une tribune, un bloc puis votre siège.</div>';
   $('#items').querySelectorAll('button').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.i,1);renderCart();});}
@@ -1153,10 +1165,38 @@ $('#checkout').onclick=()=>{const tot=cart.reduce((a,c)=>a+c.price*c.qty,0);
   openModal(`<header><h3>Paiement</h3><button class="x">×</button></header><p>Total : <b>${fmt(tot)}</b>. Choisissez un moyen de paiement — dans cette démonstration, rien n'est débité.</p><div class="pay"><button data-m="Wave">Wave<small>Mobile money</small></button><button data-m="Orange Money">Orange Money<small>Mobile money</small></button><button data-m="Free Money">Free Money<small>Mobile money</small></button><button data-m="Carte bancaire">Carte bancaire<small>Visa · Mastercard</small></button></div><div class="fine">Concept non officiel : aucune coordonnée n'est demandée, aucun paiement n'est effectué.</div>`);
   modal.querySelectorAll('.pay button').forEach(b=>b.onclick=()=>{const m=b.dataset.m;openModal(`<header><h3>${m}</h3></header><div class="spin"></div><p style="text-align:center">Paiement simulé…</p>`);setTimeout(()=>success(m),1300);});};
 function qr(c,seed){const n=25,x=c.getContext('2d');c.width=c.height=n;const r=mulberry32(seed);x.fillStyle='#fff';x.fillRect(0,0,n,n);x.fillStyle='#111';for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(r()<.48)x.fillRect(i,j,1,1);[[0,0],[n-7,0],[0,n-7]].forEach(([a,b])=>{x.fillStyle='#fff';x.fillRect(Math.max(0,a-1),Math.max(0,b-1),9,9);x.fillStyle='#111';x.fillRect(a,b,7,7);x.fillStyle='#fff';x.fillRect(a+1,b+1,5,5);x.fillStyle='#111';x.fillRect(a+2,b+2,3,3);});}
-function success(method){const list=cart.slice();
-  openModal(`<header><h3>Billets prêts</h3><button class="x">×</button></header><p>Paiement simulé via ${method}. Voici vos billets électroniques — <b>exemplaires de démonstration, non valables pour l'entrée</b>.</p><div class="etix">${list.map((c,i)=>`<div class="etk"><canvas data-s="${i}"></canvas><div><b>${c.label}</b><small>${c.sub}</small><small>${c.ev||''} · Stade du Sénégal${c.qty>1?' · ×'+c.qty:''}</small></div><span class="wm">DÉMO</span></div>`).join('')}</div><button class="btn primary wide" style="margin-top:16px" id="again">Revenir au stade</button>`);
-  modal.querySelectorAll('canvas').forEach(cv=>{let h=0;for(const ch of list[+cv.dataset.s].key)h=(h*31+ch.charCodeAt(0))|0;qr(cv,h);});
-  cart.length=0;renderCart();$('#drawer').classList.remove('on');$('#again').onclick=()=>{veil.classList.remove('on');goStadium();};}
+function passCode(key){let h=2166136261;for(const c of key)h=Math.imul(h^c.charCodeAt(0),16777619);const a=(h>>>0).toString(36).toUpperCase().padStart(7,'0'),b=(Math.imul(h,2654435761)>>>0).toString(36).toUpperCase().padStart(7,'0');return'SDS-'+a.slice(0,4)+'-'+b.slice(0,4);}
+function rrect(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath();}
+function loadImg(src){return new Promise(r=>{if(!src)return r(null);const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src;});}
+async function drawPass(it){const W=720,H=1260,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const D='"Barlow Condensed",Arial,sans-serif',B='Manrope,Arial,sans-serif';
+  rrect(x,0,0,W,H,44);x.save();x.clip();const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0d4a2a');g.addColorStop(.55,'#08251a');g.addColorStop(1,'#050d09');x.fillStyle=g;x.fillRect(0,0,W,H);
+  ['#00853F','#FDEF42','#E31B23'].forEach((col,i)=>{x.fillStyle=col;x.fillRect(i*W/3,0,W/3+1,12);});
+  x.strokeStyle='#F4F2EC';x.lineWidth=4;rrect(x,44,52,64,46,16);x.stroke();x.strokeStyle='#12B35C';rrect(x,58,62,36,26,8);x.stroke();
+  x.fillStyle='#F4F2EC';x.font='800 30px '+D;x.textBaseline='alphabetic';x.fillText('STADE DU SÉNÉGAL',126,74);x.fillStyle='rgba(244,242,236,.6)';x.font='600 20px '+B;x.fillText('Abdoulaye Wade · Diamniadio',126,100);
+  x.fillStyle='#FDEF42';x.font='800 22px '+D;x.textAlign='right';x.fillText((it.qty>1?it.qty+' PLACES':'1 PLACE'),W-44,74);x.textAlign='left';
+  x.fillStyle='#fff';x.font='800 50px '+D;const title=(it.evTitle||it.ev||'').toUpperCase();let ty=170;const words=title.split(' ');let line='';for(const w of words){if(x.measureText(line+w).width>W-88){x.fillText(line.trim(),44,ty);ty+=52;line='';}line+=w+' ';}x.fillText(line.trim(),44,ty);
+  x.fillStyle='rgba(244,242,236,.75)';x.font='600 26px '+B;x.fillText(it.date||'',44,ty+42);
+  const iy=ty+70,ih=330;const im=await loadImg(it.img);x.save();rrect(x,44,iy,W-88,ih,24);x.clip();if(im){const ar=im.width/im.height,tw=W-88;let sw=im.width,sh=im.height,sx=0,sy=0;if(ar>tw/ih){sw=sh*tw/ih;sx=(im.width-sw)/2;}else{sh=sw*ih/tw;sy=(im.height-sh)/2;}x.drawImage(im,sx,sy,sw,sh,44,iy,tw,ih);}else{x.fillStyle='#1d2a22';x.fillRect(44,iy,W-88,ih);}x.restore();
+  x.fillStyle='rgba(0,0,0,.55)';rrect(x,60,iy+16,190,40,20);x.fill();x.fillStyle='#12B35C';x.beginPath();x.arc(82,iy+36,7,0,7);x.fill();x.fillStyle='#fff';x.font='700 20px '+B;x.fillText('Votre vue',98,iy+43);
+  const fy=iy+ih+40,keys=Object.keys(it.f||{}),cw=(W-88)/Math.max(keys.length,1);keys.forEach((k,i)=>{x.fillStyle='rgba(244,242,236,.55)';x.font='800 19px '+B;x.fillText(k,44+i*cw,fy);x.fillStyle='#fff';x.font='700 52px '+D;x.fillText(String(it.f[k]),44+i*cw,fy+52);});
+  const sy2=fy+92;x.globalCompositeOperation='destination-out';[0,W].forEach(cx=>{x.beginPath();x.arc(cx,sy2,26,0,7);x.fill();});x.globalCompositeOperation='source-over';
+  x.setLineDash([12,10]);x.strokeStyle='rgba(244,242,236,.3)';x.lineWidth=3;x.beginPath();x.moveTo(40,sy2);x.lineTo(W-40,sy2);x.stroke();x.setLineDash([]);
+  const qs=300,qx=(W-qs)/2,qy=sy2+34;x.fillStyle='#fff';rrect(x,qx-20,qy-20,qs+40,qs+40,22);x.fill();const qc=document.createElement('canvas');let h=0;for(const ch of it.key)h=(h*31+ch.charCodeAt(0))|0;qr(qc,h);x.imageSmoothingEnabled=false;x.drawImage(qc,qx,qy,qs,qs);
+  x.fillStyle='#F4F2EC';x.font='700 26px '+B;x.textAlign='center';x.fillText(passCode(it.key),W/2,qy+qs+66);x.fillStyle='rgba(244,242,236,.6)';x.font='600 20px '+B;x.fillText(it.label+(it.sub?' · '+it.sub.split(' · ')[0]:''),W/2,qy+qs+98);
+  x.fillStyle='#ff6b5e';x.font='800 22px '+B;x.fillText('BILLET DE DÉMONSTRATION — NON VALABLE',W/2,H-40);x.textAlign='left';
+  x.save();x.translate(W/2,iy+ih/2);x.rotate(-.18);x.strokeStyle='rgba(255,107,94,.55)';x.lineWidth=4;rrect(x,-120,-34,240,68,12);x.stroke();x.fillStyle='rgba(255,107,94,.75)';x.font='800 44px '+D;x.textAlign='center';x.fillText('DÉMO',0,16);x.restore();
+  x.restore();return c.toDataURL('image/png');}
+function loadMine(){try{return JSON.parse(localStorage.getItem('sds_billets')||'[]');}catch(e){return[];}}
+function saveMine(list){try{localStorage.setItem('sds_billets',JSON.stringify(list.slice(-12)));}catch(e){try{localStorage.setItem('sds_billets',JSON.stringify(list.slice(-12).map(t=>Object.assign({},t,{img:''}))));}catch(e2){}}}
+let mine=loadMine();function renderMyN(){$('#myN').textContent=mine.reduce((a,t)=>a+(t.qty||1),0);}renderMyN();
+async function showPasses(list,title,intro){openModal(`<header><h3>${title}</h3><button class="x">×</button></header><p>${intro}</p>${list.length?`<div class="passes" id="passes">${list.map(()=>'<div class="ph">Préparation du billet…</div>').join('')}</div><div class="pass-actions"><button class="btn primary" id="savePass">⬇ Enregistrer en image</button><button class="btn ghost" id="again">Revenir au stade</button></div><p class="fine">Sur téléphone : appui long sur le billet puis « Enregistrer l’image ». Faites défiler pour voir tous vos billets.</p>`:'<div class="empty">Aucun billet pour l’instant.<br>Choisissez une place, ajoutez-la au panier et validez la commande.</div><button class="btn primary wide" id="again">Choisir une place</button>'}`);
+  $('#again').onclick=()=>{veil.classList.remove('on');goStadium();};if(!list.length)return;
+  const box=$('#passes'),urls=[];for(let i=0;i<list.length;i++){const u=await drawPass(list[i]);urls.push(u);const im=new Image();im.src=u;im.alt='Billet '+(i+1);if(box.children[i])box.replaceChild(im,box.children[i]);}
+  $('#savePass').onclick=()=>{const k=Math.round(box.scrollLeft/Math.max(1,box.scrollWidth/list.length)),u=urls[clamp(k,0,urls.length-1)];const a=document.createElement('a');a.href=u;a.download='billet-stade-du-senegal-'+(k+1)+'.png';document.body.appendChild(a);try{a.click();}catch(e){}a.remove();};}
+function success(method){const list=cart.slice().map(c=>Object.assign({},c,{bought:Date.now()}));mine=mine.concat(list);saveMine(mine);renderMyN();
+  cart.length=0;renderCart();$('#drawer').classList.remove('on');
+  showPasses(list,'Vos billets',`Paiement simulé via ${method}. Vos billets sont prêts au format portefeuille et restent disponibles dans « 🎟 Mes billets ».`);}
+$('#myBtn').onclick=()=>showPasses(mine.slice().reverse(),'Mes billets','Billets enregistrés sur cet appareil. <b>Exemplaires de démonstration, non valables pour l’entrée.</b>');
 
 /* ============ ENTRÉES ============ */
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
@@ -1426,7 +1466,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#evMenu')&&!e.target
 async function goFosse(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();showSold(false);state.mode='fosse';state.stand=null;state.block=null;state.loge=null;crumbs();setHint('');setFov(true);
   await flyTo(new THREE.Vector3(-6,2.2,5),new THREE.Vector3(-56,9,0),{ctrl:'look',lift:30});if(state.mode!=='fosse')return;await settle();lastSnap=snapshot();showTicketFosse(lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
 function showTicketFosse(img){setTicket({img,badge:'Votre vue depuis la fosse',kick:`${EV.short} · Pelouse`,title:'Fosse · debout',grid:[['ACCÈS','Pelouse'],['PORTE','O1'],['PLACES',QTY]],price:EV.fosse*QTY,
-  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()],['🧭 Comment venir','ghost',()=>goRoute('bus')]]});}
+  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),f:{PORTE:'O1',ZONE:'Fosse',PLACES:QTY},ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()],['🧭 Comment venir','ghost',()=>goRoute('bus')]]});}
 applyEvent(EV,true);
 
 /* ============ BOUCLE ============ */
