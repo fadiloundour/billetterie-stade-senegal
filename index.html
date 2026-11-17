@@ -6,13 +6,15 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Billetterie 3D · Stade du Sénégal — concept</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --green:#00853F; --green2:#12B35C; --yellow:#FDEF42; --red:#E31B23;
   --glass:rgba(12,16,14,.72); --line:rgba(255,255,255,.10);
   --txt:#F4F2EC; --mute:rgba(244,242,236,.62);
-  --disp:'Barlow Condensed',system-ui,sans-serif; --body:'Manrope',system-ui,sans-serif;
+  --disp:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter',system-ui,sans-serif; --body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter',system-ui,sans-serif;
+  --sign:'Barlow Condensed',Arial,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:#0b0f0d;color:var(--txt);font-family:var(--body);-webkit-font-smoothing:antialiased}
@@ -302,9 +304,100 @@ body.touch .mybtn span{display:none}
 .langbtn{padding:10px 12px;border-radius:14px;font-weight:800;font-size:12.5px;letter-spacing:.06em}
 .langbtn b{color:var(--green2)}
 
+/* ===== Apple : icônes + typographie ===== */
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+body{font-feature-settings:"cv11","ss01";font-optical-sizing:auto;letter-spacing:-.006em}
+.i{width:1.25em;height:1.25em;flex:none;display:inline-block;vertical-align:-.25em;overflow:visible}
+button{-webkit-tap-highlight-color:transparent;transition:transform .12s ease-out,background-color .2s,border-color .2s,opacity .2s}
+button:active:not(:disabled){transform:scale(.96)}
+:focus-visible{outline:2px solid var(--green2);outline-offset:2px}
+b,.t-grid b,.total b,.chip b,.qty b,.qtyrow b,.budget b,.cartbtn i,.mybtn i{font-variant-numeric:tabular-nums}
+/* titres : graisse + taille, pas de capitales, interlettrage négatif */
+.brand b{font-size:17px;font-weight:700;letter-spacing:-.022em;text-transform:none;line-height:1.1}
+.brand span{letter-spacing:0}
+.event b{font-size:15px;font-weight:650;letter-spacing:-.018em;text-transform:none;line-height:1.2}
+.event .caret{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:500}
+.event .caret .i{width:14px;height:14px}
+.legend h4{font-family:var(--body);font-size:11px;letter-spacing:.06em;font-weight:600}
+.roombar b{font-size:16px;font-weight:700;letter-spacing:-.018em;text-transform:none}
+.roombar small{font-size:11px;letter-spacing:0}
+.roombar button{display:grid;place-items:center}
+.roombar button .i{width:19px;height:19px}
+.slabel b{font-size:13px;font-weight:700;letter-spacing:.04em}
+.tip b{font-size:19px;font-weight:700;letter-spacing:-.022em;line-height:1.15}
+.t-title{font-size:30px;font-weight:750;letter-spacing:-.03em;line-height:1.04}
+.t-grid b{font-size:24px;font-weight:700;letter-spacing:-.025em}
+.t-stub b{font-size:21px;font-weight:750;letter-spacing:-.025em}
+.drawer h3,.modal h3{font-size:22px;font-weight:750;letter-spacing:-.026em;text-transform:none}
+.total b{font-size:26px;font-weight:750;letter-spacing:-.028em}
+.etk b{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.loader b{font-size:20px;font-weight:700;letter-spacing:-.01em;text-transform:none}
+.mtop b{font-size:17px;font-weight:700;letter-spacing:-.022em;text-transform:none;line-height:1.15}
+.sh-title b{font-size:22px;font-weight:750;letter-spacing:-.026em;text-transform:none;line-height:1.1}
+.card b{font-size:16px;font-weight:700;letter-spacing:-.02em;text-transform:none}
+.chip b{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.qty b,.qtyrow b{font-size:17px;font-weight:700}
+.budget b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.rb-step span{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.rb-step b{font-size:18px;font-weight:700;letter-spacing:-.022em;line-height:1.2}
+.demo{letter-spacing:.04em;font-weight:500}
+.sec,.t-kick,.tip small{letter-spacing:.06em;font-weight:650}
+.hint{letter-spacing:-.003em}
+.hint b{font-weight:650}
+.hint .i{width:15px;height:15px;vertical-align:-3px;margin:0 1px}
+.hint b .i{margin-right:3px}
+/* boutons + icônes */
+.ctrls button{gap:7px;font-weight:600;font-size:13px;letter-spacing:-.01em}
+.ctrls button .i{width:17px;height:17px}
+.fabs button .i{width:22px;height:22px}
+.mybtn,.cartbtn{gap:8px;font-weight:600;letter-spacing:-.01em}
+.mybtn .i,.cartbtn .i{width:18px;height:18px}
+.langbtn{display:flex;align-items:center;gap:6px;font-weight:600;letter-spacing:.02em}
+.langbtn .i{width:16px;height:16px;opacity:.85}
+.langbtn em{font-style:normal;color:var(--mute)}
+.langbtn b+em,.langbtn em+b{margin-left:-1px}
+.langbtn b+em:before,.langbtn em+b:before{content:"";display:inline-block;width:1px;height:10px;background:var(--line);margin:0 6px 0 0;vertical-align:-1px}
+.visit button{display:flex;align-items:flex-start;gap:11px;font-weight:600;letter-spacing:-.01em}
+.visit button>.i{width:20px;height:20px;margin-top:1px;color:var(--green2)}
+body.touch .visit [data-v=tour]{display:flex}
+.mtop button{display:grid;place-items:center}
+.mtop button .i{width:22px;height:22px}
+.rb-modes button,.rb-x{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.rb-modes button .i,.rb-x .i{width:16px;height:16px}
+.rb-nav button{display:grid;place-items:center}
+.rb-nav button .i{width:20px;height:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:650;letter-spacing:-.01em}
+.btn .i{width:16px;height:16px}
+.best{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:650;letter-spacing:-.012em}
+.best .i{width:18px;height:18px}
+.linkback{display:inline-flex;align-items:center;gap:2px}
+.linkback .i{width:16px;height:16px;margin-left:-3px}
+.row2 button{display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.row2 button .i{width:16px;height:16px}
+.qty button,.qtyrow button{display:grid;place-items:center}
+.qty button .i,.qtyrow button .i{width:16px;height:16px}
+.t-close,.drawer .x,.modal .x{display:grid;place-items:center;line-height:1}
+.t-close .i{width:15px;height:15px}
+.drawer .x .i,.modal .x .i{width:17px;height:17px}
+body.touch .t-close .i{width:17px;height:17px}
+.evitem .ic .i{width:21px;height:21px;color:var(--green2)}
+.evc b{font-weight:650;letter-spacing:-.012em}
+.evc .evi{display:block;margin-bottom:6px;color:var(--green2)}
+.evc .evi .i{width:20px;height:20px}
+body.touch .top{gap:8px;align-items:center}
+body.touch .brand b{white-space:nowrap;font-size:15px}
+body.touch .brand span{font-size:10px;line-height:1.3;white-space:nowrap;letter-spacing:0}
+body.touch .langbtn{white-space:nowrap;padding:10px;gap:0}
+body.touch .langbtn .i{display:none}
+body.touch .mybtn,body.touch .cartbtn{padding:10px;gap:6px}
+body.touch .cartbtn span{display:none}
+@media (max-width:430px){body.touch .brand>svg{display:none}body.touch .brand{padding:7px 11px}}
+@media (max-width:1760px){body:not(.touch):not(.tk) .hint{bottom:72px}}
+@media (prefers-reduced-motion:reduce){button{transition:none}button:active:not(:disabled){transform:none}}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
-#gate b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+#gate b{font-family:var(--disp);font-size:28px;letter-spacing:-.028em;font-weight:750}
 #gate p{max-width:420px;color:var(--mute);font-size:14px;line-height:1.6}
 #gate .lock{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:28px}
 #timer{position:fixed;left:50%;top:104px;transform:translateX(-50%);z-index:5;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:20px;display:none;white-space:nowrap}
@@ -313,7 +406,8 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 </style>
 </head>
 <body>
-<div id="gate"><div class="lock">🔒</div><b id="gTitle">Accès temporaire</b><p id="gMsg">Vérification du lien…</p></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 12S6 5.8 12 5.8 21.4 12 21.4 12 18 18.2 12 18.2 2.6 12 2.6 12z"/><circle cx="12" cy="12" r="3.1"/></symbol><symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 5.6v12.8a.8.8 0 0 0 1.2.7l10.1-6.4a.8.8 0 0 0 0-1.4L9.4 4.9a.8.8 0 0 0-1.2.7z" fill="currentColor"/></symbol><symbol id="i-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2.2" fill="currentColor"/></symbol><symbol id="i-mega" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.2v3.6c0 .6.4 1 1 1h2.4l7.8 4.6V4.6L7.4 9.2H5c-.6 0-1 .4-1 1z"/><path d="M18.4 9.3a3.8 3.8 0 0 1 0 5.4"/><path d="M7.6 14.8l1.3 4.6"/></symbol><symbol id="i-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 9.6v4.8c0 .5.4.9.9.9h2.6l4.8 3.9V4.8L7.7 8.7H5.1c-.5 0-.9.4-.9.9z"/><path d="M15.6 9.2a4 4 0 0 1 0 5.6"/><path d="M18.3 6.6a7.6 7.6 0 0 1 0 10.8"/></symbol><symbol id="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 9.6v4.8c0 .5.4.9.9.9h2.6l4.8 3.9V4.8L7.7 8.7H5.1c-.5 0-.9.4-.9.9z"/><path d="M16 9.6l4.8 4.8M20.8 9.6L16 14.4"/></symbol><symbol id="i-bowl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="9.6" rx="8.6" ry="3.6" stroke-dasharray="2.2 2.4"/><path d="M3.4 9.6v4.6c0 2 3.9 3.7 8.6 3.7s8.6-1.7 8.6-3.7V9.6"/><ellipse cx="12" cy="12.6" rx="3.8" ry="1.5"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19.6 14.6A8 8 0 0 1 9.4 4.4a8 8 0 1 0 10.2 10.2z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.9"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M5.5 18.5l1.4-1.4M17.1 6.9l1.4-1.4"/></symbol><symbol id="i-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 4.6h4.8v4.8M9.4 19.4H4.6v-4.8M19.4 4.6l-5.9 5.9M4.6 19.4l5.9-5.9"/></symbol><symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.2c0-.8.6-1.4 1.4-1.4h13.2c.8 0 1.4.6 1.4 1.4v2.3a2.5 2.5 0 0 0 0 5v2.3c0 .8-.6 1.4-1.4 1.4H5.4c-.8 0-1.4-.6-1.4-1.4v-2.3a2.5 2.5 0 0 0 0-5z"/><path d="M14.5 6.4v1.4M14.5 11.3v1.4M14.5 16.2v1.4"/></symbol><symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.4 8.3h13.2l-1 11.1c0 .6-.5 1-1.1 1H7.5c-.6 0-1-.4-1.1-1z"/><path d="M9 8.3V7a3 3 0 0 1 6 0v1.3"/></symbol><symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.6 12.4l1.5-4.1c.2-.6.8-1 1.4-1h7c.6 0 1.2.4 1.4 1l1.5 4.1"/><path d="M4 13.6c0-.7.5-1.2 1.2-1.2h13.6c.7 0 1.2.5 1.2 1.2v3.2c0 .4-.3.7-.7.7H4.7a.7.7 0 0 1-.7-.7z"/><path d="M6.6 17.5v1.7M17.4 17.5v1.7"/><circle cx="7.6" cy="14.9" r=".9" fill="currentColor" stroke="none"/><circle cx="16.4" cy="14.9" r=".9" fill="currentColor" stroke="none"/></symbol><symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3.6" width="12" height="13" rx="3.2"/><path d="M6 10.4h12"/><circle cx="9.3" cy="13.4" r=".95" fill="currentColor" stroke="none"/><circle cx="14.7" cy="13.4" r=".95" fill="currentColor" stroke="none"/><path d="M8.8 16.6l-2.2 3.8M15.2 16.6l2.2 3.8"/></symbol><symbol id="i-uturn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14.4L4.6 10 9 5.6"/><path d="M4.6 10h10.2a4.9 4.9 0 0 1 0 9.8H11"/></symbol><symbol id="i-chevl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 5.4L8 12l6.6 6.6"/></symbol><symbol id="i-chevr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 5.4L16 12l-6.6 6.6"/></symbol><symbol id="i-chevd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 9.4L12 15l5.6-5.6"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 6.6l10.8 10.8M17.4 6.6L6.6 17.4"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.6l4.4 4.4L19 7.4"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 2.8L5.4 13.4h6.2l-.9 7.8 7.9-10.6h-6.3z"/></symbol><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.6-5.6-6.6-11.1a6.6 6.6 0 0 1 13.2 0C18.6 15.4 12 21 12 21z"/><circle cx="12" cy="9.9" r="2.4"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5.4" y="10.4" width="13.2" height="10" rx="2.6"/><path d="M8.6 10.4V8a3.4 3.4 0 0 1 6.8 0v2.4"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.8v12.4M5.8 12h12.4"/></symbol><symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 12h12.4"/></symbol><symbol id="i-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 8.3l3.3 2.4-1.3 3.9h-4l-1.3-3.9z"/><path d="M12 3.4v4.9M15.3 10.7l4.6-1.5M14 14.6l2.8 3.9M10 14.6l-2.8 3.9M8.7 10.7L4.1 9.2"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4.4h8v5.2a4 4 0 0 1-8 0z"/><path d="M8 6.2H5.6a2.6 2.6 0 0 0 2.7 3.9M16 6.2h2.4a2.6 2.6 0 0 1-2.7 3.9"/><path d="M12 13.6v3M9.4 20.2h5.2M10.2 20.2l.5-3.6h2.6l.5 3.6"/></symbol><symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.4" width="6" height="10.6" rx="3"/><path d="M5.9 11.2a6.1 6.1 0 0 0 12.2 0"/><path d="M12 17.3v3.3M9 20.6h6"/></symbol><symbol id="i-wrestle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.6" cy="5.8" r="2.1"/><circle cx="16.4" cy="5.8" r="2.1"/><path d="M4 20.2v-5.6a3.6 3.6 0 0 1 3.6-3.6h1.1l3.3 2.6 3.3-2.6h1.1a3.6 3.6 0 0 1 3.6 3.6v5.6"/></symbol><symbol id="i-pitch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.4" y="6" width="17.2" height="12" rx="1.8"/><path d="M12 6v12"/><circle cx="12" cy="12" r="2.6"/></symbol><symbol id="i-sofa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11.6V9.4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2.2"/><path d="M3.2 13a1.6 1.6 0 0 1 3.2 0v1.4h11.2V13a1.6 1.6 0 0 1 3.2 0v3.6c0 .6-.4 1-1 1H4.2c-.6 0-1-.4-1-1z"/><path d="M6 17.6v1.6M18 17.6v1.6"/></symbol><symbol id="i-glass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 3.6h8.8l-.6 5.4a3.8 3.8 0 0 1-7.6 0z"/><path d="M12 12.8v7.4M8.6 20.4h6.8"/></symbol><symbol id="i-shirt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.2L4 6.8l1.6 4 2.6-1.1v10.5h7.6V9.7l2.6 1.1 1.6-4-5-2.6a3 3 0 0 1-6 0z"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.6" height="6.6" rx="1.6"/><rect x="13.4" y="4" width="6.6" height="6.6" rx="1.6"/><rect x="4" y="13.4" width="6.6" height="6.6" rx="1.6"/><rect x="13.4" y="13.4" width="6.6" height="6.6" rx="1.6"/></symbol><symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M3.4 12h17.2M12 3.4c2.3 2.4 3.5 5.3 3.5 8.6s-1.2 6.2-3.5 8.6c-2.3-2.4-3.5-5.3-3.5-8.6s1.2-6.2 3.5-8.6z"/></symbol><symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.4 10.6L12 15.2l4.6-4.6M5 19.6h14"/></symbol><symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.4V5.8l10-2v11.4"/><circle cx="6.8" cy="17.4" r="2.2"/><circle cx="16.8" cy="15.2" r="2.2"/></symbol></defs></svg>
+<div id="gate"><div class="lock"><svg class="i" aria-hidden="true" style="width:28px;height:28px"><use href="#i-lock"/></svg></div><b id="gTitle">Accès temporaire</b><p id="gMsg">Vérification du lien…</p></div>
 <div id="timer" class="glass"></div>
 <canvas id="c"></canvas>
 <div id="fade"></div>
@@ -333,18 +427,18 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
   </div>
   <button class="event glass" id="evBtn">
     <div class="flag"></div>
-    <div><b id="evTitle">Lions du Sénégal — Adversaire</b><small id="evSub">Match amical · date fictive</small></div><span class="caret">▾ Changer</span>
+    <div><b id="evTitle">Lions du Sénégal — Adversaire</b><small id="evSub">Match amical · date fictive</small></div><span class="caret"><span>Changer</span><svg class="i" aria-hidden="true"><use href="#i-chevd"/></svg></span>
   </button>
-  <button class="langbtn glass" id="langBtn" aria-label="Langue / Language"><b>FR</b> · EN</button>
-  <button class="mybtn glass" id="myBtn">🎟 <span>Mes billets</span> <i id="myN">0</i></button>
-  <button class="cartbtn glass" id="cartBtn">Panier <i id="cartN">0</i></button>
+  <button class="langbtn glass" id="langBtn" aria-label="Langue / Language"><svg class="i" aria-hidden="true"><use href="#i-globe"/></svg><b>FR</b><em>EN</em></button>
+  <button class="mybtn glass" id="myBtn"><svg class="i" aria-hidden="true"><use href="#i-ticket"/></svg><span>Mes billets</span><i id="myN">0</i></button>
+  <button class="cartbtn glass" id="cartBtn"><svg class="i" aria-hidden="true"><use href="#i-bag"/></svg><span>Panier</span><i id="cartN">0</i></button>
 </div>
 <div class="evmenu glass" id="evMenu"></div>
 <div class="demo glass"><em>Concept</em> · maquette non officielle · prix fictifs · aucune vente réelle</div>
 <nav class="crumbs" id="crumbs"></nav>
 
 <div class="legend glass" id="legend">
-  <div class="qty"><span>Nombre de places</span><button id="qMinus" aria-label="Moins">−</button><b id="qVal">1</b><button id="qPlus" aria-label="Plus">+</button></div>
+  <div class="qty"><span>Nombre de places</span><button id="qMinus" aria-label="Moins"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg></button><b id="qVal">1</b><button id="qPlus" aria-label="Plus"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
   <div class="budget"><span>Budget max / place</span><b id="bVal">Sans limite</b></div><input type="range" class="br" id="bRange" min="0" max="7" step="1" value="7" aria-label="Budget maximum par place">
   <h4>Tarifs · par place</h4>
   <div id="legendRows"></div>
@@ -358,34 +452,34 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 </div>
 
 <div class="visit glass" id="visit">
-  <button data-v="tour">▶ Visite guidée<small>Le parcours complet, en automatique</small></button>
-  <button data-v="pitch">Bord terrain<small>Au ras de la pelouse, face au 12e Gaïndé</small></button>
-  <button data-v="salon">Salon présidentiel<small>Boiseries, marbre, cuir</small></button>
-  <button data-v="lounge">Lounge VIP<small>Bar, salons, vue sur le stade</small></button>
-  <button data-v="vestiaire">Vestiaire des Lions<small>Côté joueurs</small></button>
-  <button data-v="presse">Salle de presse<small>Conférences d'après-match</small></button>
+  <button data-v="tour"><svg class="i" aria-hidden="true"><use href="#i-play"/></svg><span>Visite guidée<small>Le parcours complet, en automatique</small></span></button>
+  <button data-v="pitch"><svg class="i" aria-hidden="true"><use href="#i-pitch"/></svg><span>Bord terrain<small>Au ras de la pelouse, face au 12e Gaïndé</small></span></button>
+  <button data-v="salon"><svg class="i" aria-hidden="true"><use href="#i-sofa"/></svg><span>Salon présidentiel<small>Boiseries, marbre, cuir</small></span></button>
+  <button data-v="lounge"><svg class="i" aria-hidden="true"><use href="#i-glass"/></svg><span>Lounge VIP<small>Bar, salons, vue sur le stade</small></span></button>
+  <button data-v="vestiaire"><svg class="i" aria-hidden="true"><use href="#i-shirt"/></svg><span>Vestiaire des Lions<small>Côté joueurs</small></span></button>
+  <button data-v="presse"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg><span>Salle de presse<small>Conférences d'après-match</small></span></button>
 </div>
 <div class="ctrls">
-  <button class="glass" id="visitBtn">◎ Visiter</button>
-  <button class="glass" id="tourBtn">▶ Visite guidée</button>
-  <button class="glass" id="matchBtn">🥁 Mode match</button>
-  <button class="glass" id="soundBtn" style="display:none">🔊 Son</button>
-  <button class="glass" id="roofBtn">◐ Toit</button>
-  <button class="glass" id="nightBtn">☾ Nuit</button>
-  <button class="glass" id="homeBtn">⤢ Vue stade</button>
+  <button class="glass" id="visitBtn"><svg class="i" aria-hidden="true"><use href="#i-eye"/></svg><span>Visiter</span></button>
+  <button class="glass" id="tourBtn"><svg class="i" aria-hidden="true"><use href="#i-play"/></svg><span>Visite guidée</span></button>
+  <button class="glass" id="matchBtn"><svg class="i" aria-hidden="true"><use href="#i-mega"/></svg><span>Mode match</span></button>
+  <button class="glass" id="soundBtn" style="display:none"><svg class="i" aria-hidden="true"><use href="#i-sound"/></svg><span>Son</span></button>
+  <button class="glass" id="roofBtn"><svg class="i" aria-hidden="true"><use href="#i-bowl"/></svg><span>Toit</span></button>
+  <button class="glass" id="nightBtn"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg><span>Nuit</span></button>
+  <button class="glass" id="homeBtn"><svg class="i" aria-hidden="true"><use href="#i-expand"/></svg><span>Vue stade</span></button>
 </div>
 <div class="roombar glass" id="roombar">
-  <button id="rPrev" aria-label="Vue précédente">◀</button>
+  <button id="rPrev" aria-label="Vue précédente"><svg class="i" aria-hidden="true"><use href="#i-chevl"/></svg></button>
   <b id="rName"></b>
-  <button id="rNext" aria-label="Vue suivante">▶</button>
+  <button id="rNext" aria-label="Vue suivante"><svg class="i" aria-hidden="true"><use href="#i-chevr"/></svg></button>
   <button class="txt" id="rBack">Retour au stade</button>
 </div>
 <div class="hint glass" id="hint"></div>
-<div class="routebox glass" id="routeBox"><div class="rb-top"><div class="rb-modes"><button data-k="car">🚗 Voiture</button><button data-k="bus">🚆 TER / navette</button></div><button class="rb-x" id="rbBack">↩ Billet</button></div>
+<div class="routebox glass" id="routeBox"><div class="rb-top"><div class="rb-modes"><button data-k="car"><svg class="i" aria-hidden="true"><use href="#i-car"/></svg><span>Voiture</span></button><button data-k="bus"><svg class="i" aria-hidden="true"><use href="#i-train"/></svg><span>TER / navette</span></button></div><button class="rb-x" id="rbBack"><svg class="i" aria-hidden="true"><use href="#i-uturn"/></svg><span>Billet</span></button></div>
 <div class="rb-step"><span id="rbNum">1/5</span><div><b id="rbT"></b><small id="rbS"></small></div></div>
-<div class="rb-nav"><button id="rbPrev" aria-label="Étape précédente">◀</button><div class="rb-dots" id="rbDots"></div><button id="rbNext" aria-label="Étape suivante">▶</button></div></div>
-<div class="mtop glass" id="mtop"><button id="mBack" aria-label="Retour">‹</button><div class="mt"><b id="mTitle">Stade du Sénégal</b><small id="mSub">Choisissez une tribune</small></div></div>
-<div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit">◐</button><button class="glass" data-a="night" aria-label="Jour / nuit">☾</button><button class="glass" data-a="match" aria-label="Mode match">🥁</button><button class="glass" data-a="sound" aria-label="Son" style="display:none">🔊</button><button class="glass" data-a="visit" aria-label="Visiter">◎</button><button class="glass" data-a="home" aria-label="Vue du stade">⤢</button></div>
+<div class="rb-nav"><button id="rbPrev" aria-label="Étape précédente"><svg class="i" aria-hidden="true"><use href="#i-chevl"/></svg></button><div class="rb-dots" id="rbDots"></div><button id="rbNext" aria-label="Étape suivante"><svg class="i" aria-hidden="true"><use href="#i-chevr"/></svg></button></div></div>
+<div class="mtop glass" id="mtop"><button id="mBack" aria-label="Retour"><svg class="i" aria-hidden="true"><use href="#i-chevl"/></svg></button><div class="mt"><b id="mTitle">Stade du Sénégal</b><small id="mSub">Choisissez une tribune</small></div></div>
+<div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit"><svg class="i" aria-hidden="true"><use href="#i-bowl"/></svg></button><button class="glass" data-a="night" aria-label="Jour / nuit"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg></button><button class="glass" data-a="match" aria-label="Mode match"><svg class="i" aria-hidden="true"><use href="#i-mega"/></svg></button><button class="glass" data-a="sound" aria-label="Son" style="display:none"><svg class="i" aria-hidden="true"><use href="#i-sound"/></svg></button><button class="glass" data-a="visit" aria-label="Visiter"><svg class="i" aria-hidden="true"><use href="#i-eye"/></svg></button><button class="glass" data-a="home" aria-label="Vue du stade"><svg class="i" aria-hidden="true"><use href="#i-expand"/></svg></button></div>
 <div class="sheet glass hidden" id="sheet"><div class="handle" id="sheetHandle"></div><div class="sheet-body" id="sheetBody"></div></div>
 <div class="tip" id="tip"></div>
 
@@ -398,11 +492,11 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
     <div class="t-act" id="tAct"></div>
   </div>
   <div class="t-stub"><small>FCFA</small><div class="bars"></div><b id="tPrice"></b></div>
-  <button class="t-close" id="tClose" aria-label="Fermer">×</button>
+  <button class="t-close" id="tClose" aria-label="Fermer"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
 </div>
 
 <aside class="drawer" id="drawer">
-  <header><h3>Panier</h3><button class="x" id="dClose">×</button></header>
+  <header><h3>Panier</h3><button class="x" id="dClose" aria-label="Fermer"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></header>
   <div class="items" id="items"></div>
   <footer>
     <div class="total"><span>Total</span><b id="total">0 FCFA</b></div>
@@ -418,6 +512,7 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 window.__startStade=function(){
 'use strict';
 const $=s=>document.querySelector(s);
+const I=n=>'<svg class="i" aria-hidden="true"><use href="#i-'+n+'"/></svg>';const setBtn=(el,ic,t)=>{el=typeof el==='string'?$(el):el;if(el)el.innerHTML=I(ic)+(t?'<span>'+t+'</span>':'');};const done=(e,t)=>setBtn(e.currentTarget,'check',t);
 function fail(){$('#err').style.display='block';$('#loadmsg').style.display='none';document.querySelector('.loader .bar').style.display='none';}
 if(!window.THREE){fail();return;}
 let renderer;
@@ -645,10 +740,10 @@ const STANDS={
 };
 let LOGE_PRICE=75000;const LOGE_BASE=75000;
 const EVENTS=[
-  {id:'e1',ic:'⚽',title:'Lions du Sénégal — Adversaire',short:'Match amical',date:'Sam. 6 déc. · 20 h',k:1,fill:.48,seed:11,layout:'football',night:false},
-  {id:'e2',ic:'🏆',title:'Finale de la Coupe du Sénégal',short:'Finale de Coupe',date:'Dim. 14 déc. · 17 h',k:.7,fill:.74,seed:23,layout:'football',night:false},
-  {id:'e3',ic:'🎤',title:'Nuit du Mbalax — Concert',short:'Concert',date:'Sam. 20 déc. · 21 h',k:1.5,fill:.55,seed:37,layout:'concert',night:true,fosse:7500},
-  {id:'e4',ic:'🤼',title:'Grand gala de lutte',short:'Gala de lutte',date:'Dim. 4 janv. · 16 h',k:.8,fill:.8,seed:53,layout:'lutte',night:false}];
+  {id:'e1',ic:'ball',title:'Lions du Sénégal — Adversaire',short:'Match amical',date:'Sam. 6 déc. · 20 h',k:1,fill:.48,seed:11,layout:'football',night:false},
+  {id:'e2',ic:'trophy',title:'Finale de la Coupe du Sénégal',short:'Finale de Coupe',date:'Dim. 14 déc. · 17 h',k:.7,fill:.74,seed:23,layout:'football',night:false},
+  {id:'e3',ic:'mic',title:'Nuit du Mbalax — Concert',short:'Concert',date:'Sam. 20 déc. · 21 h',k:1.5,fill:.55,seed:37,layout:'concert',night:true,fosse:7500},
+  {id:'e4',ic:'wrestle',title:'Grand gala de lutte',short:'Gala de lutte',date:'Dim. 4 janv. · 16 h',k:.8,fill:.8,seed:53,layout:'lutte',night:false}];
 let EV=EVENTS[0];
 const LETTERS={};'DOUZIEME'.split('').forEach((ch,i)=>LETTERS['1-'+(17+i)]=ch);'GAINDE'.split('').forEach((ch,i)=>LETTERS['0-'+(15+i)]=ch);
 const maskCache={};
@@ -1094,7 +1189,7 @@ async function leaveRoom(){if(state.mode!=='room')return;await fade(true);active
 function standView(code){const st=STANDS[code],q=ringAt(st.u,22),n=inwardAt(st.u,22);const P=new THREE.Vector3(q[0],13,q[1]);const far=((code==='S'||code==='N')?120:104)*K();return{pos:P.clone().addScaledVector(n,far).add(new THREE.Vector3(0,62*K(),0)),look:P.clone().add(new THREE.Vector3(0,4,0)).addScaledVector(n,8)};}
 async function goStadium(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();
   state.mode='stadium';state.stand=null;state.block=null;state.loge=null;showSold(false);crumbs();
-  setHint(xray?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');
+  setHint(xray?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>'+I('bowl')+'Toit</b> pour voir les tribunes');
   setFov(false);return flyTo(sph(new THREE.Vector3(0,0,0),360*(portrait()?1.68:1),0.72,0.5),new THREE.Vector3(0,4,0),{ctrl:'orbit',rMin:150,rMax:900});}
 async function goStand(code){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();xray=true;$('#roofBtn').classList.add('on');
   state.mode='stand';state.stand=code;state.block=null;state.loge=null;showSold(true,code);crumbs();
@@ -1126,7 +1221,7 @@ async function goRoom(id,vi=0){clearHover();hideTicket();resetPick();if(flight&&
   const R=ROOMS[id];if(!R.data)R.data=R.build();
   await fade(true);state.mode='room';state.room=id;state.roomView=vi;state.stand=null;state.block=null;activeScene=R.data.scene;setGrade('room');
   cam.fov=portrait()?70:58;cam.updateProjectionMatrix();invalidate();const v=R.data.views[vi];view.pos.set(...v.p);view.look.set(...v.l);view.ctrl='look';
-  $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(vi+1)+'/'+R.data.views.length+'</small>';$('#roombar').classList.add('on');crumbs();applyViewOffset();setHint('Glissez pour <b>regarder autour</b> · ◀ ▶ pour changer de point de vue');await fade(false);}
+  $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(vi+1)+'/'+R.data.views.length+'</small>';$('#roombar').classList.add('on');crumbs();applyViewOffset();setHint('Glissez pour <b>regarder autour</b> · '+I('chevl')+I('chevr')+' pour changer de point de vue');await fade(false);}
 function roomStep(d){if(state.mode!=='room')return;const R=ROOMS[state.room],n=R.data.views.length;state.roomView=(state.roomView+d+n)%n;const v=R.data.views[state.roomView];
   $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(state.roomView+1)+'/'+n+'</small>';return flyTo(new THREE.Vector3(...v.p),new THREE.Vector3(...v.l),{ctrl:'look',lift:0.6,dur:1600});}
 $('#rPrev').onclick=()=>{stopTour();roomStep(-1);};$('#rNext').onclick=()=>{stopTour();roomStep(1);};$('#rBack').onclick=()=>{stopTour();goStadium();};
@@ -1140,19 +1235,19 @@ function hideTicket(){if(typeof clearRoute==='function')clearRoute();ticket.clas
 function setTicket({img,badge,kick,title,grid,price,actions}){$('#tView').style.backgroundImage=img?`url(${img})`:'none';$('#tBadge').textContent=badge;$('#tKick').textContent=kick;$('#tTitle').textContent=title;
   if(TOUCH)grid=grid.concat([['PRIX',fmtN(price)]]);
   $('#tGrid').innerHTML=grid.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');$('#tPrice').textContent=fmtN(price);
-  const act=$('#tAct');act.innerHTML='';actions.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='btn '+cls;b.textContent=label;b.onclick=fn;act.appendChild(b);});
+  const act=$('#tAct');act.innerHTML='';actions.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='btn '+cls;const mm=/^@(\w+) (.*)$/.exec(label);if(mm)setBtn(b,mm[1],mm[2]);else b.textContent=label;b.onclick=fn;act.appendChild(b);});
   ticket.classList.remove('hidden');document.body.classList.add('tk');renderSheet();}
 function nearestLoge(g){let best=0,bd=1e9;loges.forEach((L,i)=>{if(!L.free)return;const q=ringAt(L.u,25);const d=Math.hypot(q[0]-S_x[g],q[1]-S_z[g]);if(d<bd){bd=d;best=i;}});return best;}
 function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],grp=selGroup.length?selGroup:[g],n=grp.length,key=EV.id+'s'+grp.join('-'),inCart=cart.some(c=>c.key===key);
   const seatTxt=n>1?`${S_num[grp[0]]}–${S_num[grp[n-1]]}`:S_num[g];
   setTicket({img,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
-    actions:[[inCart?'✓ Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],[n>1?'SIÈGES':'SIÈGE']:seatTxt},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});e.target.textContent='✓ Dans le panier';}],
-      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['🧭 Comment venir','ghost',()=>goRoute('car')]]});}
+    actions:[[inCart?'@check Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],[n>1?'SIÈGES':'SIÈGE']:seatTxt},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n});done(e,'Dans le panier');}],
+      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['@pin Comment venir','ghost',()=>goRoute('car')]]});}
 function showTicketLoge(li,img){const L=loges[li];
   setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Sud':'Tribune Nord'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
-    actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),f:{ACCÈS:'VIP',LOGE:L.no,PLACES:Math.min(QTY,8)},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});e.target.textContent='✓ Ajoutée';}],
-      [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,f:{ACCÈS:'VIP',LOGE:L.no,PLACES:8},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});e.target.textContent='✓ Loge ajoutée';}]]:[['Loge déjà réservée','ghost',()=>{}]])
-      .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')],['🧭 Comment venir','ghost',()=>goRoute('car')]])});}
+    actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),f:{ACCÈS:'VIP',LOGE:L.no,PLACES:Math.min(QTY,8)},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});done(e,'Ajoutée');}],
+      [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,f:{ACCÈS:'VIP',LOGE:L.no,PLACES:8},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});done(e,'Loge ajoutée');}]]:[['Loge déjà réservée','ghost',()=>{}]])
+      .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')],['@pin Comment venir','ghost',()=>goRoute('car')]])});}
 $('#tClose').onclick=()=>hideTicket();
 $('#bRange').addEventListener('input',e=>setBudget(+e.target.value,false));
 $('#qMinus').onclick=()=>setQty(QTY-1);$('#qPlus').onclick=()=>setQty(QTY+1);
@@ -1167,13 +1262,13 @@ const veil=$('#veil'),modal=$('#modal');
 function openModal(html){modal.innerHTML=html;veil.classList.add('on');const x=modal.querySelector('.x');if(x)x.onclick=()=>veil.classList.remove('on');}
 veil.addEventListener('click',e=>{if(e.target===veil)veil.classList.remove('on');});
 $('#checkout').onclick=()=>{const tot=cart.reduce((a,c)=>a+c.price*c.qty,0);
-  openModal(`<header><h3>Paiement</h3><button class="x">×</button></header><p>Total : <b>${fmt(tot)}</b>. Choisissez un moyen de paiement — dans cette démonstration, rien n'est débité.</p><div class="pay"><button data-m="Wave">Wave<small>Mobile money</small></button><button data-m="Orange Money">Orange Money<small>Mobile money</small></button><button data-m="Free Money">Free Money<small>Mobile money</small></button><button data-m="Carte bancaire">Carte bancaire<small>Visa · Mastercard</small></button></div><div class="fine">Concept non officiel : aucune coordonnée n'est demandée, aucun paiement n'est effectué.</div>`);
+  openModal(`<header><h3>Paiement</h3><button class="x" aria-label="Fermer">${I('x')}</button></header><p>Total : <b>${fmt(tot)}</b>. Choisissez un moyen de paiement — dans cette démonstration, rien n'est débité.</p><div class="pay"><button data-m="Wave">Wave<small>Mobile money</small></button><button data-m="Orange Money">Orange Money<small>Mobile money</small></button><button data-m="Free Money">Free Money<small>Mobile money</small></button><button data-m="Carte bancaire">Carte bancaire<small>Visa · Mastercard</small></button></div><div class="fine">Concept non officiel : aucune coordonnée n'est demandée, aucun paiement n'est effectué.</div>`);
   modal.querySelectorAll('.pay button').forEach(b=>b.onclick=()=>{const m=b.dataset.m;openModal(`<header><h3>${m}</h3></header><div class="spin"></div><p style="text-align:center">Paiement simulé…</p>`);setTimeout(()=>success(m),1300);});};
 function qr(c,seed){const n=25,x=c.getContext('2d');c.width=c.height=n;const r=mulberry32(seed);x.fillStyle='#fff';x.fillRect(0,0,n,n);x.fillStyle='#111';for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(r()<.48)x.fillRect(i,j,1,1);[[0,0],[n-7,0],[0,n-7]].forEach(([a,b])=>{x.fillStyle='#fff';x.fillRect(Math.max(0,a-1),Math.max(0,b-1),9,9);x.fillStyle='#111';x.fillRect(a,b,7,7);x.fillStyle='#fff';x.fillRect(a+1,b+1,5,5);x.fillStyle='#111';x.fillRect(a+2,b+2,3,3);});}
 function passCode(key){let h=2166136261;for(const c of key)h=Math.imul(h^c.charCodeAt(0),16777619);const a=(h>>>0).toString(36).toUpperCase().padStart(7,'0'),b=(Math.imul(h,2654435761)>>>0).toString(36).toUpperCase().padStart(7,'0');return'SDS-'+a.slice(0,4)+'-'+b.slice(0,4);}
 function rrect(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath();}
 function loadImg(src){return new Promise(r=>{if(!src)return r(null);const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src;});}
-async function drawPass(it){const T=trStr;const W=720,H=1260,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const D='"Barlow Condensed",Arial,sans-serif',B='Manrope,Arial,sans-serif';
+async function drawPass(it){const T=trStr;const W=720,H=1260,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const D='"Inter",-apple-system,system-ui,sans-serif',B='"Inter",-apple-system,system-ui,sans-serif',_B='Manrope,Arial,sans-serif';
   rrect(x,0,0,W,H,44);x.save();x.clip();const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0d4a2a');g.addColorStop(.55,'#08251a');g.addColorStop(1,'#050d09');x.fillStyle=g;x.fillRect(0,0,W,H);
   ['#00853F','#FDEF42','#E31B23'].forEach((col,i)=>{x.fillStyle=col;x.fillRect(i*W/3,0,W/3+1,12);});
   x.strokeStyle='#F4F2EC';x.lineWidth=4;rrect(x,44,52,64,46,16);x.stroke();x.strokeStyle='#12B35C';rrect(x,58,62,36,26,8);x.stroke();
@@ -1194,7 +1289,7 @@ async function drawPass(it){const T=trStr;const W=720,H=1260,c=document.createEl
 function loadMine(){try{return JSON.parse(localStorage.getItem('sds_billets')||'[]');}catch(e){return[];}}
 function saveMine(list){try{localStorage.setItem('sds_billets',JSON.stringify(list.slice(-12)));}catch(e){try{localStorage.setItem('sds_billets',JSON.stringify(list.slice(-12).map(t=>Object.assign({},t,{img:''}))));}catch(e2){}}}
 let mine=loadMine();function renderMyN(){$('#myN').textContent=mine.reduce((a,t)=>a+(t.qty||1),0);}renderMyN();
-async function showPasses(list,title,intro){openModal(`<header><h3>${title}</h3><button class="x">×</button></header><p>${intro}</p>${list.length?`<div class="passes" id="passes">${list.map(()=>'<div class="ph">Préparation du billet…</div>').join('')}</div><div class="pass-actions"><button class="btn primary" id="savePass">⬇ Enregistrer en image</button><button class="btn ghost" id="again">Revenir au stade</button></div><p class="fine">Sur téléphone : appui long sur le billet puis « Enregistrer l’image ». Faites défiler pour voir tous vos billets.</p>`:'<div class="empty">Aucun billet pour l’instant.<br>Choisissez une place, ajoutez-la au panier et validez la commande.</div><button class="btn primary wide" id="again">Choisir une place</button>'}`);
+async function showPasses(list,title,intro){openModal(`<header><h3>${title}</h3><button class="x" aria-label="Fermer">${I('x')}</button></header><p>${intro}</p>${list.length?`<div class="passes" id="passes">${list.map(()=>'<div class="ph">Préparation du billet…</div>').join('')}</div><div class="pass-actions"><button class="btn primary" id="savePass">⬇ Enregistrer en image</button><button class="btn ghost" id="again">Revenir au stade</button></div><p class="fine">Sur téléphone : appui long sur le billet puis « Enregistrer l’image ». Faites défiler pour voir tous vos billets.</p>`:'<div class="empty">Aucun billet pour l’instant.<br>Choisissez une place, ajoutez-la au panier et validez la commande.</div><button class="btn primary wide" id="again">Choisir une place</button>'}`);
   $('#again').onclick=()=>{veil.classList.remove('on');goStadium();};if(!list.length)return;
   const box=$('#passes'),urls=[];for(let i=0;i<list.length;i++){const u=await drawPass(list[i]);urls.push(u);const im=new Image();im.src=u;im.alt='Billet '+(i+1);if(box.children[i])box.replaceChild(im,box.children[i]);}
   $('#savePass').onclick=()=>{const k=Math.round(box.scrollLeft/Math.max(1,box.scrollWidth/list.length)),u=urls[clamp(k,0,urls.length-1)];const fn='billet-stade-du-senegal-'+(k+1)+'.png';savePng(u,fn);};}
@@ -1202,7 +1297,7 @@ let dlNS;function dlNs(){if(dlNS===undefined)dlNS=(window.claude&&window.claude.
 async function savePng(u,fn){const ns=await dlNs();if(ns){try{const bin=atob(u.split(',')[1]),arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);const blob=new Blob([arr],{type:'image/png'});await ns.save({filename:fn,data:blob});}catch(e){}return;}const a=document.createElement('a');a.href=u;a.download=fn;document.body.appendChild(a);try{a.click();}catch(e){}a.remove();}
 function success(method){const list=cart.slice().map(c=>Object.assign({},c,{bought:Date.now()}));mine=mine.concat(list);saveMine(mine);renderMyN();
   cart.length=0;renderCart();$('#drawer').classList.remove('on');
-  showPasses(list,'Vos billets',`Paiement simulé via ${method}. Vos billets sont prêts au format portefeuille et restent disponibles dans « 🎟 Mes billets ».`);}
+  showPasses(list,'Vos billets',`Paiement simulé via ${method}. Vos billets sont prêts au format portefeuille et restent disponibles dans « Mes billets ».`);}
 $('#myBtn').onclick=()=>showPasses(mine.slice().reverse(),'Mes billets','Billets enregistrés sur cet appareil. <b>Exemplaires de démonstration, non valables pour l’entrée.</b>');
 
 /* ============ ENTRÉES ============ */
@@ -1236,12 +1331,12 @@ function onClick(){if(flight)return;stopTour();
 addEventListener('keydown',e=>{if(e.key==='Escape'){if(veil.classList.contains('on')){veil.classList.remove('on');return;}if($('#drawer').classList.contains('on')){$('#drawer').classList.remove('on');return;}stopTour();goUp();}
   if(state.mode==='room'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'))roomStep(e.key==='ArrowRight'?1:-1);});
 $('#homeBtn').onclick=()=>{stopTour();goStadium();};
-function setXray(on){xray=on;$('#roofBtn').classList.toggle('on',on);syncFabs();invalidate();if(state.mode==='stadium')setHint(on?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');}
+function setXray(on){xray=on;$('#roofBtn').classList.toggle('on',on);syncFabs();invalidate();if(state.mode==='stadium')setHint(on?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>'+I('bowl')+'Toit</b> pour voir les tribunes');}
 $('#roofBtn').onclick=()=>{stopTour();setXray(!xray);};
 $('#visitBtn').onclick=e=>{e.stopPropagation();$('#visit').classList.toggle('on');};
 document.querySelectorAll('#visit button').forEach(b=>b.onclick=()=>{$('#visit').classList.remove('on');const v=b.dataset.v;if(v==='tour'){$('#tourBtn').click();return;}stopTour();if(v==='pitch')goPitch();else goRoom(v);});
 let night=false;
-function setNight(n){night=n;setTimeout(()=>{syncFabs();invalidate();});$('#nightBtn').classList.toggle('on',n);$('#nightBtn').textContent=n?'☀ Jour':'☾ Nuit';
+function setNight(n){night=n;setTimeout(()=>{syncFabs();invalidate();});$('#nightBtn').classList.toggle('on',n);setBtn('#nightBtn',n?'sun':'moon',n?'Jour':'Nuit');
   skyMat.map=n?SKY_N:SKY_D;skyMat.needsUpdate=true;scene.environment=n?ENV_N:ENV_D;scene.fog.color.set(n?0x0a0d16:0xd8cfb8);scene.background.set(n?0x05070d:0x8fb7dc);
   hemi.intensity=n?0.12:0.55;hemi.color.set(n?0x6d84b8:0xbcd6f0);sun.intensity=n?0.15:2.6;sun.color.set(n?0x8aa2ff:0xffd6a6);flood.intensity=n?0.12:0;flood2.intensity=0;spots.forEach(l=>l.visible=n);
   shell.material=n?shellNight:shellDay;floodMat.color.copy(n?HDR('#ffffff',9):HDR('#bfc4ca',.9));underMat.emissive.copy(n?C('#3a3a40'):C('#8a7553'));
@@ -1249,8 +1344,8 @@ function setNight(n){night=n;setTimeout(()=>{syncFabs();invalidate();});$('#nigh
 $('#nightBtn').onclick=()=>setNight(!night);
 let tourToken=0,touring=false;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function stopTour(){if(!touring)return;touring=false;tourToken++;$('#tourBtn').classList.remove('on');$('#tourBtn').textContent='▶ Visite guidée';}
-$('#tourBtn').onclick=async()=>{if(touring){stopTour();return;}touring=true;const tk=++tourToken;const ok=()=>tk===tourToken;$('#tourBtn').classList.add('on');$('#tourBtn').textContent='■ Arrêter';
+function stopTour(){if(!touring)return;touring=false;tourToken++;$('#tourBtn').classList.remove('on');setBtn('#tourBtn','play','Visite guidée');}
+$('#tourBtn').onclick=async()=>{if(touring){stopTour();return;}touring=true;const tk=++tourToken;const ok=()=>tk===tourToken;$('#tourBtn').classList.add('on');setBtn('#tourBtn','stop','Arrêter');
   const sb=standBlocks.S.filter(b=>b.ti===0&&b.free>0).sort((a,b)=>Math.abs(a.uc-.25)-Math.abs(b.uc-.25))[0];
   const seat=sb.seats.find(g=>!sold[g]&&S_row[g]>=10&&S_row[g]<=14&&S_num[g]>4)??sb.seats.find(g=>!sold[g]);
   const steps=[async()=>{setXray(false);await goStadium();},async()=>{await sleep(900);if(ok())setXray(true);},
@@ -1266,7 +1361,7 @@ $('#tourBtn').onclick=async()=>{if(touring){stopTour();return;}touring=true;cons
 /* ============ INTERFACE TÉLÉPHONE / TABLETTE ============ */
 const sheet=$('#sheet'),sheetBody=$('#sheetBody');let sheetView=null,sheetPeek=false;
 const STCOL={S:'#00853F',N:'#1F8A3B',E:'#F2A600',O:'#D9361C'};
-function syncFabs(){document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='roof')b.classList.toggle('on',xray);if(b.dataset.a==='night'){b.classList.toggle('on',night);b.textContent=night?'☀':'☾';}});}
+function syncFabs(){document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='roof')b.classList.toggle('on',xray);if(b.dataset.a==='night'){b.classList.toggle('on',night);b.innerHTML=I(night?'sun':'moon');}});}
 function updateMTop(){if(!TOUCH)return;const m=state.mode;let t='Stade du Sénégal',sub='Choisissez une tribune';
   if(m==='stand'){t=STANDS[state.stand].name;sub='Choisissez un bloc';}
   else if(m==='block'){const b=blocks[state.block];t='Bloc '+b.id;sub=STANDS[b.stand].name+' · '+b.T.label;}
@@ -1286,19 +1381,19 @@ function chipLoge(L){return `<button class="chip${L.free?'':' full'}" data-act="
 function budgetRow(){return `<div class="brow"><div class="budget"><span>Budget max <small>par place</small></span><b id="sbVal">${bLabel()}</b></div><input type="range" class="br" id="sbRange" min="0" max="7" step="1" value="${BI}" aria-label="Budget maximum par place"></div>`;}
 function setBudget(i,rerender){BI=clamp(i,0,7);BUDGET=BSTEPS[BI];$('#bVal').textContent=bLabel();$('#bRange').value=BI;const sv=document.getElementById('sbVal');if(sv)sv.textContent=bLabel();repaintAll();if(hover){const h=hover;clearHover();setHover(h);}
   for(const k in labels){const st=STANDS[k];labels[k].el.innerHTML=`<b>${st.name}</b><span>${st.closed?'fermé':st.min>BUDGET?'hors budget':'dès '+fmt(st.min)}</span>`;}if(rerender){const sc=sheetBody.scrollTop;renderSheet();sheetBody.scrollTop=sc;}invalidate(4);}
-function qtyRow(){return `<div class="qtyrow"><span>Nombre de places<small>${QTY>1?'côte à côte, même rang':'1 personne'}</small></span><button data-act="qm" aria-label="Moins">−</button><b>${QTY}</b><button data-act="qp" aria-label="Plus">+</button></div>`;}
+function qtyRow(){return `<div class="qtyrow"><span>Nombre de places<small>${QTY>1?'côte à côte, même rang':'1 personne'}</small></span><button data-act="qm" aria-label="Moins">${I('minus')}</button><b>${QTY}</b><button data-act="qp" aria-label="Plus">${I('plus')}</button></div>`;}
 function setQty(n){QTY=clamp(n,1,8);$('#qVal').textContent=QTY;const sc=sheetBody.scrollTop;renderSheet();sheetBody.scrollTop=sc;if(hover&&hover.kind==='seat'){const h=hover;clearHover();setHover(h);}if(state.mode==='seat')goBlock(state.block);invalidate();}
 function renderSheet(){if(!TOUCH)return;const m=state.mode;let html='',show=true;
-  if(m==='stadium'&&sheetView==='loges'){html=`<button class="linkback" data-act="back">‹ Toutes les tribunes</button><div class="sh-title"><b>Loges VIP</b><small>dès ${fmtN(LOGE_PRICE)} FCFA / place</small></div><p class="note" style="text-align:left;margin-bottom:10px">8 places, accès au salon présidentiel et au lounge VIP.</p><div class="sec">Tribune Sud</div><div class="chips">${loges.filter(L=>L.side==='S').map(chipLoge).join('')}</div><div class="sec">Tribune Nord</div><div class="chips">${loges.filter(L=>L.side==='N').map(chipLoge).join('')}</div>`;}
+  if(m==='stadium'&&sheetView==='loges'){html=`<button class="linkback" data-act="back">${I('chevl')}<span>Toutes les tribunes</span></button><div class="sh-title"><b>Loges VIP</b><small>dès ${fmtN(LOGE_PRICE)} FCFA / place</small></div><p class="note" style="text-align:left;margin-bottom:10px">8 places, accès au salon présidentiel et au lounge VIP.</p><div class="sec">Tribune Sud</div><div class="chips">${loges.filter(L=>L.side==='S').map(chipLoge).join('')}</div><div class="sec">Tribune Nord</div><div class="chips">${loges.filter(L=>L.side==='N').map(chipLoge).join('')}</div>`;}
   else if(m==='stadium'){const tot=Object.values(STANDS).reduce((a,s)=>a+s.free,0);
-    html=`<div class="evrow">${EVENTS.map((e,i)=>`<button class="evc${e===EV?' cur':''}" data-act="ev" data-v="${i}"><b>${e.ic} ${e.title}</b><small>${e.date}</small></button>`).join('')}</div><div class="sh-title"><b>Choisissez votre place</b><small>${fmtN(tot)} places libres</small></div>${qtyRow()}${budgetRow()}<button class="best" data-act="bestAll">⚡ Meilleure place disponible</button><div class="cards">`+(EV.layout==='concert'?`<button class="card${EV.fosse>BUDGET?' over':''}" style="--c:#E31B23;grid-column:1/-1;min-height:0" data-act="fosse"><b>Fosse · debout</b><small>Pelouse, face à la scène · placement libre</small><strong>${fmtN(EV.fosse)} FCFA</strong></button>`:'')+
+    html=`<div class="evrow">${EVENTS.map((e,i)=>`<button class="evc${e===EV?' cur':''}" data-act="ev" data-v="${i}"><span class="evi">${I(e.ic)}</span><b>${e.title}</b><small>${e.date}</small></button>`).join('')}</div><div class="sh-title"><b>Choisissez votre place</b><small>${fmtN(tot)} places libres</small></div>${qtyRow()}${budgetRow()}<button class="best" data-act="bestAll">${I('bolt')}Meilleure place disponible</button><div class="cards">`+(EV.layout==='concert'?`<button class="card${EV.fosse>BUDGET?' over':''}" style="--c:#E31B23;grid-column:1/-1;min-height:0" data-act="fosse"><b>Fosse · debout</b><small>Pelouse, face à la scène · placement libre</small><strong>${fmtN(EV.fosse)} FCFA</strong></button>`:'')+
     ['S','N','E','O'].map(c=>{const st=STANDS[c],ob=!st.closed&&st.min>BUDGET;return `<button class="card${ob?' over':''}"${st.closed?' disabled style="--c:#555;opacity:.4"':` style="--c:${STCOL[c]}"`} data-act="stand" data-v="${c}"><b>${st.name}</b><small>${st.closed?'Fermé · derrière la scène':st.sub}</small><strong>${st.closed?'—':ob?'hors budget · dès '+fmtN(st.min):'dès '+fmtN(st.min)+' FCFA'}</strong><small>${st.closed?'':fmtN(st.free)+' places libres'}</small></button>`;}).join('')+
     `<button class="card${LOGE_PRICE>BUDGET?' over':''}" style="--c:#c8a564;grid-column:1/-1;min-height:0" data-act="loges"><b>Loges VIP + salon</b><small>${loges.filter(L=>L.free).length} loges disponibles · 8 places</small><strong>dès ${fmtN(LOGE_PRICE)} FCFA</strong></button></div>`;}
   else if(m==='stand'){const st=STANDS[state.stand];
-    html=`<div class="sh-title"><b>${st.name}</b><small>dès ${fmtN(st.min)} FCFA</small></div>${qtyRow()}${budgetRow()}<button class="best" data-act="bestStand">⚡ Meilleure place de la tribune</button><div class="sec">Niveau bas</div><div class="chips">${orderedBlocks(state.stand,0).map(chipBlock).join('')}</div><div class="sec">Niveau haut</div><div class="chips">${orderedBlocks(state.stand,1).map(chipBlock).join('')}</div>`+
+    html=`<div class="sh-title"><b>${st.name}</b><small>dès ${fmtN(st.min)} FCFA</small></div>${qtyRow()}${budgetRow()}<button class="best" data-act="bestStand">${I('bolt')}<span>Meilleure place de la tribune</span></button><div class="sec">Niveau bas</div><div class="chips">${orderedBlocks(state.stand,0).map(chipBlock).join('')}</div><div class="sec">Niveau haut</div><div class="chips">${orderedBlocks(state.stand,1).map(chipBlock).join('')}</div>`+
     ((state.stand==='S'||state.stand==='N')?`<div class="sec">Loges VIP</div><div class="chips">${loges.filter(L=>L.side===state.stand).map(chipLoge).join('')}</div>`:'');}
   else if(m==='block'){const b=blocks[state.block],ord=orderedBlocks(b.stand,b.ti),k=ord.indexOf(b),best=over(b)?null:bestGroupInBlock(b,QTY);
-    html=`<div class="sh-title"><b>Bloc ${b.id}</b><small>${fmtN(b.price)} FCFA · ${b.free} libres</small></div>${qtyRow()}<button class="best" data-act="bestBlock" ${best==null?'disabled':''}>${best==null?(over(b)?'Au-dessus de votre budget':QTY>1?`Pas de ${QTY} places côte à côte`:'Bloc complet'):(QTY>1?`⚡ Meilleures ${QTY} places côte à côte`:'⚡ Choisir la meilleure place')}</button><p class="note">ou touchez un siège sur le plan · les sièges gris sont vendus</p><div class="row2"><button data-act="block" data-v="${ord[(k-1+ord.length)%ord.length].i}">‹ Bloc ${ord[(k-1+ord.length)%ord.length].id}</button><button data-act="block" data-v="${ord[(k+1)%ord.length].i}">Bloc ${ord[(k+1)%ord.length].id} ›</button></div>`;}
+    html=`<div class="sh-title"><b>Bloc ${b.id}</b><small>${fmtN(b.price)} FCFA · ${b.free} libres</small></div>${qtyRow()}<button class="best" data-act="bestBlock" ${best==null?'disabled':''}>${best==null?(over(b)?'Au-dessus de votre budget':QTY>1?`Pas de ${QTY} places côte à côte`:'Bloc complet'):(QTY>1?I('bolt')+`<span>Meilleures ${QTY} places côte à côte</span>`:I('bolt')+'<span>Choisir la meilleure place</span>')}</button><p class="note">ou touchez un siège sur le plan · les sièges gris sont vendus</p><div class="row2"><button data-act="block" data-v="${ord[(k-1+ord.length)%ord.length].i}">${I('chevl')}<span>Bloc ${ord[(k-1+ord.length)%ord.length].id}</span></button><button data-act="block" data-v="${ord[(k+1)%ord.length].i}"><span>Bloc ${ord[(k+1)%ord.length].id}</span>${I('chevr')}</button></div>`;}
   else if(m==='seat'&&ticket.classList.contains('hidden')&&state.seat!=null){const g=state.seat,b=blocks[S_blk[g]];html=`<div class="sh-title"><b>Rang ${S_row[g]} · Siège ${S_num[g]}</b><small>${fmtN(b.price)} FCFA</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="block" data-v="${b.i}">Autre siège</button></div>`;}
   else if(m==='loge'&&ticket.classList.contains('hidden')&&state.loge!=null){const L=loges[state.loge];html=`<div class="sh-title"><b>Loge ${L.no}</b><small>${fmtN(L.price)} FCFA / place</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="salon">Voir le salon VIP</button></div>`;}
   else if(m==='fosse'&&ticket.classList.contains('hidden')){html=`<div class="sh-title"><b>Fosse · debout</b><small>${fmtN(EV.fosse)} FCFA</small></div><button class="best" data-act="ticket">Afficher mon billet</button>`;}
@@ -1326,7 +1421,7 @@ function applyViewOffset(){if(!TOUCH)return;if(sheet.classList.contains('hidden'
 $('#mBack').onclick=()=>{stopTour();if(state.mode==='stadium'&&sheetView){sheetView=null;renderSheet();return;}goUp();};
 document.querySelectorAll('#fabs button').forEach(b=>b.onclick=e=>{e.stopPropagation();const a=b.dataset.a;if(a==='visit'){$('#visit').classList.toggle('on');return;}$('#visit').classList.remove('on');stopTour();
   if(a==='roof')setXray(!xray);else if(a==='night')setNight(!night);else if(a==='home')goStadium();else if(a==='match')setMatch(!matchOn);else if(a==='sound'){soundOn?stopSound():startSound();}});
-if(TOUCH){document.body.classList.add('touch');$('.brand span').textContent='Concept non officiel · prix fictifs';$('#rBack').textContent='✕';$('#rBack').setAttribute('aria-label','Retour au stade');}
+if(TOUCH){document.body.classList.add('touch');$('.brand span').textContent='Non officiel · prix fictifs';$('#rBack').innerHTML=I('x');$('#rBack').setAttribute('aria-label','Retour au stade');}
 
 /* ============ MODE MATCH : supporters, ola, drapeaux, ambiance sonore ============ */
 let matchOn=false,fanMeshes=[];const fanU={uTime:{value:0},uWave:{value:1}};
@@ -1395,9 +1490,9 @@ function startSound(){if(!AC)initAudio();AC.resume();startSong();nextFx=AC.curre
 function stopSound(){if(AC){master.gain.setTargetAtTime(0,AC.currentTime,.25);}clearInterval(drumT);soundOn=false;syncMatchUI();}
 function updateRoar(t){if(!soundOn||!roarG)return;const ca=Math.atan2(cam.position.z/B0,cam.position.x/A0),wc=t*0.55-Math.PI/2;let d=((ca-wc)%(Math.PI*2)+Math.PI*3)%(Math.PI*2)-Math.PI;
   const inRoom=activeScene!==scene;roarG.gain.setTargetAtTime(inRoom?0:.05+.7*Math.exp(-d*d*3),AC.currentTime,.15);if(!inRoom&&Math.abs(d)<.25&&AC.currentTime-lastOlaCheer>9){lastOlaCheer=AC.currentTime;cheer(AC.currentTime+.05,true);}master.gain.setTargetAtTime(inRoom?.18:.8,AC.currentTime,.5);}
-function syncMatchUI(){$('#matchBtn').classList.toggle('on',matchOn);$('#soundBtn').style.display=matchOn?'':'none';$('#soundBtn').textContent=soundOn?'🔊 Son':'🔇 Son';
-  document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='match')b.classList.toggle('on',matchOn);if(b.dataset.a==='sound'){b.style.display=matchOn?'':'none';b.textContent=soundOn?'🔊':'🔇';}});}
-function setMatch(on){matchOn=on;if(on&&!fanMeshes.length)buildFans();fanMeshes.forEach(m=>m.visible=on);if(on){startSound();setHint('<b>Mode match</b> · ♪ '+(window.__SONG_CREDIT||'')+' · 🔊 pour couper le son');}else stopSound();syncMatchUI();invalidate(4);}
+function syncMatchUI(){$('#matchBtn').classList.toggle('on',matchOn);$('#soundBtn').style.display=matchOn?'':'none';setBtn('#soundBtn',soundOn?'sound':'mute','Son');
+  document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='match')b.classList.toggle('on',matchOn);if(b.dataset.a==='sound'){b.style.display=matchOn?'':'none';b.innerHTML=I(soundOn?'sound':'mute');}});}
+function setMatch(on){matchOn=on;if(on&&!fanMeshes.length)buildFans();fanMeshes.forEach(m=>m.visible=on);if(on){startSound();setHint('<b>Mode match</b> · '+I('note')+' '+(window.__SONG_CREDIT||'')+' · '+I('sound')+' pour couper le son');}else stopSound();syncMatchUI();invalidate(4);}
 $('#matchBtn').onclick=()=>{stopTour();setMatch(!matchOn);};
 $('#soundBtn').onclick=()=>{soundOn?stopSound():startSound();};
 
@@ -1455,30 +1550,28 @@ function updateRouteLabels(dt){if(!routeLabels.length)return;routeMeshes.forEach
 
 
 /* ============ LANGUE : FR / EN ============ */
-const EXACT={'Bas':'Lower','Haut':'Upper','Sélection':'Selected','Vendu':'Sold','Panier':'Cart','Concept':'Concept','tribune':'stand','bloc':'block','siège':'seat','complet':'sold out','regarder autour':'look around','Mode match':'Match mode','Sud':'South','Nord':'North','Paiement':'Payment','PLACES':'SEATS','PLACE':'SPOT','RANG':'ROW','SIÈGES':'SEATS','SIÈGE':'SEAT','PORTE':'GATE','PRIX':'PRICE','ACCÈS':'ACCESS','SALON':'LOUNGE','ZONE':'AREA','LOGE':'BOX','BLOC':'BLOCK','Libre':'Free','Inclus':'Included','Pelouse':'Pitch','Retirer':'Remove','Fosse':'Pit','fermé':'closed','réservée':'booked','Réservée':'Booked','Complet':'Sold out','Disponible':'Available','Déjà vendu':'Already sold','Stade':'Stadium','Total':'Total','12e Gaïndé':'12e Gaïndé','Mes billets':'My tickets','Paiement simulé…':'Simulated payment…','Carte bancaire':'Bank card','Vos billets':'Your tickets','Choisir une place':'Pick a seat','Lien expiré':'Link expired','Lien invalide':'Invalid link','Accès terminé':'Access ended','Accès sur invitation':'Invitation only','Ouest':'West'};
-const PHRASES=[
+const EXACT={'Non officiel · prix fictifs':'Unofficial · fictional prices','Visite guidée':'Guided tour','Arrêter':'Stop','Visiter':'Visit','Toit':'Roof','Nuit':'Night','Jour':'Day','Vue stade':'Stadium view','Mode match':'Match mode','Son':'Sound','Changer':'Change','Comment venir':'Getting there','Loge ajoutée':'Box added','Ajoutée':'Added','Ajouté':'Added','Voiture':'Car','Billet':'Ticket','Panier':'Cart','Dans le panier':'In cart','Bord terrain':'Pitchside','Bas':'Lower','Haut':'Upper','Sélection':'Selected','Vendu':'Sold','Panier':'Cart','Concept':'Concept','tribune':'stand','bloc':'block','siège':'seat','complet':'sold out','regarder autour':'look around','Mode match':'Match mode','Sud':'South','Nord':'North','Paiement':'Payment','PLACES':'SEATS','PLACE':'SPOT','RANG':'ROW','SIÈGES':'SEATS','SIÈGE':'SEAT','PORTE':'GATE','PRIX':'PRICE','ACCÈS':'ACCESS','SALON':'LOUNGE','ZONE':'AREA','LOGE':'BOX','BLOC':'BLOCK','Libre':'Free','Inclus':'Included','Pelouse':'Pitch','Retirer':'Remove','Fosse':'Pit','fermé':'closed','réservée':'booked','Réservée':'Booked','Complet':'Sold out','Disponible':'Available','Déjà vendu':'Already sold','Stade':'Stadium','Total':'Total','12e Gaïndé':'12e Gaïndé','Mes billets':'My tickets','Paiement simulé…':'Simulated payment…','Carte bancaire':'Bank card','Vos billets':'Your tickets','Choisir une place':'Pick a seat','Lien expiré':'Link expired','Lien invalide':'Invalid link','Accès terminé':'Access ended','Accès sur invitation':'Invitation only','Ouest':'West'};
+const PHRASES=[['Meilleures ','Best '],
 ['· maquette non officielle · prix fictifs · aucune vente réelle','· unofficial mock-up · fictional prices · no real sales'],['Concept non officiel · prix fictifs','Unofficial concept · fictional prices'],['Billetterie 3D','3D Ticketing'],
 ['Construction du stade, siège par siège…','Building the stadium, seat by seat…'],['Tarifs · par place','Prices · per seat'],['Nombre de places','Number of seats'],['Budget max / place','Max budget / seat'],['Sans limite','No limit'],
-['▶ Visite guidée','▶ Guided tour'],['■ Arrêter','■ Stop'],['◎ Visiter','◎ Visit'],['◐ Toit','◐ Roof'],['☾ Nuit','☾ Night'],['☀ Jour','☀ Day'],['⤢ Vue stade','⤢ Stadium view'],['🥁 Mode match','🥁 Match mode'],['🔊 Son','🔊 Sound'],['🔇 Son','🔇 Sound'],['▾ Changer','▾ Change'],
 ['Au ras de la pelouse, face au 12e Gaïndé','At pitch level, facing the 12e Gaïndé'],['Bord terrain','Pitchside'],['Salon présidentiel','Presidential lounge'],['Boiseries, marbre, cuir','Wood panelling, marble, leather'],['Bar, salons, vue sur le stade','Bar, lounges, stadium view'],['Vestiaire des Lions','Lions’ dressing room'],['Côté joueurs','Players’ side'],['Salle de presse','Press room'],['Conférences d’après-match','Post-match press conferences'],["Conférences d'après-match",'Post-match press conferences'],['Le parcours complet, en automatique','The full journey, automatically'],
 ['Loges VIP · Tribune officielle','VIP boxes · Main stand'],['Espace réceptif · niveau des loges','Hospitality area · box level'],['Retour au stade','Back to the stadium'],['Revenir au stade','Back to the stadium'],
 ['Démonstration : aucun paiement n\'est demandé ni encaissé.','Demo: no payment is requested or taken.'],['Valider la commande','Checkout'],['Votre panier est vide.','Your cart is empty.'],['Choisissez une tribune, un bloc puis votre siège.','Pick a stand, a block, then your seat.'],
 ['. Choisissez un moyen de paiement — dans cette démonstration, rien n\'est débité.','. Choose a payment method — nothing is charged in this demo.'],['Total : ','Total: '],['Concept non officiel : aucune coordonnée n\'est demandée, aucun paiement n\'est effectué.','Unofficial concept: no details are requested and no payment is made.'],
-['. Vos billets sont prêts au format portefeuille et restent disponibles dans « 🎟 Mes billets ».','. Your tickets are ready in wallet format and stay available in “🎟 My tickets”.'],['Paiement simulé via ','Simulated payment via '],['⬇ Enregistrer en image','⬇ Save as image'],
+['. Vos billets sont prêts au format portefeuille et restent disponibles dans « Mes billets ».','. Your tickets are ready in wallet format and stay available in “My tickets”.'],['Paiement simulé via ','Simulated payment via '],['⬇ Enregistrer en image','⬇ Save as image'],
 ['Sur téléphone : appui long sur le billet puis « Enregistrer l’image ». Faites défiler pour voir tous vos billets.','On mobile: long-press the ticket, then “Save image”. Swipe to see all your tickets.'],['Préparation du billet…','Preparing ticket…'],['Aucun billet pour l’instant.','No tickets yet.'],['Choisissez une place, ajoutez-la au panier et validez la commande.','Pick a seat, add it to the cart and check out.'],['Billets enregistrés sur cet appareil. ','Tickets saved on this device. '],['Exemplaires de démonstration, non valables pour l’entrée.','Demo copies, not valid for entry.'],
 ['Lions du Sénégal — Adversaire','Senegal Lions — Opponent'],['Finale de la Coupe du Sénégal','Senegal Cup Final'],['Nuit du Mbalax — Concert','Mbalax Night — Concert'],['Grand gala de lutte','Grand wrestling gala'],['Match amical','Friendly match'],['Finale de Coupe','Cup final'],['Gala de lutte','Wrestling gala'],
 [' · événement fictif',' · fictional event'],['date fictive','fictional date'],['Presque complet','Almost sold out'],['Places dispo','Seats available'],['Événements, dates et prix fictifs — démonstration.','Fictional events, dates and prices — demo.'],['Sam. ','Sat. '],['Dim. ','Sun. '],[' déc.',' Dec.'],[' janv.',' Jan.'],
 ['Tribune Sud (officielle)','South Stand (main)'],['Tribune Nord · 12e Gaïndé','North Stand · 12e Gaïndé'],['Virages Est & Ouest','East & West ends'],['Loges VIP + salon','VIP boxes + lounge'],['Tribune populaire · 12e Gaïndé','Supporters’ stand · 12e Gaïndé'],['Tribune officielle','Main stand'],['Derrière le but','Behind the goal'],
 ['Tribune Sud','South Stand'],['Tribune Nord','North Stand'],['Virage Est','East End'],['Virage Ouest','West End'],['Niveau bas','Lower tier'],['Niveau haut','Upper tier'],
-['Choisissez votre place','Choose your seat'],['⚡ Meilleure place disponible','⚡ Best available seat'],['⚡ Meilleure place de la tribune','⚡ Best seat in this stand'],['⚡ Choisir la meilleure place','⚡ Pick the best seat'],['⚡ Meilleures ','⚡ Best '],[' places côte à côte',' seats side by side'],['côte à côte, même rang','side by side, same row'],['1 personne','1 person'],['Budget max ','Max budget '],['par place','per seat'],
+['Choisissez votre place','Choose your seat'],['Meilleure place disponible','Best available seat'],['Meilleure place de la tribune','Best seat in this stand'],['Choisir la meilleure place','Pick the best seat'],[' places côte à côte',' seats side by side'],['côte à côte, même rang','side by side, same row'],['1 personne','1 person'],['Budget max ','Max budget '],['par place','per seat'],
 ['Pelouse, face à la scène · placement libre','Pitch, facing the stage · unreserved'],['Pelouse, face à la scène','Pitch, facing the stage'],['Fermé · derrière la scène','Closed · behind the stage'],['Fermé (scène)','Closed (stage)'],['Aucune place en vente','No seats on sale'],['hors budget · dès ','over budget · from '],['hors budget','over budget'],['Au-dessus de votre budget','Above your budget'],
-['loges disponibles · 8 places','boxes available · 8 seats'],['‹ Toutes les tribunes','‹ All stands'],['8 places, accès au salon présidentiel et au lounge VIP.','8 seats, with access to the presidential lounge and the VIP lounge.'],['8 places · salon VIP','8 seats · VIP lounge'],['Loges VIP','VIP boxes'],['Loge VIP · ','VIP box · '],['Loge entière · ','Whole box · '],['Loge déjà réservée','Box already booked'],['Loge VIP','VIP box'],
-['Bloc complet','Block sold out'],['ou touchez un siège sur le plan · les sièges gris sont vendus','or tap a seat on the map · grey seats are sold'],['Afficher mon billet','Show my ticket'],['Autre siège','Other seat'],['Autres places','Other seats'],['Voir le salon VIP','See the VIP lounge'],['Choisissez un bloc','Choose a block'],['Choisissez une tribune','Choose a stand'],['Face au 12e Gaïndé','Facing the 12e Gaïndé'],['🧭 Comment venir','🧭 Getting there'],['Comment venir','Getting there'],
-['Votre vue depuis ce siège','Your view from this seat'],['Votre vue depuis la loge','Your view from the box'],['Votre vue depuis la fosse','Your view from the pit'],['Votre vue · ','Your view · '],['Votre vue','Your view'],['Ajouter au panier','Add to cart'],['Ajouter les ','Add the '],['✓ Dans le panier','✓ In cart'],['✓ Loge ajoutée','✓ Box added'],['✓ Ajoutée','✓ Added'],['✓ Ajouté','✓ Added'],['Passer en loge VIP · +','Upgrade to a VIP box · +'],['Place assise','Seated ticket'],['Fosse · debout','Standing pit'],['Fosse · pelouse','Pit · pitch'],
+['loges disponibles · 8 places','boxes available · 8 seats'],['Toutes les tribunes','All stands'],['8 places, accès au salon présidentiel et au lounge VIP.','8 seats, with access to the presidential lounge and the VIP lounge.'],['8 places · salon VIP','8 seats · VIP lounge'],['Loges VIP','VIP boxes'],['Loge VIP · ','VIP box · '],['Loge entière · ','Whole box · '],['Loge déjà réservée','Box already booked'],['Loge VIP','VIP box'],
+['Bloc complet','Block sold out'],['ou touchez un siège sur le plan · les sièges gris sont vendus','or tap a seat on the map · grey seats are sold'],['Afficher mon billet','Show my ticket'],['Autre siège','Other seat'],['Autres places','Other seats'],['Voir le salon VIP','See the VIP lounge'],['Choisissez un bloc','Choose a block'],['Choisissez une tribune','Choose a stand'],['Face au 12e Gaïndé','Facing the 12e Gaïndé'],['Comment venir','Getting there'],
+['Votre vue depuis ce siège','Your view from this seat'],['Votre vue depuis la loge','Your view from the box'],['Votre vue depuis la fosse','Your view from the pit'],['Votre vue · ','Your view · '],['Votre vue','Your view'],['Ajouter au panier','Add to cart'],['Ajouter les ','Add the '],['Dans le panier','In cart'],['Passer en loge VIP · +','Upgrade to a VIP box · +'],['Place assise','Seated ticket'],['Fosse · debout','Standing pit'],['Fosse · pelouse','Pit · pitch'],
 [' · accès salon · service inclus',' · lounge access · service included'],[' · placement libre · accès pelouse',' · unreserved · pitch access'],[' · privatisée',' · private hire'],
 [' · centrale',' · central'],[' · lettre « ',' · letter “'],[' · siège vert 12e Gaïndé',' · green 12e Gaïndé seat'],['/pl.','/seat'],[' / place',' / seat'],
-['Survolez une ','Hover over a '],[' pour voir les prix · cliquez pour y descendre',' to see prices · click to zoom in'],['Cliquez sur le stade ou sur ','Click the stadium or '],[' pour voir les tribunes',' to see the stands'],['Choisissez un ','Choose a '],[' · les loges VIP vitrées sont entre les deux niveaux',' · the glazed VIP boxes sit between the two tiers'],['Choisissez votre ','Choose your '],[' · les sièges gris sont déjà vendus',' · grey seats are already sold'],['Ce bloc est ','This block is '],[' · choisissez un bloc voisin',' · pick a neighbouring block'],['Glissez pour ','Drag to '],[' de vous',''],[' · ◀ ▶ pour changer de point de vue',' · ◀ ▶ to change viewpoint'],[' · glissez pour regarder autour',' · drag to look around'],['Face au ','Facing the '],['Touchez une ','Tap a '],[' ou utilisez le panneau du bas',' or use the bottom panel'],['Touchez le stade ou ','Tap the stadium or '],['Touchez un ','Tap a '],[' ou « Meilleure place »',' or “Best seat”'],[' · 🔊 pour couper le son',' · 🔊 to mute'],['Rien de disponible à ','Nothing available at '],[' max · augmentez le budget',' max · raise your budget'],[' ici · essayez un autre rang ou « Meilleure place »',' here · try another row or “Best seat”'],
-['🚗 Voiture','🚗 Car'],['🚆 TER / navette','🚆 TER / shuttle'],['↩ Billet','↩ Ticket'],['Sortie Diamniadio · autoroute à péage','Diamniadio exit · toll motorway'],['Quittez l’autoroute et suivez « Stade du Sénégal ». Accès conseillé 2 h avant le coup d’envoi.','Leave the motorway and follow “Stade du Sénégal”. Arrive 2 hours before kick-off.'],['Anneau routier du stade','Stadium ring road'],['Contournez le stade jusqu’au parking indiqué. Suivez la ligne bleue.','Drive around the stadium to the indicated car park. Follow the blue line.'],
+['Survolez une ','Hover over a '],[' pour voir les prix · cliquez pour y descendre',' to see prices · click to zoom in'],['Cliquez sur le stade ou sur ','Click the stadium or '],[' pour voir les tribunes',' to see the stands'],['Choisissez un ','Choose a '],[' · les loges VIP vitrées sont entre les deux niveaux',' · the glazed VIP boxes sit between the two tiers'],['Choisissez votre ','Choose your '],[' · les sièges gris sont déjà vendus',' · grey seats are already sold'],['Ce bloc est ','This block is '],[' · choisissez un bloc voisin',' · pick a neighbouring block'],['Glissez pour ','Drag to '],[' de vous',''],[' pour changer de point de vue',' to change viewpoint'],[' · glissez pour regarder autour',' · drag to look around'],['Face au ','Facing the '],['Touchez une ','Tap a '],[' ou utilisez le panneau du bas',' or use the bottom panel'],['Touchez le stade ou ','Tap the stadium or '],['Touchez un ','Tap a '],[' ou « Meilleure place »',' or “Best seat”'],[' pour couper le son',' to mute'],['Rien de disponible à ','Nothing available at '],[' max · augmentez le budget',' max · raise your budget'],[' ici · essayez un autre rang ou « Meilleure place »',' here · try another row or “Best seat”'],['TER / navette','TER / shuttle'],['Sortie Diamniadio · autoroute à péage','Diamniadio exit · toll motorway'],['Quittez l’autoroute et suivez « Stade du Sénégal ». Accès conseillé 2 h avant le coup d’envoi.','Leave the motorway and follow “Stade du Sénégal”. Arrive 2 hours before kick-off.'],['Anneau routier du stade','Stadium ring road'],['Contournez le stade jusqu’au parking indiqué. Suivez la ligne bleue.','Drive around the stadium to the indicated car park. Follow the blue line.'],
 ['Garez-vous sous les ombrières solaires. ≈ ','Park under the solar canopies. ≈ '],[' min à pied jusqu’à votre place (ligne verte).',' min walk to your seat (green line).'],['Contrôle de sécurité et scan du billet (QR code).','Security check and ticket scan (QR code).'],[' Gardez votre billet ouvert sur le téléphone.',' Keep your ticket open on your phone.'],['Suivez la signalétique jusqu’à votre place. Bon match !','Follow the signs to your seat. Enjoy the match!'],['Arrêt des navettes TER','TER shuttle stop'],['Arrêt illustratif. Navettes depuis la gare TER de Diamniadio les jours d’événement.','Illustrative stop. Shuttles from Diamniadio TER station on event days.'],['Parvis piéton','Pedestrian forecourt'],['Traversez le parvis. ≈ ','Cross the forecourt. ≈ '],[' · accès salon VIP',' · VIP lounge access'],['Sud-Ouest','South-West'],['Sud-Est','South-East'],['· Ouest','· West'],['Sortie Diamniadio','Diamniadio exit'],['Anneau routier','Ring road'],
 ['Accès temporaire · ','Temporary access · '],[' restant',' left'],['Ce site de démonstration est accessible uniquement via un lien temporaire. Demandez un lien à la personne qui vous l’a partagé.','This demo site is only available through a temporary link. Ask the person who shared it with you for a link.'],['Ce lien d’accès a expiré. Demandez un nouveau lien à la personne qui vous l’a partagé.','This access link has expired. Ask the person who shared it for a new one.'],['Votre accès temporaire est terminé. Merci de votre visite !','Your temporary access has ended. Thanks for visiting!'],
 ['La 3D n\'a pas pu démarrer sur cet appareil (WebGL indisponible ou bibliothèque non chargée). Essayez avec un navigateur récent sur ordinateur.','3D could not start on this device (WebGL unavailable or library not loaded). Try a recent browser on a computer.'],
@@ -1493,7 +1586,7 @@ function trNode(n){if(n.nodeType===3){const v=n.nodeValue;if(!v||!/[A-Za-zÀ-ÿ]
     if(LANG==='en'){const base=o&&o.en===v?o.fr:v,en=trStr(base);if(en!==v){ORIG.set(n,{fr:base,en});n.nodeValue=en;}}else if(o&&o.en===v)n.nodeValue=o.fr;return;}
   if(n.nodeType!==1||n.tagName==='SCRIPT'||n.tagName==='STYLE'||n.tagName==='CANVAS')return;for(const c of n.childNodes)trNode(c);}
 new MutationObserver(ms=>{if(LANG!=='en')return;for(const m of ms){if(m.type==='characterData')trNode(m.target);else m.addedNodes.forEach(trNode);}}).observe(document.body,{subtree:true,childList:true,characterData:true});
-function setLang(l){LANG=l;try{localStorage.setItem('sds_lang',l);}catch(e){}document.documentElement.lang=l;$('#langBtn').innerHTML=l==='en'?'FR · <b>EN</b>':'<b>FR</b> · EN';trNode(document.body);renderSheet();crumbs();invalidate();}
+function setLang(l){LANG=l;try{localStorage.setItem('sds_lang',l);}catch(e){}document.documentElement.lang=l;$('#langBtn').innerHTML=I('globe')+(l==='en'?'<em>FR</em><b>EN</b>':'<b>FR</b><em>EN</em>');trNode(document.body);renderSheet();crumbs();invalidate();}
 $('#langBtn').onclick=()=>setLang(LANG==='en'?'fr':'en');
 
 /* ============ ÉVÉNEMENTS ============ */
@@ -1509,14 +1602,14 @@ function applyEvent(ev,first){EV=ev;const r=mulberry32(ev.seed);
   $('#evTitle').textContent=ev.title;$('#evSub').textContent=ev.short+' · '+ev.date+' · événement fictif';renderEvMenu();
   if(matchOn)buildFans();else if(fanMeshes.length){fanMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});fanMeshes=[];}
   if(!first){if(ev.night!==night)setNight(ev.night);goStadium();}invalidate(6);}
-function renderEvMenu(){$('#evMenu').innerHTML=EVENTS.map((e,i)=>`<button class="evitem${e===EV?' cur':''}" data-i="${i}"><span class="ic">${e.ic}</span><span><b>${e.title}</b><small>${e.date} · dès ${fmtN(Math.round(3000*e.k/500)*500)} FCFA</small></span><span class="fill" style="color:${e.fill>.7?'#ffb4a8':'#12B35C'}">${e.fill>.7?'Presque complet':'Places dispo'}</span></button>`).join('')+'<div class="evfine">Événements, dates et prix fictifs — démonstration.</div>';
+function renderEvMenu(){$('#evMenu').innerHTML=EVENTS.map((e,i)=>`<button class="evitem${e===EV?' cur':''}" data-i="${i}"><span class="ic">${I(e.ic)}</span><span><b>${e.title}</b><small>${e.date} · dès ${fmtN(Math.round(3000*e.k/500)*500)} FCFA</small></span><span class="fill" style="color:${e.fill>.7?'#ffb4a8':'#12B35C'}">${e.fill>.7?'Presque complet':'Places dispo'}</span></button>`).join('')+'<div class="evfine">Événements, dates et prix fictifs — démonstration.</div>';
   $('#evMenu').querySelectorAll('.evitem').forEach(b=>b.onclick=()=>{$('#evMenu').classList.remove('on');stopTour();applyEvent(EVENTS[+b.dataset.i]);});}
 $('#evBtn').onclick=e=>{e.stopPropagation();$('#evMenu').classList.toggle('on');};
 document.addEventListener('click',e=>{if(!e.target.closest('#evMenu')&&!e.target.closest('#evBtn'))$('#evMenu').classList.remove('on');});
 async function goFosse(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();showSold(false);state.mode='fosse';state.stand=null;state.block=null;state.loge=null;crumbs();setHint('');setFov(true);
   await flyTo(new THREE.Vector3(-6,2.2,5),new THREE.Vector3(-56,9,0),{ctrl:'look',lift:30});if(state.mode!=='fosse')return;await settle();lastSnap=snapshot();showTicketFosse(lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
 function showTicketFosse(img){setTicket({img,badge:'Votre vue depuis la fosse',kick:`${EV.short} · Pelouse`,title:'Fosse · debout',grid:[['ACCÈS','Pelouse'],['PORTE','O1'],['PLACES',QTY]],price:EV.fosse*QTY,
-  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),f:{PORTE:'O1',ZONE:'Fosse',PLACES:QTY},ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});e.target.textContent='✓ Ajouté';}],['Place assise','ghost',()=>goStadium()],['🧭 Comment venir','ghost',()=>goRoute('bus')]]});}
+  actions:[[QTY>1?`Ajouter ${QTY} places`:'Ajouter au panier','primary',e=>{addCart({key:EV.id+'fosse-'+Date.now(),f:{PORTE:'O1',ZONE:'Fosse',PLACES:QTY},ev:EV.title+' · '+EV.date,label:'Fosse · debout',sub:`${QTY} place${QTY>1?'s':''} · placement libre · accès pelouse`,price:EV.fosse,qty:QTY});done(e,'Ajouté');}],['Place assise','ghost',()=>goStadium()],['@pin Comment venir','ghost',()=>goRoute('bus')]]});}
 applyEvent(EV,true);
 if(LANG==='en')setTimeout(()=>setLang('en'),0);
 
@@ -1568,7 +1661,7 @@ crypto.subtle.importKey('jwk',Object.assign({ext:true},PUB),{name:'ECDSA',namedC
   if(typeof window.__startStade==='function')window.__startStade();
   timer.classList.add('on');
   var iv=setInterval(function(){var r=exp-Date.now();if(r<=0){clearInterval(iv);lock('Accès terminé','Votre accès temporaire est terminé. Merci de votre visite !');return;}
-    var mn=Math.floor(r/60000),sc=Math.floor(r%60000/1000);timer.textContent=(document.body.classList.contains('touch')?'⏱ ':'Accès temporaire · ')+mn+':'+(sc<10?'0':'')+sc+(document.body.classList.contains('touch')?'':' restant');timer.classList.toggle('warn',r<300000);},1000);
+    var mn=Math.floor(r/60000),sc=Math.floor(r%60000/1000);timer.textContent=(document.body.classList.contains('touch')?'':'Accès temporaire · ')+mn+':'+(sc<10?'0':'')+sc+(document.body.classList.contains('touch')?'':' restant');timer.classList.toggle('warn',r<300000);},1000);
 }).catch(function(){lock('Lien invalide','Ce lien d’accès n’est pas valide. Demandez un nouveau lien.');});
 })();
 
