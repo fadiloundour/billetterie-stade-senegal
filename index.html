@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Billetterie 3D · Stade du Sénégal — concept</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,6 +157,82 @@ body.tk .hint{bottom:auto;top:120px}
   .t-title{font-size:28px}.t-grid b{font-size:24px}
 }
 
+.mtop,.sheet,.fabs{display:none}
+.visit [data-v=tour]{display:none}
+body.touch .visit [data-v=tour]{display:block}
+body.touch .event,body.touch .demo,body.touch .crumbs,body.touch .legend,body.touch .ctrls{display:none!important}
+body.touch .top{top:calc(10px + env(safe-area-inset-top));left:calc(10px + env(safe-area-inset-left));right:calc(10px + env(safe-area-inset-right))}
+body.touch .brand{padding:7px 12px 7px 8px}
+body.touch .brand b{font-size:16px}
+body.touch .brand span{font-size:10px;color:var(--yellow)}
+body.touch .cartbtn{margin-left:auto;padding:10px 13px}
+.mtop{position:fixed;left:calc(10px + env(safe-area-inset-left));top:calc(66px + env(safe-area-inset-top));z-index:5;align-items:center;gap:9px;padding:5px 14px 5px 5px;border-radius:14px;max-width:calc(100vw - 84px)}
+body.touch .mtop{display:flex}
+.mtop button{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.12);font-size:22px;line-height:1;flex:none}
+.mtop button.hide{display:none}
+.mtop .mt{min-width:0}
+.mtop b{display:block;font-family:var(--disp);font-size:18px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mtop small{display:block;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fabs{position:fixed;right:calc(10px + env(safe-area-inset-right));top:calc(66px + env(safe-area-inset-top));z-index:6;flex-direction:column;gap:8px}
+body.touch .fabs{display:flex}
+.fabs button{width:46px;height:46px;border-radius:14px;font-size:19px;display:grid;place-items:center}
+.fabs button.on{background:rgba(18,179,92,.32);border-color:rgba(18,179,92,.65)}
+body.touch .visit{right:calc(64px + env(safe-area-inset-right));top:calc(66px + env(safe-area-inset-top));bottom:auto;left:auto;min-width:230px}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:6;flex-direction:column;border-radius:22px 22px 0 0;padding-bottom:env(safe-area-inset-bottom);max-height:54vh;transition:transform .35s cubic-bezier(.2,.8,.2,1);background:rgba(12,16,14,.94);border:1px solid var(--line);box-shadow:0 -12px 40px rgba(0,0,0,.35)}
+body.touch .sheet{display:flex}
+.sheet.hidden{transform:translateY(115%)}
+.sheet.peek .sheet-body{max-height:112px;overflow:hidden}
+.handle{padding:10px 0 8px;display:flex;justify-content:center;cursor:pointer;touch-action:none;flex:none}
+.handle:before{content:"";width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.32)}
+.sheet-body{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 16px 16px}
+.sh-title{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
+.sh-title b{font-family:var(--disp);font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;line-height:1.05}
+.sh-title small{color:var(--mute);font-size:12px;white-space:nowrap}
+.best{width:100%;padding:15px;border-radius:14px;background:var(--green);color:#fff;font-weight:800;font-size:15px;margin-bottom:12px}
+.best:disabled{opacity:.4}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{text-align:left;padding:12px 12px 12px 15px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--line);position:relative;overflow:hidden;min-height:96px}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
+.card b{display:block;font-family:var(--disp);font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.card small{display:block;color:var(--mute);font-size:11px;margin-top:2px}
+.card strong{display:block;margin-top:8px;font-size:14px;color:var(--green2)}
+.sec{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:800;margin:14px 0 8px}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.chip{padding:10px 6px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid var(--line);text-align:center}
+.chip b{display:block;font-family:var(--disp);font-size:20px;font-weight:800;line-height:1}
+.chip small{display:block;font-size:10.5px;color:var(--mute);margin-top:3px}
+.chip i{font-style:normal;display:block;font-size:10px;font-weight:800;color:var(--green2);margin-top:2px}
+.chip.full{opacity:.35}
+.chip.cur{border-color:var(--green2);background:rgba(18,179,92,.2)}
+.row2{display:flex;gap:8px;margin-top:10px}
+.row2 button{flex:1;padding:13px 8px;border-radius:12px;background:rgba(255,255,255,.09);font-weight:700;font-size:13px}
+.note{font-size:12px;color:var(--mute);line-height:1.5;text-align:center;margin:2px 0}
+.linkback{font-size:12.5px;font-weight:700;color:var(--green2);margin-bottom:8px}
+body.touch .hint{top:calc(120px + env(safe-area-inset-top));bottom:auto;font-size:11.5px;max-width:calc(100vw - 90px);white-space:normal;text-align:center}
+body.touch .ticket{bottom:calc(8px + env(safe-area-inset-bottom));flex-direction:column;max-height:80vh;overflow:auto;width:calc(100vw - 16px)}
+body.touch .t-view{width:100%;min-height:150px}
+body.touch .t-stub{display:none}
+body.touch .t-close{right:10px;top:10px;background:rgba(255,255,255,.9);width:34px;height:34px;line-height:34px;font-size:19px}
+body.touch .t-grid{gap:18px;flex-wrap:wrap}
+body.touch .t-act .btn{flex:1 1 44%;padding:14px 10px;font-size:13px}
+body.touch .t-act .btn.primary{flex-basis:100%}
+body.touch .t-title{font-size:28px}
+body.touch .t-grid b{font-size:24px}
+body.touch .roombar{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));max-width:calc(100vw - 16px)}
+body.touch .roombar b{font-size:15px;padding:0 6px}
+body.touch .roombar button{width:42px;height:42px}
+body.touch .slabel span{padding:6px 11px;font-size:12px}
+@media (min-width:700px){body.touch .sheet{left:calc(14px + env(safe-area-inset-left));right:auto;bottom:14px;width:380px;max-height:calc(100vh - 150px);border-radius:20px}}
+@media (orientation:landscape) and (max-height:560px){
+  body.touch .sheet{left:calc(8px + env(safe-area-inset-left));right:auto;bottom:8px;width:330px;max-height:calc(100vh - 70px);border-radius:18px}
+  body.touch .mtop{top:calc(8px + env(safe-area-inset-top));left:auto;right:calc(64px + env(safe-area-inset-right))}
+  body.touch .top .brand{display:none}
+  body.touch .fabs{top:calc(58px + env(safe-area-inset-top))}
+  body.touch .hint{display:none}
+  body.touch .ticket{max-height:94vh;flex-direction:row;width:min(760px,calc(100vw - 16px))}
+  body.touch .t-view{width:38%;min-height:0}
+}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
@@ -164,7 +240,7 @@ body.tk .hint{bottom:auto;top:120px}
 #gate .lock{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:28px}
 #timer{position:fixed;left:50%;top:104px;transform:translateX(-50%);z-index:5;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:20px;display:none;white-space:nowrap}
 #timer.on{display:block}#timer.warn{color:#ffb4a8;border-color:rgba(227,27,35,.6)}
-@media (max-width:760px){#timer{top:90px}}
+body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px + env(safe-area-inset-right));top:calc(286px + env(safe-area-inset-top));font-size:10.5px;padding:4px 9px}
 </style>
 </head>
 <body>
@@ -208,6 +284,7 @@ body.tk .hint{bottom:auto;top:120px}
 </div>
 
 <div class="visit glass" id="visit">
+  <button data-v="tour">▶ Visite guidée<small>Le parcours complet, en automatique</small></button>
   <button data-v="pitch">Bord terrain<small>Au ras de la pelouse, face au 12e Gaïndé</small></button>
   <button data-v="salon">Salon présidentiel<small>Boiseries, marbre, cuir</small></button>
   <button data-v="lounge">Lounge VIP<small>Bar, salons, vue sur le stade</small></button>
@@ -228,6 +305,9 @@ body.tk .hint{bottom:auto;top:120px}
   <button class="txt" id="rBack">Retour au stade</button>
 </div>
 <div class="hint glass" id="hint"></div>
+<div class="mtop glass" id="mtop"><button id="mBack" aria-label="Retour">‹</button><div class="mt"><b id="mTitle">Stade du Sénégal</b><small id="mSub">Choisissez une tribune</small></div></div>
+<div class="fabs" id="fabs"><button class="glass" data-a="roof" aria-label="Toit">◐</button><button class="glass" data-a="night" aria-label="Jour / nuit">☾</button><button class="glass" data-a="visit" aria-label="Visiter">◎</button><button class="glass" data-a="home" aria-label="Vue du stade">⤢</button></div>
+<div class="sheet glass hidden" id="sheet"><div class="handle" id="sheetHandle"></div><div class="sheet-body" id="sheetBody"></div></div>
 <div class="tip" id="tip"></div>
 
 <div class="ticket hidden" id="ticket">
@@ -271,9 +351,12 @@ const HDR=(h,k)=>C(h).multiplyScalar(k);
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const rand=mulberry32(2202);
 const MOBILE=matchMedia('(pointer:coarse)').matches||Math.min(innerWidth,innerHeight)<600;
+const PHONE=Math.min(screen.width,screen.height)<600||Math.min(innerWidth,innerHeight)<600;
+const TOUCH=matchMedia('(pointer:coarse)').matches||innerWidth<900;
+const RES=PHONE?200:(MOBILE?300:420);
 const GL2=renderer.capabilities.isWebGL2;
 const POST=GL2;
-const DPR=Math.min(window.devicePixelRatio||1,MOBILE?1.5:1.75);
+const DPR=Math.min(window.devicePixelRatio||1,PHONE?1.3:(MOBILE?1.5:1.75));
 renderer.setPixelRatio(DPR);renderer.setSize(innerWidth,innerHeight);
 if(POST){renderer.outputEncoding=THREE.LinearEncoding;renderer.toneMapping=THREE.NoToneMapping;}
 else{renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;}
@@ -321,7 +404,7 @@ function renderFrame(sc){
   if(!POST){renderer.setRenderTarget(null);renderer.render(sc,cam);return;}
   renderer.setRenderTarget(rtScene);renderer.render(sc,cam);
   brightMat.uniforms.t.value=rtScene.texture;pass(brightMat,rtB1);
-  for(let i=0;i<2;i++){blurMat.uniforms.t.value=rtB1.texture;blurMat.uniforms.dir.value.set(1+i*1.5,0);pass(blurMat,rtB2);blurMat.uniforms.t.value=rtB2.texture;blurMat.uniforms.dir.value.set(0,1+i*1.5);pass(blurMat,rtB1);}
+  for(let i=0;i<(MOBILE?1:2);i++){blurMat.uniforms.t.value=rtB1.texture;blurMat.uniforms.dir.value.set(1+i*1.5,0);pass(blurMat,rtB2);blurMat.uniforms.t.value=rtB2.texture;blurMat.uniforms.dir.value.set(0,1+i*1.5);pass(blurMat,rtB1);}
   gradeMat.uniforms.tS.value=rtScene.texture;gradeMat.uniforms.tB.value=rtB1.texture;pass(gradeMat,null);
 }
 
@@ -382,7 +465,7 @@ scene.environment=ENV_D;
 
 const hemi=new THREE.HemisphereLight(0xbcd6f0,0x5d5236,0.55);scene.add(hemi);
 const sun=new THREE.DirectionalLight(0xffd6a6,2.6);
-sun.position.copy(SUN_DIR).multiplyScalar(420);sun.castShadow=true;
+sun.position.copy(SUN_DIR).multiplyScalar(420);sun.castShadow=!PHONE;
 sun.shadow.mapSize.set(MOBILE?1024:2048,MOBILE?1024:2048);
 Object.assign(sun.shadow.camera,{left:-150,right:150,top:150,bottom:-150,near:100,far:900});
 sun.shadow.bias=-0.0005;sun.shadow.normalBias=0.35;scene.add(sun);
@@ -474,16 +557,16 @@ TIERS.forEach((T,ti)=>{const h=T.rd/2,p=[];
   for(let r=0;r<T.rows;r++){const d=T.d0+r*T.rd,y=T.y0+r*T.rise;if(r>0)p.push([d-h,y]);p.push([d+h,y]);if(r<T.rows-1)p.push([d+h,y+T.rise]);}
   const dl=T.d0+(T.rows-1)*T.rd+h,yl=T.y0+(T.rows-1)*T.rise;
   if(ti===0){p.push([dl,yl+0.44]);p.push([27.4,yl+0.44]);}else{p.push([dl,yl+2.7]);p.push([dl+1.4,yl+2.7]);}
-  const m=new THREE.Mesh(loft(p,420),concMat);m.receiveShadow=true;m.castShadow=true;scene.add(m);});
+  const m=new THREE.Mesh(loft(p,RES),concMat);m.receiveShadow=true;m.castShadow=true;scene.add(m);});
 const blackGlass=std({color:C('#0d1116'),roughness:.08,metalness:.85});
-scene.add(new THREE.Mesh(loft([[27.4,15.8],[27.4,17.8]],420),blackGlass));
-const ribbon=new THREE.Mesh(loft([[27.33,16.45],[27.33,17.15]],420,0,1,{color:(u)=>{const k=(u*8)%1;return k<.33?HDR('#00a050',1.4):k<.66?HDR('#ffd400',1.4):HDR('#ff2a1a',1.4);}}),new THREE.MeshBasicMaterial({vertexColors:true,side:DS}));scene.add(ribbon);
-const soffit=new THREE.Mesh(loft([[27.4,15.8],[49.6,30.4]],420),std({color:C('#8d877f'),roughness:.95}));soffit.castShadow=true;scene.add(soffit);
-scene.add(new THREE.Mesh(loft([[27.2,11.84],[27.2,15.8]],420),std({color:C('#2b2a29'),roughness:.9})));
+scene.add(new THREE.Mesh(loft([[27.4,15.8],[27.4,17.8]],RES),blackGlass));
+const ribbon=new THREE.Mesh(loft([[27.33,16.45],[27.33,17.15]],RES,0,1,{color:(u)=>{const k=(u*8)%1;return k<.33?HDR('#00a050',1.4):k<.66?HDR('#ffd400',1.4):HDR('#ff2a1a',1.4);}}),new THREE.MeshBasicMaterial({vertexColors:true,side:DS}));scene.add(ribbon);
+const soffit=new THREE.Mesh(loft([[27.4,15.8],[49.6,30.4]],RES),std({color:C('#8d877f'),roughness:.95}));soffit.castShadow=true;scene.add(soffit);
+scene.add(new THREE.Mesh(loft([[27.2,11.84],[27.2,15.8]],RES),std({color:C('#2b2a29'),roughness:.9})));
 scene.add(new THREE.Mesh(loft([[50.2,0],[50.2,35.2]],300),std({color:C('#55504b'),roughness:.95})));
 const railMat=new THREE.MeshStandardMaterial({color:0xcfe3ee,transparent:true,opacity:.22,roughness:.05,metalness:.3,side:DS,depthWrite:false});
-scene.add(new THREE.Mesh(loft([[3.15,1.4],[3.15,2.4]],420),railMat));
-scene.add(new THREE.Mesh(loft([[27.36,17.8],[27.36,18.8]],420),railMat));
+scene.add(new THREE.Mesh(loft([[3.15,1.4],[3.15,2.4]],RES),railMat));
+scene.add(new THREE.Mesh(loft([[27.36,17.8],[27.36,18.8]],RES),railMat));
 
 // sièges
 const S_x=[],S_y=[],S_z=[],S_ry=[],S_blk=[],S_row=[],S_num=[],S_tier=[],S_type=[];
@@ -581,15 +664,15 @@ function yUnder(d){for(let i=UNDER.length-1;i>0;i--){const a=UNDER[i],b=UNDER[i-
 const flagCol=(u)=>{const k=((u*3)%1+1)%1;const cs=[C('#e01b22'),C('#0f9d47'),C('#f7c600'),C('#0f9d47'),C('#e01b22')];const f=k*4,i=Math.floor(f),t=f-i;return cs[i].clone().lerp(cs[Math.min(i+1,4)],t);};
 const shellDay=new THREE.MeshStandardMaterial({map:quiltMap,bumpMap:quiltBump,bumpScale:1.1,color:0xffffff,roughness:.42,metalness:.05,side:DS});
 const shellNight=new THREE.MeshBasicMaterial({map:quiltMap,vertexColors:true,color:new THREE.Color(1.9,1.9,1.9),side:DS});
-const shellGeo=loft(SHELL_SIDE,420,0,1,{smooth:true,uScale:160,vScale:3.6,color:(u,y)=>flagCol(u).multiplyScalar(.35+.65*Math.sin(Math.PI*clamp((y-6)/35,0,1)))});
+const shellGeo=loft(SHELL_SIDE,RES,0,1,{smooth:true,uScale:160,vScale:3.6,color:(u,y)=>flagCol(u).multiplyScalar(.35+.65*Math.sin(Math.PI*clamp((y-6)/35,0,1)))});
 const shell=new THREE.Mesh(shellGeo,shellDay);shell.castShadow=true;shell.receiveShadow=true;scene.add(shell);
-const roofTop=new THREE.Mesh(loft(SHELL_TOP,420,0,1,{smooth:true,uScale:160,vScale:4.6}),new THREE.MeshStandardMaterial({map:quiltMap,bumpMap:quiltBump,bumpScale:1.1,roughness:.45,side:DS}));scene.add(roofTop);
-const roofBand=new THREE.Mesh(loft([[12.5,43.25],[2.6,43.0]],420,0,1,{uScale:420,vScale:2}),new THREE.MeshStandardMaterial({map:quiltMap,color:C('#b9bdc2'),roughness:.3,metalness:.3,side:DS}));scene.add(roofBand);
+const roofTop=new THREE.Mesh(loft(SHELL_TOP,RES,0,1,{smooth:true,uScale:160,vScale:4.6}),new THREE.MeshStandardMaterial({map:quiltMap,bumpMap:quiltBump,bumpScale:1.1,roughness:.45,side:DS}));scene.add(roofTop);
+const roofBand=new THREE.Mesh(loft([[12.5,43.25],[2.6,43.0]],RES,0,1,{uScale:420,vScale:2}),new THREE.MeshStandardMaterial({map:quiltMap,color:C('#b9bdc2'),roughness:.3,metalness:.3,side:DS}));scene.add(roofBand);
 const underMat=new THREE.MeshStandardMaterial({color:C('#e8dcc3'),emissive:C('#8a7553'),emissiveIntensity:.55,roughness:.9,side:DS});
-const under=new THREE.Mesh(loft(UNDER,420,0,1,{smooth:true}),underMat);scene.add(under);
+const under=new THREE.Mesh(loft(UNDER,RES,0,1,{smooth:true}),underMat);scene.add(under);
 // charpente : fermes radiales cintrées + pannes
 const trussMat=new THREE.MeshStandardMaterial({color:C('#b19d82'),roughness:.55,metalness:.55});
-let truss;{const mats=[];const NT=MOBILE?72:120,SEG=12,dm=new THREE.Object3D(),a=new THREE.Vector3(),b=new THREE.Vector3();
+let truss;{const mats=[];const NT=PHONE?60:(MOBILE?80:120),SEG=12,dm=new THREE.Object3D(),a=new THREE.Vector3(),b=new THREE.Vector3();
  const depth=d=>0.4+2.9*Math.sin(Math.PI*clamp((d-2.8)/47,0,1));
  const add=(p,q,t)=>{dm.position.copy(p).add(q).multiplyScalar(.5);dm.lookAt(q);dm.scale.set(t,t,p.distanceTo(q));dm.updateMatrix();mats.push(dm.matrix.clone());};
  for(let i=0;i<NT;i++){const u=i/NT;let pt=null,pb=null;
@@ -662,7 +745,7 @@ laneMap.wrapS=THREE.RepeatWrapping;laneMap.repeat.set(HWL/30,1);
 // trafic (voitures et camions animés)
 const traffic=[];const hwCars=new THREE.InstancedMesh(carGeo,carMat,260),hwTrucks=new THREE.InstancedMesh(mergeGeos([boxG(9,3.2,2.5,-1.2,2.0,0),boxG(2.4,2.5,2.4,4.4,1.6,0)]),std({color:0xffffff,roughness:.5,metalness:.2}),60);
 {let nc=0,nt=0;const lanesZ=[-8.15,-11.65,-15.15,8.15,11.65,15.15];
- lanesZ.forEach((z,li)=>{const dir=z<0?1:-1;const dense=dir<0?1.8:1;let x=-HWL/2+rand()*40;while(x<HWL/2){const truck=rand()<.14&&nt<60&&Math.abs(z)>11;const sp=(li%3===0?32:li%3===1?27:22)*(.9+rand()*.2);traffic.push({x,z,dir,sp,truck,idx:truck?nt++:nc++});x+=(truck?30:16)+rand()*60/dense;if(nc>=260)break;}});
+ lanesZ.forEach((z,li)=>{const dir=z<0?1:-1;const dense=dir<0?1.8:1;let x=-HWL/2+rand()*40;while(x<HWL/2){const truck=rand()<.14&&nt<60&&Math.abs(z)>11;const sp=(li%3===0?32:li%3===1?27:22)*(.9+rand()*.2);traffic.push({x,z,dir,sp,truck,idx:truck?nt++:nc++});x+=((truck?30:16)+rand()*60/dense)*(PHONE?2.4:1);if(nc>=260)break;}});
  traffic.forEach(t=>{if(!t.truck)hwCars.setColorAt(t.idx,C(carCols[(rand()*carCols.length)|0]));else hwTrucks.setColorAt(t.idx,C(['#ffffff','#e0d6c2','#c43b2f','#2f5d8c'][(rand()*4)|0]));});
  hwCars.count=nc;hwTrucks.count=nt;hwCars.castShadow=hwTrucks.castShadow=true;hw.add(hwCars);hw.add(hwTrucks);}
 const tdm=new THREE.Object3D();
@@ -673,7 +756,7 @@ function hwLocal(x,z){const zz=z-HW_Z,c=Math.cos(HW_R),s=Math.sin(HW_R);return[c
 /* ---------- baobabs, acacias, neems, buissons ---------- */
 {const baoTrunk=mergeGeos([new THREE.CylinderGeometry(1.0,2.1,7.5,10).translate(0,3.75,0),
    ...[0,1,2,3,4,5].map(i=>{const a=i/6*Math.PI*2+0.3,g=new THREE.CylinderGeometry(.22,.55,4.2,6);g.translate(0,2.1,0);g.rotateZ(0.9-(i%2)*0.25);g.rotateY(a);g.translate(0,7.0,0);return g;})]);
- const NB=420,NA=900,NN=700;
+ const NB=PHONE?140:(MOBILE?260:420),NA=PHONE?280:(MOBILE?600:900),NN=PHONE?200:(MOBILE?450:700),NBUSH=PHONE?300:(MOBILE?800:1600);
  const baoM=new THREE.InstancedMesh(baoTrunk,std({color:C('#8a7a6a'),roughness:1}),NB);
  const trunkM=new THREE.InstancedMesh(new THREE.CylinderGeometry(.18,.32,1,6).translate(0,.5,0),std({color:C('#5d4a39'),roughness:1}),NA+NN);
  const crownM=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.95,flatShading:true}),NB*6+NA+NN+1600);
@@ -688,7 +771,7 @@ function hwLocal(x,z){const zz=z-HW_Z,c=Math.cos(HW_R),s=Math.sin(HW_R);return[c
  guard=0;while(t<NA+NN&&guard++<12000){const p=spot([118,1300]);if(!p)continue;const acacia=t<NA,s=.75+rand()*.6;const h=acacia?4.2*s:3.2*s;
    dm.position.set(p[0],0,p[1]);dm.scale.set(s,h,s);dm.rotation.set(0,0,0);dm.updateMatrix();trunkM.setMatrixAt(t++,dm.matrix);
    if(acacia)crown(p[0],h+0.6*s,p[1],4.4*s,1.1*s,4.4*s,['#4f7a2c','#5d8634','#476e28'][(rand()*3)|0]);else crown(p[0],h+1.6*s,p[1],3.0*s,2.6*s,3.0*s,['#3c6527','#4a7530','#335a22'][(rand()*3)|0]);}
- guard=0;let bush=0;while(bush<1600&&guard++<9000){const p=spot([110,900]);if(!p)continue;const s=.6+rand()*1.1;crown(p[0],s*.6,p[1],s*1.4,s*.9,s*1.4,['#55772d','#6a8a3a','#4a6a28'][(rand()*3)|0]);bush++;}
+ guard=0;let bush=0;while(bush<NBUSH&&guard++<9000){const p=spot([110,900]);if(!p)continue;const s=.6+rand()*1.1;crown(p[0],s*.6,p[1],s*1.4,s*.9,s*1.4,['#55772d','#6a8a3a','#4a6a28'][(rand()*3)|0]);bush++;}
  baoM.count=b;trunkM.count=t;crownM.count=c;[baoM,trunkM,crownM].forEach(m=>{m.castShadow=true;scene.add(m);});}
 
 /* ============ INTÉRIEURS : salons VIP, vestiaire, salle de presse ============ */
@@ -809,6 +892,10 @@ function renderWindowView(){const rt=new THREE.WebGLRenderTarget(1024,384,{type:
   const prev=roofOpacity;setRoofOpacity(1);renderer.setRenderTarget(rt);renderer.render(scene,c2);renderer.setRenderTarget(null);setRoofOpacity(prev);return rt;}
 
 /* ============ CAMÉRA ============ */
+const portrait=()=>innerWidth<innerHeight;
+const K=()=>portrait()?1.32:1;
+function setFov(look){const f=look?(portrait()?62:46):(portrait()?54:42);if(cam.fov!==f){cam.fov=f;cam.updateProjectionMatrix();}}
+let forceFrames=4;function invalidate(n=3){forceFrames=Math.max(forceFrames,n);}
 const view={pos:new THREE.Vector3(),look:new THREE.Vector3(),ctrl:'orbit',rMin:120,rMax:700};
 let flight=null;
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
@@ -859,15 +946,16 @@ let mx=0,my=0;
 function moveTip(){const w=tip.offsetWidth,h=tip.offsetHeight;let x=mx+16,y=my+16;if(x+w>innerWidth-8)x=mx-w-14;if(y+h>innerHeight-8)y=my-h-14;tip.style.transform=`translate(${x}px,${y}px)`;}
 $('#legendRows').innerHTML=[['Tribune Sud (officielle)','dès '+fmtN(STANDS.S.min)],['Tribune Nord · 12e Gaïndé','dès '+fmtN(STANDS.N.min)],['Virages Est & Ouest','dès '+fmtN(STANDS.E.min)],['Loges VIP + salon','dès '+fmtN(LOGE_PRICE)]].map(([a,b])=>`<div class="row"><span>${a}</span><b>${b}</b></div>`).join('');
 const labels={};
-Object.values(STANDS).forEach(st=>{const el=document.createElement('div');el.className='slabel';el.innerHTML=`<b>${st.name}</b><span>dès ${fmt(st.min)}</span>`;document.body.appendChild(el);const q=ringAt(st.u,40);labels[st.code]={el,p:new THREE.Vector3(q[0],50,q[1])};});
+Object.values(STANDS).forEach(st=>{const el=document.createElement('div');el.className='slabel';el.onclick=()=>{stopTour();goStand(st.code);};el.innerHTML=`<b>${st.name}</b><span>dès ${fmt(st.min)}</span>`;document.body.appendChild(el);const q=ringAt(st.u,40);labels[st.code]={el,p:new THREE.Vector3(q[0],50,q[1])};});
 const tmpV=new THREE.Vector3();
-function updateLabels(){const show=state.mode==='stadium'&&!flight&&xray;for(const k in labels){const L=labels[k];tmpV.copy(L.p).project(cam);const vis=show&&tmpV.z<1;L.el.style.opacity=vis?1:0;if(vis)L.el.style.transform=`translate(${(tmpV.x*.5+.5)*innerWidth}px,${(-tmpV.y*.5+.5)*innerHeight}px) translate(-50%,-100%)`;}}
-function setHint(t){hint.innerHTML=t;hint.style.opacity=t?1:0;}
+function updateLabels(){const show=state.mode==='stadium'&&!flight&&xray;for(const k in labels){const L=labels[k];tmpV.copy(L.p).project(cam);const vis=show&&tmpV.z<1;L.el.style.opacity=vis?1:0;L.el.style.pointerEvents=vis?'auto':'none';if(vis)L.el.style.transform=`translate(${(tmpV.x*.5+.5)*innerWidth}px,${(-tmpV.y*.5+.5)*innerHeight}px) translate(-50%,-100%)`;}}
+let hintT=0;function setHint(t){if(TOUCH&&t)t=t.replace('Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre','Touchez une <b>tribune</b> ou utilisez le panneau du bas').replace('Cliquez sur le stade ou sur','Touchez le stade ou').replace('Choisissez votre <b>siège</b> · les sièges gris sont déjà vendus','Touchez un <b>siège</b> ou « Meilleure place »');hint.innerHTML=t;hint.style.opacity=t?1:0;clearTimeout(hintT);if(TOUCH&&t)hintT=setTimeout(()=>hint.style.opacity=0,4500);}
 function crumbs(){const c=$('#crumbs'),parts=[['Stade',()=>goStadium()]];
   if(state.mode==='room')parts.push([ROOMS[state.room].name,null]);
   else if(state.mode==='pitch')parts.push(['Bord terrain',null]);
   else{if(state.stand)parts.push([STANDS[state.stand].name,()=>goStand(state.stand)]);if(state.block!=null)parts.push(['Bloc '+blocks[state.block].id,()=>goBlock(state.block)]);
    if(state.mode==='seat'&&state.seat!=null)parts.push(['Rang '+S_row[state.seat]+' · Siège '+S_num[state.seat],null]);if(state.mode==='loge'&&state.loge!=null)parts.push(['Loge '+loges[state.loge].no,null]);}
+  updateMTop();renderSheet();
   c.innerHTML='';parts.forEach(([t,fn],i)=>{if(i){const s=document.createElement('span');s.className='sep';s.textContent='›';c.appendChild(s);}const b=document.createElement('button');b.className='glass'+(i===parts.length-1?' on':'');b.textContent=t;if(fn&&i<parts.length-1)b.onclick=()=>{stopTour();fn();};c.appendChild(b);});}
 
 /* ============ NAVIGATION ============ */
@@ -875,55 +963,57 @@ function resetPick(){if(pickMesh){scene.remove(pickMesh);pickMesh=null;pickMap=[
 function dropSeat(){const p=state.seat;state.seat=null;if(p!=null)paint(p,baseColor(p));selPin.visible=false;}
 const fadeEl=$('#fade');
 function fade(on){return new Promise(r=>{fadeEl.style.opacity=on?1:0;setTimeout(r,on?460:10);});}
-async function leaveRoom(){if(state.mode!=='room')return;await fade(true);activeScene=scene;setGrade(night?'night':'day');$('#roombar').classList.remove('on');cam.fov=42;cam.updateProjectionMatrix();view.pos.set(0,260,330);view.look.set(0,0,0);state.mode='stadium';fade(false);}
-function standView(code){const st=STANDS[code],q=ringAt(st.u,22),n=inwardAt(st.u,22);const P=new THREE.Vector3(q[0],13,q[1]);const far=(code==='S'||code==='N')?120:104;return{pos:P.clone().addScaledVector(n,far).add(new THREE.Vector3(0,62,0)),look:P.clone().add(new THREE.Vector3(0,4,0)).addScaledVector(n,8)};}
+async function leaveRoom(){if(state.mode!=='room')return;await fade(true);activeScene=scene;setGrade(night?'night':'day');$('#roombar').classList.remove('on');setFov(false);invalidate();view.pos.set(0,260,330);view.look.set(0,0,0);state.mode='stadium';fade(false);}
+function standView(code){const st=STANDS[code],q=ringAt(st.u,22),n=inwardAt(st.u,22);const P=new THREE.Vector3(q[0],13,q[1]);const far=((code==='S'||code==='N')?120:104)*K();return{pos:P.clone().addScaledVector(n,far).add(new THREE.Vector3(0,62*K(),0)),look:P.clone().add(new THREE.Vector3(0,4,0)).addScaledVector(n,8)};}
 async function goStadium(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();
   state.mode='stadium';state.stand=null;state.block=null;state.loge=null;showSold(false);crumbs();
   setHint(xray?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');
-  return flyTo(sph(new THREE.Vector3(0,0,0),360,0.78,0.5),new THREE.Vector3(0,4,0),{ctrl:'orbit',rMin:150,rMax:900});}
+  setFov(false);return flyTo(sph(new THREE.Vector3(0,0,0),360*K(),0.78,0.5),new THREE.Vector3(0,4,0),{ctrl:'orbit',rMin:150,rMax:900});}
 async function goStand(code){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();xray=true;$('#roofBtn').classList.add('on');
   state.mode='stand';state.stand=code;state.block=null;state.loge=null;showSold(true,code);crumbs();
   setHint('Choisissez un <b>bloc</b> · les loges VIP vitrées sont entre les deux niveaux');
-  const v=standView(code);return flyTo(v.pos,v.look,{ctrl:'orbit',rMin:40,rMax:260});}
+  setFov(false);const v=standView(code);return flyTo(v.pos,v.look,{ctrl:'orbit',rMin:40,rMax:260});}
 async function goBlock(bi){await leaveRoom();clearHover();hideTicket();dropSeat();xray=true;
   const b=blocks[bi];state.mode='block';state.stand=b.stand;state.block=bi;state.loge=null;showSold(true,b.stand);crumbs();
   resetPick();pickMesh=new THREE.InstancedMesh(seatGeo,hitMat,b.seats.length);const dm=new THREE.Matrix4();
   b.seats.forEach((g,i)=>{tierMesh[S_tier[g]].getMatrixAt(g-tierOff[S_tier[g]],dm);pickMesh.setMatrixAt(i,dm);pickMap[i]=g;});pickMesh.frustumCulled=false;scene.add(pickMesh);
   setHint(b.free?'Choisissez votre <b>siège</b> · les sièges gris sont déjà vendus':'Ce bloc est <b>complet</b> · choisissez un bloc voisin');
-  const far=b.ti===0?30:36,up=b.ti===0?13:11;
+  const far=(b.ti===0?30:36)*K(),up=(b.ti===0?13:11)*K();setFov(false);
   return flyTo(b.center.clone().addScaledVector(b.n,far).add(new THREE.Vector3(0,up,0)),b.center.clone().add(new THREE.Vector3(0,-1,0)),{ctrl:'orbit',rMin:12,rMax:120});}
 function seatEye(g){const ry=S_ry[g];return new THREE.Vector3(S_x[g]+Math.sin(ry)*0.12,S_y[g]+1.18,S_z[g]+Math.cos(ry)*0.12);}
 async function goSeat(g){if(sold[g])return;await leaveRoom();clearHover();hideTicket();
   const prev=state.seat;state.seat=g;if(prev!=null)paint(prev,baseColor(prev));paint(g,COL.sel);
   const b=blocks[S_blk[g]];state.mode='seat';state.stand=b.stand;state.block=b.i;state.loge=null;
   selPin.position.set(S_x[g],S_y[g],S_z[g]);selPin.visible=true;crumbs();setHint('');
-  const eye=seatEye(g);await flyTo(eye,new THREE.Vector3(eye.x*0.08,3,eye.z*0.08),{ctrl:'look',lift:6});
-  if(state.mode!=='seat'||state.seat!==g)return;selPin.visible=false;await settle();showTicketSeat(g,snapshot());setHint('Glissez pour <b>regarder autour</b> de vous');}
+  setFov(true);const eye=seatEye(g);await flyTo(eye,new THREE.Vector3(eye.x*0.08,3,eye.z*0.08),{ctrl:'look',lift:6});
+  if(state.mode!=='seat'||state.seat!==g)return;selPin.visible=false;await settle();lastSnap=snapshot();showTicketSeat(g,lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
 function logeEye(L){const q=ringAt(L.u,24.6);return new THREE.Vector3(q[0],11.85+1.75,q[1]);}
 async function goLoge(li){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();
   const L=loges[li];state.mode='loge';state.loge=li;state.stand=L.side;state.block=null;showSold(true,null);crumbs();setHint('');
-  const eye=logeEye(L);await flyTo(eye,new THREE.Vector3(eye.x*0.1,2,eye.z*0.1),{ctrl:'look',lift:10});
-  if(state.mode!=='loge'||state.loge!==li)return;await settle();showTicketLoge(li,snapshot());setHint('Glissez pour <b>regarder autour</b> de vous');}
+  setFov(true);const eye=logeEye(L);await flyTo(eye,new THREE.Vector3(eye.x*0.1,2,eye.z*0.1),{ctrl:'look',lift:10});
+  if(state.mode!=='loge'||state.loge!==li)return;await settle();lastSnap=snapshot();showTicketLoge(li,lastSnap);setHint('Glissez pour <b>regarder autour</b> de vous');}
 async function goPitch(){await leaveRoom();clearHover();hideTicket();resetPick();dropSeat();showSold(false);state.mode='pitch';state.stand=null;state.block=null;crumbs();setHint('Face au <b>12e Gaïndé</b> · glissez pour regarder autour');
-  return flyTo(new THREE.Vector3(-4,1.75,36.8),new THREE.Vector3(0,9,-60),{ctrl:'look',lift:30});}
+  setFov(true);return flyTo(new THREE.Vector3(-4,1.75,36.8),new THREE.Vector3(0,9,-60),{ctrl:'look',lift:30});}
 async function goRoom(id,vi=0){clearHover();hideTicket();resetPick();if(flight&&flight.res){flight.res();flight=null;}
   const R=ROOMS[id];if(!R.data)R.data=R.build();
   await fade(true);state.mode='room';state.room=id;state.roomView=vi;state.stand=null;state.block=null;activeScene=R.data.scene;setGrade('room');
-  cam.fov=58;cam.updateProjectionMatrix();const v=R.data.views[vi];view.pos.set(...v.p);view.look.set(...v.l);view.ctrl='look';
-  $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(vi+1)+'/'+R.data.views.length+'</small>';$('#roombar').classList.add('on');crumbs();setHint('Glissez pour <b>regarder autour</b> · ◀ ▶ pour changer de point de vue');await fade(false);}
+  cam.fov=portrait()?70:58;cam.updateProjectionMatrix();invalidate();const v=R.data.views[vi];view.pos.set(...v.p);view.look.set(...v.l);view.ctrl='look';
+  $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(vi+1)+'/'+R.data.views.length+'</small>';$('#roombar').classList.add('on');crumbs();applyViewOffset();setHint('Glissez pour <b>regarder autour</b> · ◀ ▶ pour changer de point de vue');await fade(false);}
 function roomStep(d){if(state.mode!=='room')return;const R=ROOMS[state.room],n=R.data.views.length;state.roomView=(state.roomView+d+n)%n;const v=R.data.views[state.roomView];
   $('#rName').innerHTML=R.name+'<small>'+R.sub+' · vue '+(state.roomView+1)+'/'+n+'</small>';return flyTo(new THREE.Vector3(...v.p),new THREE.Vector3(...v.l),{ctrl:'look',lift:0.6,dur:1600});}
 $('#rPrev').onclick=()=>{stopTour();roomStep(-1);};$('#rNext').onclick=()=>{stopTour();roomStep(1);};$('#rBack').onclick=()=>{stopTour();goStadium();};
 function goUp(){if(state.mode==='seat')return goBlock(state.block);if(state.mode==='loge')return goStand(state.stand);if(state.mode==='block')return goStand(state.stand);if(state.mode==='stand'||state.mode==='pitch'||state.mode==='room')return goStadium();}
+let lastSnap='';
 function settle(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
 function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)/2;}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
 
 /* ============ BILLET, PANIER, PAIEMENT ============ */
-function hideTicket(){ticket.classList.add('hidden');document.body.classList.remove('tk');}
+function hideTicket(){ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
 function setTicket({img,badge,kick,title,grid,price,actions}){$('#tView').style.backgroundImage=img?`url(${img})`:'none';$('#tBadge').textContent=badge;$('#tKick').textContent=kick;$('#tTitle').textContent=title;
+  if(TOUCH)grid=grid.concat([['PRIX',fmtN(price)]]);
   $('#tGrid').innerHTML=grid.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');$('#tPrice').textContent=fmtN(price);
   const act=$('#tAct');act.innerHTML='';actions.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='btn '+cls;b.textContent=label;b.onclick=fn;act.appendChild(b);});
-  ticket.classList.remove('hidden');document.body.classList.add('tk');}
+  ticket.classList.remove('hidden');document.body.classList.add('tk');renderSheet();}
 function nearestLoge(g){let best=0,bd=1e9;loges.forEach((L,i)=>{if(!L.free)return;const q=ringAt(L.u,25);const d=Math.hypot(q[0]-S_x[g],q[1]-S_z[g]);if(d<bd){bd=d;best=i;}});return best;}
 function showTicketSeat(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],inCart=cart.some(c=>c.key==='s'+g);
   setTicket({img,badge:'Votre vue depuis ce siège',kick:`${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],['SIÈGE',S_num[g]],['PORTE',b.gate]],price:b.price,
@@ -962,6 +1052,8 @@ function pick(){if(activeScene!==scene)return null;ray.setFromCamera(ndc,cam);
   if(state.mode==='stadium'){const h=ray.intersectObjects(hitBlocks,false)[0];return h?{kind:'stand',code:blocks[h.object.userData.b].stand}:null;}
   if(state.mode==='stand'||state.mode==='block'){const h=ray.intersectObjects(state.mode==='stand'?hitBlocks.concat(logeHits):logeHits.concat(hitBlocks),false)[0];if(!h)return null;const u=h.object.userData;return u.kind==='block'?{kind:'block',b:u.b}:{kind:'loge',l:u.l};}
   return null;}
+function nearestSeat(px,py,maxPx){const b=blocks[state.block];if(!b)return null;let best=null,bd=maxPx*maxPx;const v=new THREE.Vector3();
+  for(const g of b.seats){if(sold[g])continue;v.set(S_x[g],S_y[g]+0.5,S_z[g]).project(cam);if(v.z>1)continue;const x=(v.x*.5+.5)*innerWidth,y=(-v.y*.5+.5)*innerHeight,d=(x-px)*(x-px)+(y-py)*(y-py);if(d<bd){bd=d;best=g;}}return best;}
 const ptrs=new Map();let downX=0,downY=0,dragged=false,pinchD=0;
 canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});downX=e.clientX;downY=e.clientY;dragged=false;lastInteract=performance.now();$('#visit').classList.remove('on');if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinchD=Math.hypot(a.x-b.x,a.y-b.y);}});
 canvas.addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;ndc.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);const p=ptrs.get(e.pointerId);
@@ -975,18 +1067,20 @@ canvas.addEventListener('pointerleave',()=>{if(!ptrs.size)setHover(null);});
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(flight)return;stopTour();lastInteract=performance.now();if(view.ctrl==='orbit')orbitZoom(Math.exp(e.deltaY*0.0012));else{cam.fov=clamp(cam.fov+e.deltaY*0.02,24,70);cam.updateProjectionMatrix();}},{passive:false});
 function onClick(){if(flight)return;stopTour();
   if(state.mode==='stadium'&&!xray){setXray(true);return;}
-  const h=pick();if(!h)return;
+  let h=pick();
+  if(state.mode==='block'&&(!h||h.kind!=='seat')){const g=nearestSeat(mx,my,TOUCH?38:22);if(g!=null)h={kind:'seat',g};}
+  if(!h)return;
   if(h.kind==='stand')goStand(h.code);else if(h.kind==='block'){if(state.mode==='block'&&h.b===state.block)return;goBlock(h.b);}
   else if(h.kind==='seat'){if(sold[h.g]){setHover(h);return;}goSeat(h.g);}else if(h.kind==='loge')goLoge(h.l);}
 addEventListener('keydown',e=>{if(e.key==='Escape'){if(veil.classList.contains('on')){veil.classList.remove('on');return;}if($('#drawer').classList.contains('on')){$('#drawer').classList.remove('on');return;}stopTour();goUp();}
   if(state.mode==='room'&&(e.key==='ArrowRight'||e.key==='ArrowLeft'))roomStep(e.key==='ArrowRight'?1:-1);});
 $('#homeBtn').onclick=()=>{stopTour();goStadium();};
-function setXray(on){xray=on;$('#roofBtn').classList.toggle('on',on);if(state.mode==='stadium')setHint(on?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');}
+function setXray(on){xray=on;$('#roofBtn').classList.toggle('on',on);syncFabs();invalidate();if(state.mode==='stadium')setHint(on?'Survolez une <b>tribune</b> pour voir les prix · cliquez pour y descendre':'Cliquez sur le stade ou sur <b>◐ Toit</b> pour voir les tribunes');}
 $('#roofBtn').onclick=()=>{stopTour();setXray(!xray);};
 $('#visitBtn').onclick=e=>{e.stopPropagation();$('#visit').classList.toggle('on');};
-document.querySelectorAll('#visit button').forEach(b=>b.onclick=()=>{stopTour();$('#visit').classList.remove('on');const v=b.dataset.v;if(v==='pitch')goPitch();else goRoom(v);});
+document.querySelectorAll('#visit button').forEach(b=>b.onclick=()=>{$('#visit').classList.remove('on');const v=b.dataset.v;if(v==='tour'){$('#tourBtn').click();return;}stopTour();if(v==='pitch')goPitch();else goRoom(v);});
 let night=false;
-function setNight(n){night=n;$('#nightBtn').classList.toggle('on',n);$('#nightBtn').textContent=n?'☀ Jour':'☾ Nuit';
+function setNight(n){night=n;setTimeout(()=>{syncFabs();invalidate();});$('#nightBtn').classList.toggle('on',n);$('#nightBtn').textContent=n?'☀ Jour':'☾ Nuit';
   skyMat.map=n?SKY_N:SKY_D;skyMat.needsUpdate=true;scene.environment=n?ENV_N:ENV_D;scene.fog.color.set(n?0x0a0d16:0xd8cfb8);scene.background.set(n?0x05070d:0x8fb7dc);
   hemi.intensity=n?0.12:0.55;hemi.color.set(n?0x6d84b8:0xbcd6f0);sun.intensity=n?0.15:2.6;sun.color.set(n?0x8aa2ff:0xffd6a6);flood.intensity=n?0.12:0;flood2.intensity=0;spots.forEach(l=>l.visible=n);
   shell.material=n?shellNight:shellDay;floodMat.color.copy(n?HDR('#ffffff',9):HDR('#bfc4ca',.9));underMat.emissive.copy(n?C('#3a3a40'):C('#8a7553'));
@@ -1008,30 +1102,86 @@ $('#tourBtn').onclick=async()=>{if(touring){stopTour();return;}touring=true;cons
     async()=>{await sleep(1600);if(ok())await goRoom('lounge');},async()=>{await sleep(2600);if(ok())await goStadium();}];
   for(const s of steps){if(!ok())return;await s();if(!ok())return;await sleep(700);}stopTour();};
 
+/* ============ INTERFACE TÉLÉPHONE / TABLETTE ============ */
+const sheet=$('#sheet'),sheetBody=$('#sheetBody');let sheetView=null,sheetPeek=false;
+const STCOL={S:'#00853F',N:'#1F8A3B',E:'#F2A600',O:'#D9361C'};
+function syncFabs(){document.querySelectorAll('#fabs button').forEach(b=>{if(b.dataset.a==='roof')b.classList.toggle('on',xray);if(b.dataset.a==='night'){b.classList.toggle('on',night);b.textContent=night?'☀':'☾';}});}
+function updateMTop(){if(!TOUCH)return;const m=state.mode;let t='Stade du Sénégal',sub='Choisissez une tribune';
+  if(m==='stand'){t=STANDS[state.stand].name;sub='Choisissez un bloc';}
+  else if(m==='block'){const b=blocks[state.block];t='Bloc '+b.id;sub=STANDS[b.stand].name+' · '+b.T.label;}
+  else if(m==='seat'&&state.seat!=null){const b=blocks[S_blk[state.seat]];t='Rang '+S_row[state.seat]+' · Siège '+S_num[state.seat];sub='Bloc '+b.id+' · '+STANDS[b.stand].name;}
+  else if(m==='loge'&&state.loge!=null){const L=loges[state.loge];t='Loge '+L.no;sub='VIP · '+(L.side==='S'?'Tribune Sud':'Tribune Nord');}
+  else if(m==='pitch'){t='Bord terrain';sub='Face au 12e Gaïndé';}
+  else if(m==='room'){t=ROOMS[state.room].name;sub=ROOMS[state.room].sub;}
+  $('#mTitle').textContent=t;$('#mSub').textContent=sub;$('#mBack').classList.toggle('hide',m==='stadium'||m==='intro');}
+function orderedBlocks(code,ti){return standBlocks[code].filter(b=>b.ti===ti).sort((a,b)=>{const da=((a.uc-STANDS[code].u+1.5)%1)-.5,db=((b.uc-STANDS[code].u+1.5)%1)-.5;return da-db;});}
+function bestSeatInBlock(b){const mx={};b.seats.forEach(g=>{mx[S_row[g]]=Math.max(mx[S_row[g]]||0,S_num[g]);});let best=null,bs=1e9;
+  b.seats.forEach(g=>{if(sold[g])return;const r=S_row[g],f=S_num[g]/mx[r],sc=Math.abs(r/b.T.rows-0.42)*1.3+Math.abs(f-0.5);if(sc<bs){bs=sc;best=g;}});return best;}
+function bestInStand(code){const list=standBlocks[code].filter(b=>b.free>0).sort((a,b)=>{const da=Math.abs(((a.uc-STANDS[code].u+1.5)%1)-.5),db=Math.abs(((b.uc-STANDS[code].u+1.5)%1)-.5);return(a.ti-b.ti)*0.04+(da-db);});return list.length?bestSeatInBlock(list[0]):null;}
+function chipBlock(b){return `<button class="chip${b.free?'':' full'}${state.block===b.i?' cur':''}" data-act="block" data-v="${b.i}"><b>${b.id}</b><small>${fmtN(b.price)}</small><i>${b.free?b.free+' libres':'complet'}</i></button>`;}
+function chipLoge(L){return `<button class="chip${L.free?'':' full'}" data-act="loge" data-v="${L.i}"><b>${L.no}</b><small>${L.side==='S'?'Sud':'Nord'}</small><i>${L.free?'8 places':'réservée'}</i></button>`;}
+function renderSheet(){if(!TOUCH)return;const m=state.mode;let html='',show=true;
+  if(m==='stadium'&&sheetView==='loges'){html=`<button class="linkback" data-act="back">‹ Toutes les tribunes</button><div class="sh-title"><b>Loges VIP</b><small>dès ${fmtN(LOGE_PRICE)} FCFA / place</small></div><p class="note" style="text-align:left;margin-bottom:10px">8 places, accès au salon présidentiel et au lounge VIP.</p><div class="sec">Tribune Sud</div><div class="chips">${loges.filter(L=>L.side==='S').map(chipLoge).join('')}</div><div class="sec">Tribune Nord</div><div class="chips">${loges.filter(L=>L.side==='N').map(chipLoge).join('')}</div>`;}
+  else if(m==='stadium'){const tot=Object.values(STANDS).reduce((a,s)=>a+s.free,0);
+    html=`<div class="sh-title"><b>Choisissez votre tribune</b><small>${fmtN(tot)} places libres</small></div><button class="best" data-act="bestAll">⚡ Meilleure place disponible</button><div class="cards">`+
+    ['S','N','E','O'].map(c=>{const st=STANDS[c];return `<button class="card" style="--c:${STCOL[c]}" data-act="stand" data-v="${c}"><b>${st.name}</b><small>${st.sub}</small><strong>dès ${fmtN(st.min)} FCFA</strong><small>${fmtN(st.free)} places libres</small></button>`;}).join('')+
+    `<button class="card" style="--c:#c8a564;grid-column:1/-1;min-height:0" data-act="loges"><b>Loges VIP + salon</b><small>${loges.filter(L=>L.free).length} loges disponibles · 8 places</small><strong>dès ${fmtN(LOGE_PRICE)} FCFA</strong></button></div>`;}
+  else if(m==='stand'){const st=STANDS[state.stand];
+    html=`<div class="sh-title"><b>${st.name}</b><small>dès ${fmtN(st.min)} FCFA</small></div><button class="best" data-act="bestStand">⚡ Meilleure place de la tribune</button><div class="sec">Niveau bas</div><div class="chips">${orderedBlocks(state.stand,0).map(chipBlock).join('')}</div><div class="sec">Niveau haut</div><div class="chips">${orderedBlocks(state.stand,1).map(chipBlock).join('')}</div>`+
+    ((state.stand==='S'||state.stand==='N')?`<div class="sec">Loges VIP</div><div class="chips">${loges.filter(L=>L.side===state.stand).map(chipLoge).join('')}</div>`:'');}
+  else if(m==='block'){const b=blocks[state.block],ord=orderedBlocks(b.stand,b.ti),k=ord.indexOf(b),best=bestSeatInBlock(b);
+    html=`<div class="sh-title"><b>Bloc ${b.id}</b><small>${fmtN(b.price)} FCFA · ${b.free} libres</small></div><button class="best" data-act="bestBlock" ${best==null?'disabled':''}>${best==null?'Bloc complet':'⚡ Choisir la meilleure place'}</button><p class="note">ou touchez un siège sur le plan · les sièges gris sont vendus</p><div class="row2"><button data-act="block" data-v="${ord[(k-1+ord.length)%ord.length].i}">‹ Bloc ${ord[(k-1+ord.length)%ord.length].id}</button><button data-act="block" data-v="${ord[(k+1)%ord.length].i}">Bloc ${ord[(k+1)%ord.length].id} ›</button></div>`;}
+  else if(m==='seat'&&ticket.classList.contains('hidden')&&state.seat!=null){const g=state.seat,b=blocks[S_blk[g]];html=`<div class="sh-title"><b>Rang ${S_row[g]} · Siège ${S_num[g]}</b><small>${fmtN(b.price)} FCFA</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="block" data-v="${b.i}">Autre siège</button></div>`;}
+  else if(m==='loge'&&ticket.classList.contains('hidden')&&state.loge!=null){const L=loges[state.loge];html=`<div class="sh-title"><b>Loge ${L.no}</b><small>${fmtN(L.price)} FCFA / place</small></div><button class="best" data-act="ticket">Afficher mon billet</button><div class="row2"><button data-act="salon">Voir le salon VIP</button></div>`;}
+  else show=false;
+  sheet.classList.toggle('hidden',!show);if(show){sheetBody.innerHTML=html;sheetBody.scrollTop=0;}sheet.classList.toggle('peek',show&&sheetPeek);
+  setTimeout(applyViewOffset,380);}
+sheetBody.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;stopTour();const a=t.dataset.act,v=t.dataset.v;sheetPeek=false;
+  if(a==='stand'){sheetView=null;goStand(v);}else if(a==='block')goBlock(+v);else if(a==='loge'){sheetView=null;goLoge(+v);}
+  else if(a==='loges'){sheetView='loges';renderSheet();}else if(a==='back'){sheetView=null;renderSheet();}
+  else if(a==='bestAll'){const g=bestInStand('S')??bestInStand('N');if(g!=null)goSeat(g);}
+  else if(a==='bestStand'){const g=bestInStand(state.stand);if(g!=null)goSeat(g);}
+  else if(a==='bestBlock'){const g=bestSeatInBlock(blocks[state.block]);if(g!=null)goSeat(g);}
+  else if(a==='ticket'){if(state.mode==='seat')showTicketSeat(state.seat,lastSnap);else showTicketLoge(state.loge,lastSnap);}
+  else if(a==='salon')goRoom('salon');});
+{let y0=null;const h=$('#sheetHandle');h.addEventListener('click',()=>{sheetPeek=!sheetPeek;sheet.classList.toggle('peek',sheetPeek);setTimeout(applyViewOffset,380);});
+ h.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;},{passive:true});
+ h.addEventListener('touchend',e=>{if(y0==null)return;const dy=e.changedTouches[0].clientY-y0;y0=null;if(Math.abs(dy)>25){sheetPeek=dy>0;sheet.classList.toggle('peek',sheetPeek);setTimeout(applyViewOffset,380);}});}
+function applyViewOffset(){if(!TOUCH)return;if(sheet.classList.contains('hidden')||activeScene!==scene){cam.clearViewOffset();invalidate();return;}const r=sheet.getBoundingClientRect();
+  if(r.width<innerWidth*0.8)cam.setViewOffset(innerWidth,innerHeight,-Math.min(r.right,innerWidth*0.45)/2,0,innerWidth,innerHeight);
+  else cam.setViewOffset(innerWidth,innerHeight,0,Math.min(innerHeight-r.top,innerHeight*0.5)/2,innerWidth,innerHeight);invalidate();}
+$('#mBack').onclick=()=>{stopTour();if(state.mode==='stadium'&&sheetView){sheetView=null;renderSheet();return;}goUp();};
+document.querySelectorAll('#fabs button').forEach(b=>b.onclick=e=>{e.stopPropagation();const a=b.dataset.a;if(a==='visit'){$('#visit').classList.toggle('on');return;}$('#visit').classList.remove('on');stopTour();
+  if(a==='roof')setXray(!xray);else if(a==='night')setNight(!night);else if(a==='home')goStadium();});
+if(TOUCH){document.body.classList.add('touch');$('.brand span').textContent='Concept non officiel · prix fictifs';$('#rBack').textContent='✕';$('#rBack').setAttribute('aria-label','Retour au stade');}
+
 /* ============ BOUCLE ============ */
-addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);sizeRT();});
+addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);sizeRT();setTimeout(applyViewOffset,60);invalidate(6);});
 let last=performance.now();
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(flight){const t=clamp((now-flight.t0)/flight.dur,0,1),e=ease(t);view.pos.lerpVectors(flight.p0,flight.p1,e);view.pos.y+=Math.sin(Math.PI*e)*flight.lift;view.look.lerpVectors(flight.l0,flight.l1,e);
     if(t>=1){view.ctrl=flight.ctrl;view.rMin=flight.rMin;view.rMax=flight.rMax;const r=flight.res;flight=null;r();}}
-  else if(state.mode==='stadium'&&now-lastInteract>4000&&!ptrs.size)orbitRotate(-dt*18,0);
-  else if(state.mode==='room'&&now-lastInteract>6000&&!ptrs.size)lookRotate(dt*14,0);
+  else if(!TOUCH&&state.mode==='stadium'&&now-lastInteract>4000&&!ptrs.size)orbitRotate(-dt*18,0);
+  else if(!TOUCH&&state.mode==='room'&&now-lastInteract>6000&&!ptrs.size)lookRotate(dt*14,0);
+  const busy=!TOUCH||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
+  if(!busy){requestAnimationFrame(frame);return;}
+  if(forceFrames>0)forceFrames--;
   if(activeScene===scene){const nr=view.ctrl==='look'&&!flight?0.1:(Math.hypot(view.pos.x,view.pos.y,view.pos.z)>140?1.5:0.3);if(cam.near!==nr){cam.near=nr;cam.updateProjectionMatrix();}}
   else if(cam.near!==0.05){cam.near=0.05;cam.updateProjectionMatrix();}
   cam.position.copy(view.pos);cam.lookAt(view.look);
-  if(needPick&&!flight&&!ptrs.size){needPick=false;setHover(pick());}
+  if(needPick&&!flight&&!ptrs.size&&!TOUCH){needPick=false;setHover(pick());}
   if(sweep){const t=clamp((now-sweep.t0)/sweep.dur,0,1),to=Math.floor(t*sweep.list.length);for(;sweep.i<to;sweep.i++){const g=sweep.list[sweep.i];if(!(hover&&((hover.kind==='stand'&&blocks[S_blk[g]].stand===hover.code)||(hover.kind==='block'&&S_blk[g]===hover.b))))paint(g,baseColor(g));}if(t>=1)sweep=null;}
   const bob=Math.sin(now*0.006)*0.12;[hoverPin,selPin].forEach(p=>p.children.forEach(o=>o.position.y=o.userData.y+bob));
   roofTarget=computeRoofTarget();if(Math.abs(roofTarget-roofOpacity)>0.002)setRoofOpacity(roofOpacity+(roofTarget-roofOpacity)*Math.min(1,dt*3.2));
   for(const t of ledTexs)t.offset.x=(now*0.00004)%1;
-  if(activeScene===scene)updateTraffic(dt);
+  if(activeScene===scene&&(!TOUCH||now-lastInteract<1200||flight))updateTraffic(dt);
   for(let t=0;t<2;t++)if(dirty[t]){tierMesh[t].instanceColor.needsUpdate=true;dirty[t]=false;}
   updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;
   renderFrame(activeScene);requestAnimationFrame(frame);}
 view.pos.copy(sph(new THREE.Vector3(0,0,0),620,0.7,0.65));view.look.set(0,0,0);cam.position.copy(view.pos);cam.lookAt(view.look);
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>makeSign());
-setTimeout(async()=>{$('#loader').classList.add('off');state.mode='stadium';await goStadium();if(state.mode==='stadium'&&!touring&&performance.now()-lastInteract>2500)setXray(true);},400);
+setTimeout(async()=>{$('#loader').classList.add('off');state.mode='stadium';await goStadium();if(state.mode==='stadium'&&!touring&&(TOUCH||performance.now()-lastInteract>2500))setXray(true);},400);
 window.__stade={seats:NSEAT,blocks:blocks.length,loges:loges.length};
 };
 </script>
@@ -1042,20 +1192,21 @@ var gate=document.getElementById('gate'),gT=document.getElementById('gTitle'),gM
 function lock(title,msg){gT.textContent=title;gM.textContent=msg;gate.classList.add('on');timer.classList.remove('on');var l=document.getElementById('loader');if(l)l.style.display='none';}
 function b64u(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
 var m=/acces=(\d+)\.([A-Za-z0-9_-]+)/.exec(location.hash||'');
-if(!m){lock('Accès sur invitation','Ce site de démonstration est accessible uniquement via un lien temporaire. Demandez un lien à la personne qui vous l\u2019a partagé.');return;}
+if(!m){lock('Accès sur invitation','Ce site de démonstration est accessible uniquement via un lien temporaire. Demandez un lien à la personne qui vous l’a partagé.');return;}
 var exp=parseInt(m[1],10);
 if(!window.crypto||!crypto.subtle){lock('Navigateur non compatible','Ouvrez ce lien dans un navigateur récent (Chrome, Safari, Edge, Firefox).');return;}
 crypto.subtle.importKey('jwk',Object.assign({ext:true},PUB),{name:'ECDSA',namedCurve:'P-256'},false,['verify']).then(function(key){
   return crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},key,b64u(m[2]),new TextEncoder().encode('stade:'+exp));
 }).then(function(ok){
-  if(!ok){lock('Lien invalide','Ce lien d\u2019accès n\u2019est pas valide. Demandez un nouveau lien.');return;}
-  if(Date.now()>=exp){lock('Lien expiré','Ce lien d\u2019accès a expiré. Demandez un nouveau lien à la personne qui vous l\u2019a partagé.');return;}
+  if(!ok){lock('Lien invalide','Ce lien d’accès n’est pas valide. Demandez un nouveau lien.');return;}
+  if(Date.now()>=exp){lock('Lien expiré','Ce lien d’accès a expiré. Demandez un nouveau lien à la personne qui vous l’a partagé.');return;}
   if(typeof window.__startStade==='function')window.__startStade();
   timer.classList.add('on');
   var iv=setInterval(function(){var r=exp-Date.now();if(r<=0){clearInterval(iv);lock('Accès terminé','Votre accès temporaire est terminé. Merci de votre visite !');return;}
-    var mn=Math.floor(r/60000),sc=Math.floor(r%60000/1000);timer.textContent='Accès temporaire · '+mn+':'+(sc<10?'0':'')+sc+' restant';timer.classList.toggle('warn',r<300000);},1000);
-}).catch(function(){lock('Lien invalide','Ce lien d\u2019accès n\u2019est pas valide. Demandez un nouveau lien.');});
+    var mn=Math.floor(r/60000),sc=Math.floor(r%60000/1000);timer.textContent=(document.body.classList.contains('touch')?'⏱ ':'Accès temporaire · ')+mn+':'+(sc<10?'0':'')+sc+(document.body.classList.contains('touch')?'':' restant');timer.classList.toggle('warn',r<300000);},1000);
+}).catch(function(){lock('Lien invalide','Ce lien d’accès n’est pas valide. Demandez un nouveau lien.');});
 })();
+
 </script>
 </body>
 </html>
