@@ -1062,8 +1062,20 @@ scene.add(new THREE.Mesh(loft([[50.2,6.2],[57.7,6.2]],320),std({color:C('#d9d7d2
 {const N=150,mm=new THREE.InstancedMesh(new THREE.BoxGeometry(.12,6.2,.25),std({color:C('#9aa3a6'),metalness:.6,roughness:.3}),N),dm=new THREE.Object3D();for(let i=0;i<N;i++){const q=ringAt(i/N,57.25),n=inwardAt(i/N,57.25);dm.position.set(q[0],3.15,q[1]);dm.rotation.set(0,Math.atan2(n.x,n.z),0);dm.updateMatrix();mm.setMatrixAt(i,dm.matrix);}scene.add(mm);}
 // lettrage façade
 let signMesh,signNight=false;
-function signTex(){return canvasTex(2048,320,(x,w,h)=>{x.clearRect(0,0,w,h);x.textAlign='left';x.fillStyle=signNight?'#ffffff':'#4f565c';x.font='700 150px "Barlow Condensed",Arial,sans-serif';x.fillText('STADE DU SÉNÉGAL',40,150);x.font='600 110px "Barlow Condensed",Arial,sans-serif';x.fillText('ABDOULAYE WADE',340,285);});}
-function makeSign(){if(signMesh)scene.remove(signMesh);const mat=new THREE.MeshBasicMaterial({map:signTex(),transparent:true,depthWrite:false,color:signNight?new THREE.Color(2.4,2.4,2.4):new THREE.Color(1,1,1)});signMesh=new THREE.Mesh(new THREE.PlaneGeometry(48,7.5),mat);signMesh.position.set(-14,13.2,B0+64.7);signMesh.rotation.x=-0.36;scene.add(signMesh);}
+function signTex(){return canvasTex(2048,400,(x,w,h)=>{x.clearRect(0,0,w,h);x.textAlign='center';x.textBaseline='alphabetic';
+  const ink=signNight?'#ffffff':'#0E3B26';
+  x.font='800 178px "Barlow Condensed","Inter",Arial,sans-serif';
+  const t1='STADE DU SÉNÉGAL';x.lineJoin='round';
+  if(!signNight){x.strokeStyle='rgba(255,255,255,.9)';x.lineWidth=14;x.strokeText(t1,w/2,190);}
+  x.fillStyle=ink;x.fillText(t1,w/2,190);
+  x.font='700 118px "Barlow Condensed","Inter",Arial,sans-serif';
+  const t2='ABDOULAYE WADE';const tw=x.measureText(t2).width;
+  if(!signNight){x.strokeText(t2,w/2,340);}
+  x.fillStyle=signNight?'#FDEF42':'#0B5D3B';x.fillText(t2,w/2,340);
+  x.fillStyle=signNight?'rgba(253,239,66,.9)':'#C99A2E';x.fillRect(w/2-tw/2-150,300,110,10);x.fillRect(w/2+tw/2+40,300,110,10);});}
+function makeSign(){if(signMesh)signMesh.forEach(m=>scene.remove(m));signMesh=[];const tex=signTex();
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,side:THREE.FrontSide,color:signNight?new THREE.Color(1.35,1.35,1.35):new THREE.Color(1,1,1)});
+  for(const sd of [1,-1]){const m=new THREE.Mesh(new THREE.PlaneGeometry(80,15.6),mat);m.position.set(0,15.2,sd*(B0+68.8));m.rotation.order='YXZ';m.rotation.y=sd>0?0:Math.PI;m.rotation.x=0.08;m.renderOrder=3;scene.add(m);signMesh.push(m);}}
 makeSign();
 
 /* ---------- abords : mâts de drapeaux, parkings solaires, bâtiments ---------- */
