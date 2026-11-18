@@ -56,7 +56,7 @@ export function buildPayload(t, env, origin) {
     payload: {
       eventTicketClasses: [{
         id: classId,
-        issuerName: 'Billetterie 3D · concept non officiel',
+        issuerName: 'Teranga Tickets · concept non officiel',
         reviewStatus: 'UNDER_REVIEW',
         eventName: loc(title, lang),
         venue: { name: loc('Stade Abdoulaye Wade', lang), address: loc('Diamniadio, Sénégal', lang) },
