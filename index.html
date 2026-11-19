@@ -660,7 +660,7 @@ function pass(mat,target){fsQuad.material=mat;renderer.setRenderTarget(target);r
 let rtScene=null,rtB1=null,rtB2=null;
 function sizeRT(){if(!POST)return;[rtScene,rtB1,rtB2].forEach(r=>r&&r.dispose());const w=Math.floor(innerWidth*DPR),h=Math.floor(innerHeight*DPR);
   const o={type:THREE.HalfFloatType,format:THREE.RGBAFormat,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter};
-  if(!MOBILE&&THREE.WebGLMultisampleRenderTarget){rtScene=new THREE.WebGLMultisampleRenderTarget(w,h,o);rtScene.samples=4;}else rtScene=new THREE.WebGLRenderTarget(w,h,o);
+  if(!MOBILE&&DPR<1.4&&THREE.WebGLMultisampleRenderTarget){rtScene=new THREE.WebGLMultisampleRenderTarget(w,h,o);rtScene.samples=2;}else rtScene=new THREE.WebGLRenderTarget(w,h,o);
   const bw=Math.max(1,w>>2),bh=Math.max(1,h>>2);rtB1=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));rtB2=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));blurMat.uniforms.px.value.set(1/bw,1/bh);}
 sizeRT();
 function renderFrame(sc){
