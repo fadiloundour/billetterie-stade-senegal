@@ -562,7 +562,6 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 </div>
 <div class="hint glass" id="hint"></div>
 <div class="rings glass" id="rings" role="tablist"><button data-r="-1" class="on">Tous</button><button data-r="0">Niveau 1</button><button data-r="1">Niveau 2</button></div>
-<div class="live glass" id="live"><i></i><b>EN DIRECT</b><span id="liveT"></span></div>
 <div class="fact glass" id="fact"><small>Le saviez-vous ?</small><b id="factT"></b></div>
 <div class="routebox glass" id="routeBox"><div class="rb-top"><div class="rb-modes"><button data-k="car"><svg class="i" aria-hidden="true"><use href="#i-car"/></svg><span>Voiture</span></button><button data-k="bus"><svg class="i" aria-hidden="true"><use href="#i-train"/></svg><span>TER / navette</span></button></div><button class="rb-x" id="rbBack"><svg class="i" aria-hidden="true"><use href="#i-uturn"/></svg><span>Billet</span></button></div>
 <div class="rb-step"><span id="rbNum">1/5</span><div><b id="rbT"></b><small id="rbS"></small></div></div>
@@ -2288,7 +2287,7 @@ function syncModeUI(){const m=state.mode,plan=(m==='stadium'||m==='stand')&&acti
   const key=m+RING;if(RING>=0&&key!==lastRingMode)repaintAll();lastRingMode=key;invalidate(3);}
 document.querySelectorAll('#rings button').forEach(bt=>bt.onclick=()=>{RING=+bt.dataset.r;document.querySelectorAll('#rings button').forEach(x=>x.classList.toggle('on',x===bt));lastRingMode='';repaintAll();syncModeUI();});
 let liveTxt='';
-function updateLive(){const on=matchOn&&PL.on&&activeScene===scene&&(state.mode==='seat'||state.mode==='pitch'||state.mode==='loge');document.body.classList.toggle('showLive',on);if(!on)return;
+function updateLive(){return;const on=matchOn&&PL.on&&activeScene===scene&&(state.mode==='seat'||state.mode==='pitch'||state.mode==='loge');document.body.classList.toggle('showLive',on);if(!on)return;
   const mn=1+Math.floor((PL.clock||0)/12)%90,t=`Sénégal ${PL.sa} – ${PL.sb} Adv. · ${mn}’`;if(t!==liveTxt){liveTxt=t;$('#liveT').textContent=LANG==='en'?t.replace('Sénégal','Senegal').replace('Adv.','Opp.'):t;}}
 
 /* ============ BOUCLE ============ */
@@ -2316,7 +2315,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   for(const t of ledTexs)t.offset.x=((t._base||0)+now*0.00004)%1;updateRouteLabels(dt);
   if(activeScene===scene&&(!TOUCH||now-lastInteract<1200||flight))updateTraffic(dt);
   for(let t=0;t<2;t++)if(dirty[t]){tierMesh[t].instanceColor.needsUpdate=true;dirty[t]=false;}
-  updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;if(matchOn&&(++liveFrame%15===0))updateLive();else if(!matchOn&&document.body.classList.contains('showLive'))updateLive();if(matchOn){fanU.uTime.value=now*0.001;if(activeScene===scene)updatePlayers(dt);updateRoar(now*0.001);if(night&&activeScene===scene&&(++ledFrame%3===0))ledChase((now*0.00004)%1);}
+  updateLabels();gradeMat.uniforms.time.value=(now*0.001)%100;if(matchOn){fanU.uTime.value=now*0.001;if(activeScene===scene)updatePlayers(dt);updateRoar(now*0.001);if(night&&activeScene===scene&&(++ledFrame%3===0))ledChase((now*0.00004)%1);}
   renderFrame(activeScene);requestAnimationFrame(frame);}
 view.pos.copy(sph(new THREE.Vector3(0,0,0),620,0.7,0.65));view.look.set(0,0,0);cam.position.copy(view.pos);cam.lookAt(view.look);
 requestAnimationFrame(frame);
