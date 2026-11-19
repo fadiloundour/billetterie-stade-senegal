@@ -1964,18 +1964,18 @@ function waveMat(mat,flag,arm){mat.onBeforeCompile=sh=>{sh.uniforms.uTime=fanU.u
   sh.vertexShader='attribute float aPhase;\nuniform float uTime;\nuniform float uWave;\nuniform float uCel;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nfloat wv=pow(max(0.,sin(uTime*0.55-aPhase)),22.)*uWave;\nfloat rnd=fract(sin(aPhase*91.7)*437.5);'+
   (arm?'\nfloat sd=sign(position.x);float idle=step(.88,rnd)*(.5+.5*sin(uTime*2.3+aPhase*13.));float raise=clamp(wv*1.7+uCel*(.45+.55*rnd)*(.75+.25*sin(uTime*8.+rnd*20.))+idle,0.,1.);float th=sd*raise*2.7;vec2 pv=transformed.xy-vec2(sd*.215,.95);transformed.xy=vec2(pv.x*cos(th)-pv.y*sin(th),pv.x*sin(th)+pv.y*cos(th))+vec2(sd*.215,.95);':'')+
   '\ntransformed.y+=wv*0.6+sin(uTime*6.5+aPhase*41.)*0.025+uCel*abs(sin(uTime*9.+rnd*17.))*.16*step(.35,rnd);'+(flag?'\ntransformed.z+=sin(uTime*7.+position.x*5.+aPhase*9.)*0.09*(position.x+0.1);':''));};mat.customProgramCacheKey=()=>flag?'fanflag':(arm?'fanarm':'fan2');return mat;}
-const fanBodyGeo=mergeGeos([new THREE.CylinderGeometry(.2,.16,.5,7).scale(1,1,.62).translate(0,.72,-.02),new THREE.SphereGeometry(.21,7,4,0,Math.PI*2,0,Math.PI/2).scale(1,.32,.62).translate(0,.96,-.02),new THREE.CylinderGeometry(.045,.05,.08,6).translate(0,1.0,-.02)]);
-const fanArmGeo=mergeGeos([new THREE.CylinderGeometry(.05,.045,.42,6).translate(-.215,.75,.0),new THREE.CylinderGeometry(.05,.045,.42,6).translate(.215,.75,.0)]);
-const fanHeadGeo=new THREE.IcosahedronGeometry(.115,PHONE?0:1).translate(0,1.12,0);
+const fanBodyGeo=mergeGeos([new THREE.CylinderGeometry(.19,.16,.52,6,1,false).scale(1,1,.62).translate(0,.73,-.02)]);
+const fanArmGeo=mergeGeos([new THREE.CylinderGeometry(.05,.045,.42,4,1,true).translate(-.215,.75,.0),new THREE.CylinderGeometry(.05,.045,.42,4,1,true).translate(.215,.75,.0)]);
+const fanHeadGeo=new THREE.IcosahedronGeometry(.115,0).translate(0,1.12,0);
 const fanFlagGeo=new THREE.PlaneGeometry(.95,.62,8,1).translate(.47,1.95,0);
 function buildFans(){fanMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});fanMeshes=[];
-  const keep=PHONE?.45:(MOBILE?.7:1),list=[];const r=mulberry32(EV.seed*7+3);
+  const keep=PHONE?.4:(MOBILE?.6:.8),list=[];const r=mulberry32(EV.seed*7+3);
   // jour de match : stade quasi plein (places vendues + 92 % des autres)
   for(let g=0;g<NSEAT;g++)if(!blocks[S_blk[g]].closed&&(sold[g]||r()<.92)&&r()<keep)list.push(g);
   const n=list.length,dm=new THREE.Object3D(),ph=new Float32Array(n);
   const shirts=EV.layout==='football'?['#0f9d47','#0f9d47','#f2c400','#f2c400','#e01b22','#ffffff','#ffffff','#1d1d1f']:['#ffffff','#1d1d1f','#e01b22','#2f5d8c','#f2c400','#0f9d47','#d9823b','#8e44ad'];
   const skins=['#4a2c1d','#5b3825','#3d2418','#6b4430','#2f1c12'];
-  const body=new THREE.InstancedMesh(fanBodyGeo.clone(),waveMat(std({color:0xffffff,roughness:.8,side:THREE.FrontSide}),false),n),arms=new THREE.InstancedMesh(fanArmGeo.clone(),waveMat(std({color:0xffffff,roughness:.8,side:THREE.FrontSide}),false,true),n),head=new THREE.InstancedMesh(fanHeadGeo.clone(),waveMat(std({color:0xffffff,roughness:.6,side:THREE.FrontSide}),false),n);
+  const LM=()=>new THREE.MeshLambertMaterial({color:0xffffff});const body=new THREE.InstancedMesh(fanBodyGeo.clone(),waveMat(LM(),false),n),arms=new THREE.InstancedMesh(fanArmGeo.clone(),waveMat(new THREE.MeshLambertMaterial({color:0xffffff,side:DS}),false,true),n),head=new THREE.InstancedMesh(fanHeadGeo.clone(),waveMat(LM(),false),n);
   const flagIdx=[];
   list.forEach((g,i)=>{dm.position.set(S_x[g],S_y[g],S_z[g]);dm.rotation.set(0,S_ry[g],0);dm.updateMatrix();body.setMatrixAt(i,dm.matrix);arms.setMatrixAt(i,dm.matrix);head.setMatrixAt(i,dm.matrix);
     ph[i]=Math.atan2(S_z[g]/B0,S_x[g]/A0)+r()*.14;const shc=C(shirts[(r()*shirts.length)|0]);body.setColorAt(i,shc);arms.setColorAt(i,shc);head.setColorAt(i,C(skins[(r()*skins.length)|0]));if(r()<.035)flagIdx.push(i);});
