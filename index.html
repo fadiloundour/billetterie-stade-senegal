@@ -619,7 +619,7 @@ const TOUCH=matchMedia('(pointer:coarse)').matches||innerWidth<900;
 const RES=PHONE?200:(MOBILE?300:420);
 const GL2=renderer.capabilities.isWebGL2;
 const POST=GL2;
-const DPR_MAX=Math.min(window.devicePixelRatio||1,PHONE?1.5:(MOBILE?1.75:2));let DPR=Math.min(DPR_MAX,PHONE?1.25:1.5);
+const DPR_MAX=Math.min(window.devicePixelRatio||1,MOBILE?2:2);const DPR_MIN=Math.min(DPR_MAX,MOBILE?1.5:1);let DPR=Math.min(DPR_MAX,MOBILE?2:1.5);
 renderer.setPixelRatio(DPR);renderer.setSize(innerWidth,innerHeight);
 if(POST){renderer.outputEncoding=THREE.LinearEncoding;renderer.toneMapping=THREE.NoToneMapping;}
 else{renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;}
@@ -2303,7 +2303,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(forceFrames>0)forceFrames--;
   if(++shFrame%8===0)renderer.shadowMap.needsUpdate=true;
   {const fd=now-perfLast;perfLast=now;if(fd<250)perfEMA=perfEMA*.93+fd*.07;}
-  if(now-perfCheck>2000&&!document.hidden){perfCheck=now;let nd=DPR;if(perfEMA>26&&DPR>1)nd=Math.max(1,DPR-.25);else if(perfEMA<15&&DPR<DPR_MAX)nd=Math.min(DPR_MAX,DPR+.25);
+  if(now-perfCheck>2000&&!document.hidden){perfCheck=now;let nd=DPR;if(perfEMA>42&&DPR>DPR_MIN)nd=Math.max(DPR_MIN,DPR-.25);else if(perfEMA<20&&DPR<DPR_MAX)nd=Math.min(DPR_MAX,DPR+.25);
     if(nd!==DPR){DPR=nd;renderer.setPixelRatio(DPR);renderer.setSize(innerWidth,innerHeight);sizeRT();}}
   if(activeScene===scene){const nr=view.ctrl==='look'&&!flight?0.1:(Math.hypot(view.pos.x,view.pos.y,view.pos.z)>140?1.5:0.3);if(cam.near!==nr){cam.near=nr;cam.updateProjectionMatrix();}}
   else if(cam.near!==0.05){cam.near=0.05;cam.updateProjectionMatrix();}
