@@ -503,6 +503,82 @@ body.touch.showRings .hint{opacity:0!important;visibility:hidden;pointer-events:
 @media (prefers-reduced-transparency:reduce){.glass,.sheet{background:#0e1311;backdrop-filter:none;-webkit-backdrop-filter:none}}
 @media (prefers-contrast:more){.glass{background:#0b0f0d;border-color:rgba(255,255,255,.35)}}
 
+/* ===== Billet v2 : carte latérale, vue dégagée ===== */
+#ticket{left:auto;right:16px;bottom:72px;top:auto;transform:none;width:min(372px,calc(100vw - 32px));flex-direction:column;border-radius:22px;max-height:calc(100vh - 160px);overflow:auto;overscroll-behavior:contain;scrollbar-width:none;
+  background:linear-gradient(180deg,#FFFEFA,#F7F4EC);box-shadow:0 24px 60px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.55) inset;transform-origin:100% 100%}
+#ticket::-webkit-scrollbar{display:none}
+#ticket.hidden{transform:translateX(28px) scale(.97)!important;opacity:0}
+#ticket .t-view{display:none}
+#ticket .t-tools{order:-1;display:flex;align-items:center;gap:6px;padding:12px 12px 0 16px}
+#ticket .badge{position:static;margin-right:auto;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:#5d594f;background:none;padding:0;letter-spacing:-.005em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#ticket .badge:before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--green2);box-shadow:0 0 0 0 rgba(18,179,92,.5);animation:tkPulse 2.4s ease-out infinite}
+@keyframes tkPulse{0%{box-shadow:0 0 0 0 rgba(18,179,92,.45)}70%,100%{box-shadow:0 0 0 7px rgba(18,179,92,0)}}
+#ticket .t-fold{display:flex;align-items:center;gap:6px;height:30px;padding:0 11px 0 9px;border-radius:999px;background:#EFEBE2;color:#2a2823;font-size:12px;font-weight:650;letter-spacing:-.01em;flex:none;transition:background-color .2s,transform .12s ease-out}
+#ticket .t-fold .i{width:15px;height:15px}
+#ticket .t-fold:hover{background:#E6E1D5}#ticket .t-fold:active{transform:scale(.96)}
+#ticket .t-close{position:static;width:30px;height:30px;flex:none;background:#EFEBE2;color:#4a473f}
+#ticket .t-close:hover{background:#E6E1D5}
+#ticket .t-main{padding:10px 18px 16px;flex:none}
+#ticket .t-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+#ticket .t-hl{min-width:0}
+#ticket .t-kick{font-size:10.5px;color:#8a857a;line-height:1.35}
+#ticket .t-title{display:flex;align-items:center;flex-wrap:wrap;gap:4px 9px;font-size:30px;margin-top:4px}
+#ticket .t-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--ui,inherit);font-size:11.5px;font-weight:650;letter-spacing:-.005em;color:#3b3831;background:#F0ECE3;border-radius:999px;padding:4px 9px 4px 7px;line-height:1}
+#ticket .t-tag i{width:9px;height:9px;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.12) inset}
+#ticket .t-price{text-align:right;flex:none}
+#ticket .t-price b{display:block;font-family:var(--disp);font-size:26px;font-weight:750;letter-spacing:-.03em;line-height:1;color:#00853F;font-variant-numeric:tabular-nums}
+#ticket .t-price small{display:block;font-size:10.5px;font-weight:600;color:#8a857a;margin-top:4px;white-space:nowrap}
+#ticket .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin-top:14px}
+#ticket .t-grid div{background:#F1EDE4;border-radius:12px;padding:7px 10px 8px}
+#ticket .t-grid small{font-size:9.5px;color:#8a857a}
+#ticket .t-grid b{display:block;font-size:20px;margin-top:2px;white-space:nowrap}
+#ticket .t-stats{gap:0;margin-top:6px;border:1px solid #E7E2D7;border-radius:12px;padding:7px 0}
+#ticket .t-stats div{background:none;border-radius:0;padding:0 10px;border-left:1px solid #E7E2D7}
+#ticket .t-stats div:first-child{border-left:0}
+#ticket .t-stats b{font-size:15px}
+#ticket .t-stats small{font-size:9.5px;line-height:1.2}
+#ticket .t-slot{margin-top:6px;background:#EAF5EE;padding:8px 11px}
+#ticket .t-slot b{font-size:12.5px}#ticket .t-slot small{font-size:10.5px}
+#ticket .t-perf{height:0;border-top:1.5px dashed #DCD5C6;margin:12px 2px 0}
+#ticket .t-act{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px;margin-top:0}
+#ticket .t-act .btn{flex:1 1 0;min-height:38px;padding:8px 10px;font-size:12px;justify-content:center;white-space:nowrap}
+#ticket .t-act .btn.primary{flex:1 1 100%;min-height:44px;font-size:14px}
+#ticket .t-act .btn.gold{flex:1 1 100%;min-height:38px}
+#ticket .t-act .btn.ghost{background:#fff;border:1px solid #E1DBCE}
+#ticket .t-act .btn.ghost:hover{background:#F6F3EC}
+/* replié : on garde l'essentiel, la vue est dégagée */
+#ticket.fold .t-body,#ticket.fold .t-perf,#ticket.fold .t-kick,#ticket.fold .t-act .btn:not(.primary){display:none}
+#ticket.fold .t-title{font-size:24px;margin-top:0}
+#ticket .t-fold .i{transition:transform .35s cubic-bezier(.22,1,.36,1)}#ticket.fold .t-fold .i{transform:rotate(180deg)}
+@media (max-height:680px){body:not(.touch) #ticket .t-stats,body:not(.touch) #ticket .t-kick{display:none}}
+#ticket.fold .t-price b{font-size:21px}
+#ticket.fold .t-act{padding-top:12px}
+#ticket.fold .t-act .btn.primary{min-height:42px}
+body:not(.touch) .legend{transition:opacity .3s ease,transform .45s cubic-bezier(.22,1,.36,1)}
+body.tk:not(.touch) .legend{opacity:0;transform:translateX(-18px);pointer-events:none}
+body.tk:not(.touch) .hint{top:auto;bottom:72px;left:calc(50% - 202px);max-width:calc(100vw - 440px);white-space:normal;text-align:center}
+@media (max-width:760px){body:not(.touch) #ticket{right:14px;left:14px;width:auto;bottom:118px}body.tk:not(.touch) .hint{display:none}}
+/* tactile : feuille basse avec la vue en haut */
+body.touch #ticket{left:8px;right:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom));max-height:78vh;transform-origin:50% 100%}
+body.touch #ticket.hidden{transform:translateY(40px) scale(.97)!important}
+body.touch #ticket .t-view{display:block;order:-2;width:100%;min-height:0;aspect-ratio:16/8;flex:none}
+body.touch #ticket .t-tools{position:absolute;top:10px;left:10px;right:10px;padding:0;z-index:2}
+body.touch #ticket .badge{color:#fff;background:rgba(10,12,11,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:7px 11px;border-radius:999px;font-size:11px}
+body.touch #ticket .t-fold,body.touch #ticket .t-close{height:34px;background:rgba(255,255,255,.92)}
+body.touch #ticket .t-close{width:34px}
+body.touch #ticket .t-main{padding:12px 14px 14px}
+body.touch #ticket .t-title{font-size:26px}
+body.touch #ticket .t-grid b{font-size:20px}
+body.touch #ticket .t-act .btn{flex:1 1 44%;min-height:44px;font-size:12.5px}
+body.touch #ticket .t-act .btn.primary{flex-basis:100%;min-height:48px}
+body.touch #ticket.fold .t-view{display:none}
+body.touch #ticket.fold .t-tools{position:static;padding:10px 10px 0 14px}
+body.touch #ticket.fold .badge{color:#5d594f;background:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+body.touch #ticket.fold .t-fold,body.touch #ticket.fold .t-close{background:#EFEBE2}
+@media (orientation:landscape) and (max-height:500px){body.touch #ticket{left:auto;width:min(400px,calc(100vw - 16px));max-height:94vh}body.touch #ticket .t-view{aspect-ratio:16/6}}
+@media (prefers-reduced-motion:reduce){#ticket .badge:before{animation:none}}
+@media (prefers-reduced-transparency:reduce){body.touch #ticket .badge{background:#141414;backdrop-filter:none}}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:28px;letter-spacing:-.028em;font-weight:750}
@@ -603,16 +679,24 @@ body.touch #timer{top:auto;bottom:auto;left:auto;transform:none;right:calc(10px 
 <div class="sheet glass hidden" id="sheet"><div class="handle" id="sheetHandle"></div><div class="sheet-body" id="sheetBody"></div></div>
 <div class="tip" id="tip"></div>
 
-<div class="ticket hidden" id="ticket">
-  <div class="t-view" id="tView"><span class="badge" id="tBadge">Votre vue</span></div>
+<div class="ticket hidden" id="ticket" role="dialog" aria-label="Votre billet">
+  <div class="t-view" id="tView"></div>
   <div class="t-main">
-    <div class="t-kick" id="tKick"></div>
-    <div class="t-title" id="tTitle"></div>
-    <div class="t-grid" id="tGrid"></div><div class="t-stats" id="tStats" style="display:none"></div><div class="t-slot" id="tSlot" style="display:none"></div>
+    <div class="t-head">
+      <div class="t-hl"><div class="t-kick" id="tKick"></div><div class="t-title"><span id="tTitle"></span><span class="t-tag" id="tTag"></span></div></div>
+      <div class="t-price"><b id="tPrice"></b><small id="tPriceSub">FCFA</small></div>
+    </div>
+    <div class="t-body" id="tBody">
+      <div class="t-grid" id="tGrid"></div><div class="t-stats" id="tStats" style="display:none"></div><div class="t-slot" id="tSlot" style="display:none"></div>
+    </div>
+    <div class="t-perf" aria-hidden="true"></div>
     <div class="t-act" id="tAct"></div>
   </div>
-  <div class="t-stub"><small>FCFA</small><div class="bars"></div><b id="tPrice"></b></div>
-  <button class="t-close" id="tClose" aria-label="Fermer"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <div class="t-tools">
+    <span class="badge" id="tBadge">Votre vue</span>
+    <button class="t-fold" id="tFold" aria-expanded="true"><svg class="i" aria-hidden="true"><use href="#i-eye"/></svg><span>Regarder autour</span></button>
+    <button class="t-close" id="tClose" aria-label="Fermer"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
 </div>
 
 <aside class="drawer" id="drawer">
@@ -1684,12 +1768,13 @@ function settle(){return new Promise(r=>requestAnimationFrame(()=>requestAnimati
 function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)*(portrait()?0.3:0.5);}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
 
 /* ============ BILLET, PANIER, PAIEMENT ============ */
-function hideTicket(){if(typeof clearRoute==='function')clearRoute();ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
-function setTicket({img,badge,kick,title,grid,price,actions,slot,stats}){const tst=$('#tStats');if(stats){tst.innerHTML=stats.map(([v,l])=>`<div><b>${v}</b><small>${l}</small></div>`).join('');tst.style.display='';}else{tst.innerHTML='';tst.style.display='none';}const tsl=$('#tSlot');if(slot){tsl.innerHTML=slotHTML(slot);tsl.style.display='';}else{tsl.innerHTML='';tsl.style.display='none';}$('#tView').style.backgroundImage=img?`url(${img})`:'none';$('#tBadge').textContent=badge;$('#tKick').textContent=kick;$('#tTitle').textContent=title;
-  if(TOUCH)grid=grid.concat([['PRIX',fmtN(price)]]);
+function hideTicket(){TFOLD=false;if(typeof clearRoute==='function')clearRoute();ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
+function setTicket({img,badge,kick,title,grid,price,actions,slot,stats,tag,unit}){const tg=$('#tTag');if(tag){tg.innerHTML=`<i style="background:${tag.col}"></i>${tag.name}`;tg.style.display='';}else{tg.innerHTML='';tg.style.display='none';}$('#tPriceSub').textContent=unit||'FCFA';const tst=$('#tStats');if(stats){tst.innerHTML=stats.map(([v,l])=>`<div><b>${v}</b><small>${l}</small></div>`).join('');tst.style.display='';}else{tst.innerHTML='';tst.style.display='none';}const tsl=$('#tSlot');if(slot){tsl.innerHTML=slotHTML(slot);tsl.style.display='';}else{tsl.innerHTML='';tsl.style.display='none';}$('#tView').style.backgroundImage=img?`url(${img})`:'none';$('#tBadge').textContent=badge;$('#tKick').textContent=kick;$('#tTitle').textContent=title;
   $('#tGrid').innerHTML=grid.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');$('#tPrice').textContent=fmtN(price);
   const act=$('#tAct');act.innerHTML='';actions.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='btn '+cls;const mm=/^@(\w+) (.*)$/.exec(label);if(mm)setBtn(b,mm[1],mm[2]);else b.textContent=label;b.onclick=fn;act.appendChild(b);});
-  ticket.classList.remove('hidden');document.body.classList.add('tk');renderSheet();}
+  ticket.classList.remove('hidden');document.body.classList.add('tk');setFold(TFOLD);renderSheet();}
+let TFOLD=false;function setFold(f){TFOLD=!!f;ticket.classList.toggle('fold',TFOLD);document.body.classList.toggle('tkfold',TFOLD);const b=$('#tFold');b.setAttribute('aria-expanded',String(!TFOLD));setBtn(b,TFOLD?'chevd':'eye',TFOLD?'Détails':'Regarder autour');}
+$('#tFold').onclick=e=>{e.stopPropagation();const h0=ticket.getBoundingClientRect().height;setFold(!TFOLD);if(matchMedia('(prefers-reduced-motion: reduce)').matches||!ticket.animate)return;const h1=ticket.getBoundingClientRect().height;ticket.animate([{height:h0+'px'},{height:h1+'px'}],{duration:440,easing:'cubic-bezier(.22,1,.36,1)'});ticket.querySelector('.t-main').animate([{opacity:.35,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:340,easing:'cubic-bezier(.22,1,.36,1)'});};
 const hh=m=>{m=((m%1440)+1440)%1440;return Math.floor(m/60)+' h '+String(m%60).padStart(2,'0');};
 function kickoff(){const m=/(\d{1,2}) h/.exec(EV.date||'');return (m?+m[1]:20)*60;}
 function arrivalSlot(b,row,pmr){const ko=kickoff(),po=+b.gate||1;
@@ -1701,17 +1786,17 @@ function slotHTML(sl){return `${I('clock')}<div><b>${sl.prio?'Accès prioritaire
 function slotTxt(sl){return `${sl.prio?'Accès prioritaire':'Arrivée'} ${sl.txt} · Entrée ${sl.entry} · Porte ${sl.porte}`;}
 function nearestLoge(g){let best=0,bd=1e9;loges.forEach((L,i)=>{if(!L.free)return;const q=ringAt(L.u,25);const d=Math.hypot(q[0]-S_x[g],q[1]-S_z[g]);if(d<bd){bd=d;best=i;}});return best;}
 function showTicketPMR(g,img){const b=blocks[S_blk[g]],st=STANDS[b.stand],pr=selGroup.length?selGroup:[g],key=EV.id+'p'+pr.join('-'),inCart=cart.some(c=>c.key===key);
-  const slot=arrivalSlot(b,S_row[g],true);setTicket({img,slot,badge:'Votre vue · place PMR + accompagnateur',kick:`${EV.short} · ${st.name} · Plateforme PMR`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],['PLACE',S_num[g]],['ACCÈS','PMR'],['PORTE',b.gate]],price:b.price,
+  const slot=arrivalSlot(b,S_row[g],true);setTicket({img,slot,badge:'Votre vue · place PMR + accompagnateur',kick:`${EV.short} · ${st.name} · Plateforme PMR`,tag:{name:'PMR',col:'#2F6FE0'},unit:'FCFA · accompagnateur offert',title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],['PLACE',S_num[g]],['ACCÈS','PMR'],['PORTE',b.gate]],price:b.price,
     actions:[[inCart?'@check Dans le panier':'@pmr Réserver · accompagnateur offert','primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],PLACE:S_num[g],ACCÈS:'PMR'},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id} · PMR`,sub:`Rang ${S_row[g]} · Espace fauteuil ${S_num[g]} + accompagnateur (gratuit) · Porte ${b.gate}`,price:b.price,qty:1,slot:slotTxt(slot)});done(e,'Dans le panier');}],
       ['Autre place PMR','ghost',()=>goBlock(b.i)],['@pin Comment venir · accès PMR','ghost',()=>goRoute('car')]]});}
 function showTicketSeat(g,img){if(S_pmr[g])return showTicketPMR(g,img);const b=blocks[S_blk[g]],st=STANDS[b.stand],grp=selGroup.length?selGroup:[g],n=grp.length,key=EV.id+'s'+grp.join('-'),inCart=cart.some(c=>c.key===key);
   const seatTxt=n>1?`${S_num[grp[0]]}–${S_num[grp[n-1]]}`:S_num[g];
   const slot=arrivalSlot(b,S_row[g]);const ey=seatEye(g),dC=Math.round(Math.hypot(ey.x,ey.z)),hP=Math.round(ey.y-.16),dG=Math.round(Math.min(Math.hypot(ey.x-52.5,ey.z),Math.hypot(ey.x+52.5,ey.z)));
-  setTicket({stats:EV.layout==='football'?[[dC+' m','du rond central'],[hP+' m','au-dessus de la pelouse'],[dG+' m','du but le plus proche']]:[[dC+' m','du centre de la scène'],[hP+' m','au-dessus du sol']],img,slot,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
+  setTicket({stats:EV.layout==='football'?[[dC+' m','du rond central'],[hP+' m','au-dessus de la pelouse'],[dG+' m','du but le plus proche']]:[[dC+' m','du centre de la scène'],[hP+' m','au-dessus du sol']],img,slot,tag:CATS[b.cat],unit:n>1?`FCFA · ${n} × ${fmtN(b.price)}`:'FCFA · 1 place',badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
     actions:[[inCart?'@check Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],[n>1?'SIÈGES':'SIÈGE']:seatTxt},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n,slot:slotTxt(slot)});done(e,'Dans le panier');}],
-      [`@sofa Loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['@pin Comment venir','ghost',()=>goRoute('car')]]});}
+      ...(LOGE_PRICE>b.price?[[`@sofa Loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))]]:[]),[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['@pin Comment venir','ghost',()=>goRoute('car')]]});}
 function showTicketLoge(li,img){const L=loges[li];
-  setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Ouest':'Tribune Est'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
+  setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Ouest':'Tribune Est'}`,tag:CATS.vip,unit:'FCFA · par place',title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
     actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),f:{ACCÈS:'VIP',LOGE:L.no,PLACES:Math.min(QTY,8)},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});done(e,'Ajoutée');}],
       [`Loge entière · ${fmtN(L.price*8)}`,'gold',e=>{addCart({key:EV.id+'L'+li,f:{ACCÈS:'VIP',LOGE:L.no,PLACES:8},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no} · privatisée`,sub:'8 places · accès salon · service inclus',price:L.price,qty:8});done(e,'Loge ajoutée');}]]:[['Loge déjà réservée','ghost',()=>{}]])
       .concat([['Voir le salon VIP','ghost',()=>goRoom('salon')],['@pin Comment venir','ghost',()=>goRoute('car')]])});}
