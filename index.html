@@ -466,6 +466,43 @@ body.touch .roombar button.cta{padding:0 11px;margin-right:6px;flex:none}
 body.touch .fact{top:calc(212px + env(safe-area-inset-top));max-width:calc(100vw - 90px)}
 @media (prefers-reduced-motion:reduce){.fact{transition:opacity .2s}}
 
+/* ===== Harmonisation (Apple) : matières, mouvements, cohérence ===== */
+:root{--ease:cubic-bezier(.22,1,.36,1);--ease-io:cubic-bezier(.45,0,.2,1);--r-s:10px;--r-m:14px;--r-l:22px;
+  --shadow-1:0 1px 0 rgba(255,255,255,.07) inset,0 6px 18px rgba(0,0,0,.22);--shadow-2:0 1px 0 rgba(255,255,255,.08) inset,0 18px 48px rgba(0,0,0,.38)}
+/* matière unique pour toutes les surfaces flottantes */
+.glass{background:rgba(12,16,14,.62);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid rgba(255,255,255,.09);box-shadow:var(--shadow-1)}
+.sheet{box-shadow:var(--shadow-2);transition:transform .48s var(--ease)!important;background:rgba(12,16,14,.9);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%)}
+.drawer{transition:transform .5s var(--ease)!important}
+.ticket{transition:transform .52s var(--ease),opacity .28s ease!important;box-shadow:0 30px 80px rgba(0,0,0,.45),0 2px 0 rgba(255,255,255,.6) inset}
+.ticket.hidden{transform:translate(-50%,40px) scale(.97)!important;opacity:0}
+/* pastilles et onglets : même hauteur, même rayon */
+.rings{padding:3px;gap:0;border-radius:999px;top:calc(108px + env(safe-area-inset-top))}
+.rings button{font:600 12.5px/1 var(--body);letter-spacing:-.005em;padding:9px 14px;border-radius:999px;color:rgba(244,242,236,.7);transition:background-color .3s var(--ease),color .3s var(--ease),transform .12s ease-out}
+.rings button.on{background:#F4F2EC;color:#0b0f0d;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+body.touch.showRings .hint{opacity:0!important;visibility:hidden;pointer-events:none}
+.hint{border-radius:999px;box-shadow:var(--shadow-1)}
+.fabs button,.mtop,.mybtn,.cartbtn,.langbtn,.brand{border-radius:var(--r-m)}
+.fabs button{transition:background-color .25s var(--ease),border-color .25s var(--ease),transform .12s ease-out}
+.fabs button.on{background:rgba(18,179,92,.28);border-color:rgba(18,179,92,.55);color:#bff3d4}
+/* titre de navigation : glisse en douceur quand on change de niveau */
+#mtop .mt.swap{animation:mtSwap .42s var(--ease)}
+@keyframes mtSwap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* cartes et boutons : retour immédiat à l'appui, légère élévation au survol (souris) */
+.card,.btn,.best,.chip{transition:transform .14s ease-out,box-shadow .3s var(--ease),background-color .25s,border-color .25s}
+@media (hover:hover){.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.28)}.btn.primary:hover,.best:hover{box-shadow:0 8px 22px rgba(0,133,63,.35)}}
+.btn,.best{min-height:44px;border-radius:999px}
+.btn.primary,.best{background:linear-gradient(180deg,#0b9a4c,#00803c);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 6px 16px rgba(0,133,63,.28)}
+.btn.gold{background:#141414;color:#FDEF42}
+.t-close{transition:transform .12s ease-out,background-color .2s}
+/* lisibilité des libellés courts en capitales */
+.t-grid small,.t-kick,.sec,.tsec,.legend h4{letter-spacing:.07em;font-weight:700}
+.t-stats b{letter-spacing:-.025em;font-weight:750}
+.t-stats small{font-weight:500}
+/* accessibilité */
+@media (prefers-reduced-motion:reduce){.sheet,.drawer,.ticket{transition:opacity .2s!important}#mtop .mt.swap{animation:none}.card:hover{transform:none}}
+@media (prefers-reduced-transparency:reduce){.glass,.sheet{background:#0e1311;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media (prefers-contrast:more){.glass{background:#0b0f0d;border-color:rgba(255,255,255,.35)}}
+
 #gate{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 30%,#14201a,#070a08 70%);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
 #gate.on{display:flex}
 #gate b{font-family:var(--disp);font-size:28px;letter-spacing:-.028em;font-weight:750}
@@ -1672,7 +1709,7 @@ function showTicketSeat(g,img){if(S_pmr[g])return showTicketPMR(g,img);const b=b
   const slot=arrivalSlot(b,S_row[g]);const ey=seatEye(g),dC=Math.round(Math.hypot(ey.x,ey.z)),hP=Math.round(ey.y-.16),dG=Math.round(Math.min(Math.hypot(ey.x-52.5,ey.z),Math.hypot(ey.x+52.5,ey.z)));
   setTicket({stats:EV.layout==='football'?[[dC+' m','du rond central'],[hP+' m','au-dessus de la pelouse'],[dG+' m','du but le plus proche']]:[[dC+' m','du centre de la scène'],[hP+' m','au-dessus du sol']],img,slot,badge:n>1?`Votre vue · ${n} places côte à côte`:'Votre vue depuis ce siège',kick:`${EV.short} · ${st.name} · ${b.T.label}`,title:`Bloc ${b.id}`,grid:[['RANG',S_row[g]],[n>1?'SIÈGES':'SIÈGE',seatTxt],['PORTE',b.gate]].concat(n>1?[['PLACES',n]]:[]),price:b.price*n,
     actions:[[inCart?'@check Dans le panier':(n>1?`Ajouter les ${n} places`:'Ajouter au panier'),'primary',e=>{addCart({key,f:{PORTE:b.gate,BLOC:b.id,RANG:S_row[g],[n>1?'SIÈGES':'SIÈGE']:seatTxt},ev:EV.title+' · '+EV.date,label:`${st.name} · Bloc ${b.id}`,sub:`Rang ${S_row[g]} · ${grpLabel(grp)} · Porte ${b.gate}`,price:b.price,qty:n,slot:slotTxt(slot)});done(e,'Dans le panier');}],
-      [`Passer en loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['@pin Comment venir','ghost',()=>goRoute('car')]]});}
+      [`@sofa Loge VIP · +${fmtN((LOGE_PRICE-b.price)*Math.min(n,8))}`,'gold',()=>goLoge(nearestLoge(g))],[n>1?'Autres places':'Autre siège','ghost',()=>goBlock(b.i)],['@pin Comment venir','ghost',()=>goRoute('car')]]});}
 function showTicketLoge(li,img){const L=loges[li];
   setTicket({img,badge:'Votre vue depuis la loge',kick:`${EV.short} · VIP · ${L.side==='S'?'Tribune Ouest':'Tribune Est'}`,title:`Loge ${L.no}`,grid:[['PLACES','8'],['ACCÈS','VIP'],['SALON','Inclus']],price:L.price,
     actions:(L.free?[[`${Math.min(QTY,8)} place${QTY>1?'s':''} en loge · ${fmtN(L.price*Math.min(QTY,8))}`,'primary',e=>{const n=Math.min(QTY,8);addCart({key:EV.id+'l'+li+'-'+Date.now(),f:{ACCÈS:'VIP',LOGE:L.no,PLACES:Math.min(QTY,8)},ev:EV.title+' · '+EV.date,label:`Loge VIP ${L.no}`,sub:`${n} place${n>1?'s':''} · accès salon · service inclus`,price:L.price,qty:n});done(e,'Ajoutée');}],
@@ -1903,6 +1940,7 @@ function updateMTop(){if(!TOUCH)return;const m=state.mode;let t='Stade du Séné
   else if(m==='fosse'){t='Fosse · debout';sub=EV.title;}
   else if(m==='route'&&route){t='Comment venir';sub=route.info.label;}
   else if(m==='room'){t=ROOMS[state.room].name;sub=ROOMS[state.room].sub;}
+  if($('#mTitle').textContent!==t){const mt=$('#mtop .mt');mt.classList.remove('swap');void mt.offsetWidth;mt.classList.add('swap');}
   $('#mTitle').textContent=t;$('#mSub').textContent=sub;$('#mBack').classList.toggle('hide',m==='stadium'||m==='intro');}
 function orderedBlocks(code,ti){return standBlocks[code].filter(b=>b.ti===ti).sort((a,b)=>{const da=((a.uc-STANDS[code].u+1.5)%1)-.5,db=((b.uc-STANDS[code].u+1.5)%1)-.5;return da-db;});}
 function bestSeatInBlock(b){const mx={};b.seats.forEach(g=>{mx[S_row[g]]=Math.max(mx[S_row[g]]||0,S_num[g]);});let best=null,bs=1e9;
@@ -2232,7 +2270,7 @@ const PHRASES=[['Vue indisponible','View unavailable'],['Vue réaliste 360°','R
 ['Pelouse, face à la scène · placement libre','Pitch, facing the stage · unreserved'],['Pelouse, face à la scène','Pitch, facing the stage'],['Fermé · derrière la scène','Closed · behind the stage'],['Fermé (scène)','Closed (stage)'],['Aucune place en vente','No seats on sale'],['hors budget · dès ','over budget · from '],['hors budget','over budget'],['Au-dessus de votre budget','Above your budget'],
 ['loges disponibles · 8 places','boxes available · 8 seats'],['Toutes les tribunes','All stands'],['8 places, accès au salon présidentiel et au lounge VIP.','8 seats, with access to the presidential lounge and the VIP lounge.'],['8 places · salon VIP','8 seats · VIP lounge'],['Loges VIP','VIP boxes'],['Loge VIP · ','VIP box · '],['Loge entière · ','Whole box · '],['Loge déjà réservée','Box already booked'],['Loge VIP','VIP box'],
 ['Bloc complet','Block sold out'],['ou touchez un siège sur le plan · les sièges gris sont vendus','or tap a seat on the map · grey seats are sold'],['Afficher mon billet','Show my ticket'],['Autre siège','Other seat'],['Autres places','Other seats'],['Voir le salon VIP','See the VIP lounge'],['Choisissez un bloc','Choose a block'],['Choisissez une tribune','Choose a stand'],['Face au 12e Gaïndé','Facing the 12e Gaïndé'],['Comment venir','Getting there'],
-['Votre vue depuis ce siège','Your view from this seat'],['Votre vue depuis la loge','Your view from the box'],['Votre vue depuis la fosse','Your view from the pit'],['Votre vue · ','Your view · '],['Votre vue','Your view'],['Ajouter au panier','Add to cart'],['Ajouter les ','Add the '],['Dans le panier','In cart'],['Passer en loge VIP · +','Upgrade to a VIP box · +'],['Place assise','Seated ticket'],['Fosse · debout','Standing pit'],['Fosse · pelouse','Pit · pitch'],
+['Votre vue depuis ce siège','Your view from this seat'],['Votre vue depuis la loge','Your view from the box'],['Votre vue depuis la fosse','Your view from the pit'],['Votre vue · ','Your view · '],['Votre vue','Your view'],['Ajouter au panier','Add to cart'],['Ajouter les ','Add the '],['Dans le panier','In cart'],['Passer en loge VIP · +','Upgrade to a VIP box · +'],['Loge VIP · +','VIP box · +'],['Place assise','Seated ticket'],['Fosse · debout','Standing pit'],['Fosse · pelouse','Pit · pitch'],
 [' · accès salon · service inclus',' · lounge access · service included'],[' · placement libre · accès pelouse',' · unreserved · pitch access'],[' · privatisée',' · private hire'],
 [' · centrale',' · central'],[' · lettre « ',' · letter “'],[' · siège vert 12e Gaïndé',' · green 12e Gaïndé seat'],['/pl.','/seat'],[' / place',' / seat'],
 ['Survolez une ','Hover over a '],[' pour voir les prix · cliquez pour y descendre',' to see prices · click to zoom in'],['Cliquez sur le stade ou sur ','Click the stadium or '],[' pour voir les tribunes',' to see the stands'],['Choisissez un ','Choose a '],[' · les loges VIP vitrées sont entre les deux niveaux',' · the glazed VIP boxes sit between the two tiers'],['Choisissez votre ','Choose your '],[' · les sièges gris sont déjà vendus',' · grey seats are already sold'],['Ce bloc est ','This block is '],[' · choisissez un bloc voisin',' · pick a neighbouring block'],['Glissez pour ','Drag to '],[' de vous',''],[' pour changer de point de vue',' to change viewpoint'],[' · glissez pour regarder autour',' · drag to look around'],['Face au ','Facing the '],['Touchez une ','Tap a '],[' ou utilisez le panneau du bas',' or use the bottom panel'],['Touchez le stade ou ','Tap the stadium or '],['Touchez un ','Tap a '],[' ou « Meilleure place »',' or “Best seat”'],[' pour couper le son',' to mute'],['Rien de disponible à ','Nothing available at '],[' max · augmentez le budget',' max · raise your budget'],[' ici · essayez un autre rang ou « Meilleure place »',' here · try another row or “Best seat”'],['TER / navette','TER / shuttle'],['Sortie Diamniadio · autoroute à péage','Diamniadio exit · toll motorway'],['Quittez l’autoroute et suivez « Stade du Sénégal ». Accès conseillé 2 h avant le coup d’envoi.','Leave the motorway and follow “Stade du Sénégal”. Arrive 2 hours before kick-off.'],['Anneau routier du stade','Stadium ring road'],['Contournez le stade jusqu’au parking indiqué. Suivez la ligne bleue.','Drive around the stadium to the indicated car park. Follow the blue line.'],
