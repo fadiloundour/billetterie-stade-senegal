@@ -732,10 +732,10 @@ const rand=mulberry32(2202);
 const MOBILE=matchMedia('(pointer:coarse)').matches||Math.min(innerWidth,innerHeight)<600;
 const PHONE=Math.min(screen.width,screen.height)<600||Math.min(innerWidth,innerHeight)<600;
 const TOUCH=matchMedia('(pointer:coarse)').matches||innerWidth<900;
-const RES=PHONE?200:(MOBILE?300:420);
+const RES=PHONE?280:(MOBILE?340:420);
 const GL2=renderer.capabilities.isWebGL2;
 const POST=GL2;
-const DPR_MAX=Math.min(window.devicePixelRatio||1,MOBILE?2:1.5);const DPR_MIN=Math.min(DPR_MAX,MOBILE?1.5:1);let DPR=Math.min(DPR_MAX,MOBILE?2:1.5);
+const DPR_MAX=Math.min(window.devicePixelRatio||1,MOBILE?2.5:2);const DPR_MIN=Math.min(DPR_MAX,MOBILE?1.75:1);let DPR=Math.min(DPR_MAX,MOBILE?2:1.5);
 renderer.setPixelRatio(DPR);renderer.setSize(innerWidth,innerHeight);
 if(POST){renderer.outputEncoding=THREE.LinearEncoding;renderer.toneMapping=THREE.NoToneMapping;}
 else{renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;}
@@ -750,11 +750,22 @@ const brightMat=new THREE.ShaderMaterial({uniforms:{t:{value:null},th:{value:1.0
 const blurMat=new THREE.ShaderMaterial({uniforms:{t:{value:null},dir:{value:new THREE.Vector2()},px:{value:new THREE.Vector2()}},vertexShader:VS,depthTest:false,depthWrite:false,
   fragmentShader:'uniform sampler2D t;uniform vec2 dir,px;varying vec2 vUv;void main(){vec2 o=dir*px;vec3 s=texture2D(t,vUv).rgb*0.2270;s+=(texture2D(t,vUv+o*1.3846).rgb+texture2D(t,vUv-o*1.3846).rgb)*0.3162;s+=(texture2D(t,vUv+o*3.2308).rgb+texture2D(t,vUv-o*3.2308).rgb)*0.0703;gl_FragColor=vec4(s,1.);}'});
 const gradeMat=new THREE.ShaderMaterial({vertexShader:VS,depthTest:false,depthWrite:false,
-  uniforms:{tS:{value:null},tB:{value:null},exposure:{value:1},bloom:{value:.3},sat:{value:1.1},contrast:{value:1.05},vig:{value:.3},grain:{value:.02},time:{value:0},sh:{value:new THREE.Vector3()},hi:{value:new THREE.Vector3()}},
-  fragmentShader:`uniform sampler2D tS,tB;uniform float exposure,bloom,sat,contrast,vig,grain,time;uniform vec3 sh,hi;varying vec2 vUv;
+  uniforms:{px:{value:new THREE.Vector2(1/1024,1/1024)},aa:{value:1},tS:{value:null},tB:{value:null},exposure:{value:1},bloom:{value:.3},sat:{value:1.1},contrast:{value:1.05},vig:{value:.3},grain:{value:.02},time:{value:0},sh:{value:new THREE.Vector3()},hi:{value:new THREE.Vector3()}},
+  fragmentShader:`uniform sampler2D tS,tB;uniform float exposure,bloom,sat,contrast,vig,grain,time,aa;uniform vec2 px;uniform vec3 sh,hi;varying vec2 vUv;
+  float lu(vec3 c){return sqrt(dot(min(c,vec3(4.0)),vec3(0.299,0.587,0.114)));}
+  vec3 fxaa(vec2 uv){vec3 cM=texture2D(tS,uv).rgb;if(aa<0.5)return cM;
+    float lNW=lu(texture2D(tS,uv+vec2(-1.,1.)*px).rgb),lNE=lu(texture2D(tS,uv+vec2(1.,1.)*px).rgb),lSW=lu(texture2D(tS,uv+vec2(-1.,-1.)*px).rgb),lSE=lu(texture2D(tS,uv+vec2(1.,-1.)*px).rgb),lM=lu(cM);
+    float mn=min(lM,min(min(lNW,lNE),min(lSW,lSE))),mx=max(lM,max(max(lNW,lNE),max(lSW,lSE)));
+    if(mx-mn<max(0.04,mx*0.12))return cM;
+    vec2 d=vec2(-((lNW+lNE)-(lSW+lSE)),(lNW+lSW)-(lNE+lSE));
+    float red=max((lNW+lNE+lSW+lSE)*0.03125,0.0078125);float rc=1.0/(min(abs(d.x),abs(d.y))+red);
+    d=clamp(d*rc,-8.0,8.0)*px;
+    vec3 A=0.5*(texture2D(tS,uv+d*(-1.0/6.0)).rgb+texture2D(tS,uv+d*(1.0/6.0)).rgb);
+    vec3 B=A*0.5+0.25*(texture2D(tS,uv-d*0.5).rgb+texture2D(tS,uv+d*0.5).rgb);
+    float lB=lu(B);return (lB<mn||lB>mx)?A:B;}
   vec3 aces(vec3 x){return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.0,1.0);}
   float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
-  void main(){vec3 c=texture2D(tS,vUv).rgb+texture2D(tB,vUv).rgb*bloom;
+  void main(){vec3 c=fxaa(vUv)+texture2D(tB,vUv).rgb*bloom;
     c=aces(c*exposure);
     float l=dot(c,vec3(0.2126,0.7152,0.0722));
     c=mix(vec3(l),c,sat);
@@ -770,14 +781,14 @@ const GRADES={
   room:{exposure:.8,bloom:.45,sat:1.08,contrast:1.05,vig:.36,sh:[-.012,.004,.02],hi:[.03,.014,-.008]}
 };
 function setGrade(k){const g=GRADES[k],u=gradeMat.uniforms;['exposure','bloom','sat','contrast','vig'].forEach(n=>u[n].value=g[n]);u.sh.value.set(...g.sh);u.hi.value.set(...g.hi);}
-setGrade('day');
+setGrade('day');gradeMat.uniforms.grain.value=MOBILE?.006:.012;
 const fsCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1),fsScene=new THREE.Scene(),fsQuad=new THREE.Mesh(new THREE.PlaneGeometry(2,2),gradeMat);fsQuad.frustumCulled=false;fsScene.add(fsQuad);
 function pass(mat,target){fsQuad.material=mat;renderer.setRenderTarget(target);renderer.render(fsScene,fsCam);}
 let rtScene=null,rtB1=null,rtB2=null;
 function sizeRT(){if(!POST)return;[rtScene,rtB1,rtB2].forEach(r=>r&&r.dispose());const w=Math.floor(innerWidth*DPR),h=Math.floor(innerHeight*DPR);
   const o={type:THREE.HalfFloatType,format:THREE.RGBAFormat,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter};
   if(!MOBILE&&DPR<1.4&&THREE.WebGLMultisampleRenderTarget){rtScene=new THREE.WebGLMultisampleRenderTarget(w,h,o);rtScene.samples=2;}else rtScene=new THREE.WebGLRenderTarget(w,h,o);
-  const bw=Math.max(1,w>>2),bh=Math.max(1,h>>2);rtB1=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));rtB2=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));blurMat.uniforms.px.value.set(1/bw,1/bh);}
+  const bw=Math.max(1,w>>2),bh=Math.max(1,h>>2);rtB1=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));rtB2=new THREE.WebGLRenderTarget(bw,bh,Object.assign({depthBuffer:false},o));blurMat.uniforms.px.value.set(1/bw,1/bh);gradeMat.uniforms.px.value.set(1/w,1/h);gradeMat.uniforms.aa.value=rtScene.samples?0:1;}
 sizeRT();
 function renderFrame(sc){
   if(!POST){renderer.setRenderTarget(null);renderer.render(sc,cam);return;}
@@ -1765,7 +1776,7 @@ $('#rPrev').onclick=()=>{stopTour();roomStep(-1);};$('#rNext').onclick=()=>{stop
 function goUp(){if(state.mode==='route')return exitRoute();if(state.mode==='seat')return goBlock(state.block);if(state.mode==='loge')return goStand(state.stand);if(state.mode==='block')return goStand(state.stand);if(state.mode==='stand'||state.mode==='pitch'||state.mode==='room'||state.mode==='fosse')return goStadium();}
 let lastSnap='';
 function settle(){return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
-function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');c.width=640;c.height=400;const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)*(portrait()?0.3:0.5);}x.drawImage(src,sx,sy,sw,sh,0,0,640,400);try{return c.toDataURL('image/jpeg',.85);}catch(e){return '';}}
+function snapshot(){renderFrame(activeScene);const src=renderer.domElement,c=document.createElement('canvas');const SW=Math.min(1280,Math.max(640,Math.round(Math.min(src.width,src.height*1.6))));c.width=SW;c.height=Math.round(SW/1.6);const x=c.getContext('2d');const ar=src.width/src.height,tar=1.6;let sw=src.width,sh=src.height,sx=0,sy=0;if(ar>tar){sw=sh*tar;sx=(src.width-sw)/2;}else{sh=sw/tar;sy=(src.height-sh)*(portrait()?0.3:0.5);}x.imageSmoothingQuality='high';x.drawImage(src,sx,sy,sw,sh,0,0,c.width,c.height);try{return c.toDataURL('image/jpeg',.9);}catch(e){return '';}}
 
 /* ============ BILLET, PANIER, PAIEMENT ============ */
 function hideTicket(){TFOLD=false;if(typeof clearRoute==='function')clearRoute();ticket.classList.add('hidden');document.body.classList.remove('tk');renderSheet();}
@@ -2424,9 +2435,9 @@ let last=performance.now(),liveFrame=0,shFrame=0,perfEMA=16,perfLast=performance
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(flight){const t=clamp((now-flight.t0)/flight.dur,0,1),e=ease(t);view.pos.lerpVectors(flight.p0,flight.p1,e);view.pos.y+=Math.sin(Math.PI*e)*flight.lift;view.look.lerpVectors(flight.l0,flight.l1,e);
     if(t>=1){renderer.domElement.style.filter='';view.ctrl=flight.ctrl;view.rMin=flight.rMin;view.rMax=flight.rMax;const r=flight.res;flight=null;r();}}
-  else if(!TOUCH&&state.mode==='stadium'&&now-lastInteract>4000&&!ptrs.size)orbitRotate(-dt*18,0);
+  else if(state.mode==='stadium'&&!touring&&now-lastInteract>(TOUCH?2500:4000)&&!ptrs.size&&!document.hidden)orbitRotate(-dt*(TOUCH?14:18),0);
   else if(!TOUCH&&state.mode==='room'&&now-lastInteract>6000&&!ptrs.size)lookRotate(dt*14,0);
-  const busy=!TOUCH||matchOn||state.mode==='pitch'||!!route||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
+  const busy=!TOUCH||matchOn||(state.mode==='stadium'&&!touring&&now-lastInteract>2500)||state.mode==='pitch'||!!route||flight||sweep||ptrs.size>0||dirty[0]||dirty[1]||forceFrames>0||Math.abs(roofTarget-roofOpacity)>0.002||now-lastInteract<1200||touring;
   if(!busy){requestAnimationFrame(frame);return;}
   if(forceFrames>0)forceFrames--;
   if(++shFrame%8===0)renderer.shadowMap.needsUpdate=true;
